@@ -10,6 +10,10 @@ const logos = {
   "up-white": { src: "/img/logos/up-white.webp", w: 697, h: 344, alt: "UP" },
   "go-black": { src: "/img/logos/go-black.webp", w: 975, h: 822, alt: "GO" },
   "go-white": { src: "/img/logos/go-white.webp", w: 972, h: 822, alt: "GO" },
+  "store-black": { src: "/img/logos/store-black.webp", w: 845, h: 459, alt: "Cross Store" },
+  "store-white": { src: "/img/logos/store-white.webp", w: 845, h: 459, alt: "Cross Store" },
+  "store-black-yellow": { src: "/img/logos/store-black-yellow.webp", w: 845, h: 459, alt: "Cross Store" },
+  "store-white-yellow": { src: "/img/logos/store-white-yellow.webp", w: 845, h: 459, alt: "Cross Store" },
 } as const;
 
 export type LogoName = keyof typeof logos;
