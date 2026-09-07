@@ -7,6 +7,7 @@ import { Marquee } from "@/components/ui/Marquee";
 import { StoreGrid } from "@/components/store/StoreGrid";
 import { storeNotice } from "@/content/products";
 import { site } from "@/content/site";
+import { Logo } from "@/components/ui/Logo";
 
 export const metadata: Metadata = {
   title: "Cross Store",
@@ -23,10 +24,9 @@ export default function StorePage() {
         <section className="grain relative overflow-hidden bg-ink px-5 pb-10 pt-28 text-paper md:px-10 md:pb-14 md:pt-36 lg:px-14">
           <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-paper/60">[ Cross Store ]</p>
           <div className="mt-3 flex flex-wrap items-end justify-between gap-6">
-            <h1 className="font-display text-[18vw] leading-[0.85] text-yellow sm:text-8xl md:text-9xl xl:text-[11rem]">
-              Cross
-              <br />
-              Store
+            <h1 className="flex flex-col gap-2">
+              <Logo name="cross-white" priority sizes="(max-width: 640px) 70vw, 420px" className="w-[70vw] max-w-[26rem] sm:w-[22rem] md:w-[26rem]" />
+              <span className="font-display text-[18vw] leading-[0.85] text-yellow sm:text-8xl md:text-9xl xl:text-[11rem]">Store</span>
             </h1>
             <div className="flex max-w-md flex-col items-start gap-4">
               <Sticker tone="red" rotate={-5} size="lg">
@@ -67,8 +67,8 @@ export default function StorePage() {
         {/* rodapé simples */}
         <footer className="grain bg-ink px-5 py-10 text-paper md:px-10 lg:px-14">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <Link href="/" className="font-display text-3xl tracking-wider">
-              CROSS
+            <Link href="/" aria-label="CROSS — início">
+              <Logo name="cross-white" sizes="120px" className="h-7 w-auto" />
             </Link>
             <p className="font-mono text-[10px] uppercase tracking-widest text-paper/50">
               © {new Date().getFullYear()} CROSS · {site.churchShort}

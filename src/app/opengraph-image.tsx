@@ -1,4 +1,6 @@
 import { ImageResponse } from "next/og";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { site } from "@/content/site";
 
 export const alt = "CROSS · Adolescentes e Jovens da IBB";
@@ -20,6 +22,7 @@ async function loadAnton() {
 
 export default async function OpenGraphImage() {
   const anton = await loadAnton();
+  const logo = await readFile(join(process.cwd(), "public/img/logos/cross-home.png")).then((b) => `data:image/png;base64,${b.toString("base64")}`).catch(() => null);
   return new ImageResponse(
     (
       <div
@@ -42,7 +45,11 @@ export default async function OpenGraphImage() {
             <span style={{ background: "#1b4fe0", padding: "8px 20px", borderRadius: 999, color: "#fff", transform: "rotate(3deg)" }}>GO</span>
           </span>
         </div>
-        <div style={{ fontSize: 300, lineHeight: 0.9, letterSpacing: 4, color: "#ffc91f" }}>CROSS</div>
+        {logo ? (
+          <img src={logo} alt="" width={820} height={300} style={{ width: 820, height: 300, objectFit: "contain" }} />
+        ) : (
+          <div style={{ fontSize: 300, lineHeight: 0.9, letterSpacing: 4, color: "#ffc91f" }}>CROSS</div>
+        )}
         <div style={{ fontSize: 34, color: "#f3f0e8", opacity: 0.9 }}>{site.tagline}</div>
       </div>
     ),

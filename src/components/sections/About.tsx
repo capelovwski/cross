@@ -6,6 +6,7 @@ import { Sticker } from "@/components/ui/Sticker";
 import { PillButton } from "@/components/ui/PillButton";
 import { site } from "@/content/site";
 import { useSectionScroll } from "@/components/scroll/ScrollContext";
+import { Logo } from "@/components/ui/Logo";
 
 const chips = ["Encontros semanais", "Acampamentos", "Conferências", "Muita comunhão"];
 
@@ -67,7 +68,7 @@ export function About() {
                 onClick={() => api?.goTo("up")}
                 className="group flex w-full flex-col items-start rounded-card bg-red p-4 text-left text-white transition-transform hover:-rotate-1 hover:scale-[1.02]"
               >
-                <span className="font-display text-4xl">UP</span>
+                <Logo name="up-white" sizes="120px" className="h-9 w-auto" />
                 <span className="mt-1 text-sm opacity-90">Adolescentes · 13 a 17</span>
                 <span className="mt-3 font-mono text-[10px] uppercase tracking-widest text-yellow">Sextas 20h →</span>
               </button>
@@ -78,7 +79,7 @@ export function About() {
                 onClick={() => api?.goTo("go")}
                 className="group flex w-full flex-col items-start rounded-card bg-blue p-4 text-left text-white transition-transform hover:rotate-1 hover:scale-[1.02]"
               >
-                <span className="font-display text-4xl">GO</span>
+                <Logo name="go-white" sizes="120px" className="h-11 w-auto" />
                 <span className="mt-1 text-sm opacity-90">Jovens · 18 a 29</span>
                 <span className="mt-3 font-mono text-[10px] uppercase tracking-widest text-yellow">Sábados 20h →</span>
               </button>

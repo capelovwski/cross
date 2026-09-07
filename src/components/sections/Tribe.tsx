@@ -6,6 +6,7 @@ import { Sticker } from "@/components/ui/Sticker";
 import { PillButton } from "@/components/ui/PillButton";
 import { site, type TribeId } from "@/content/site";
 import { isPlaceholder } from "@/lib/utils";
+import { Logo } from "@/components/ui/Logo";
 
 interface Props {
   tribe: TribeId;
@@ -27,8 +28,8 @@ export function Tribe({ tribe }: Props) {
               {t.audience} · {t.ages}
             </Sticker>
           </Reveal>
-          <Reveal as="h2" delay={0.05} className="font-display mt-2 text-[26vw] leading-[0.8] text-yellow sm:text-[13rem] lg:text-[16rem] xl:text-[19rem]">
-            {t.name}
+          <Reveal as="h2" delay={0.05} className={isUp ? "mt-4 w-[62vw] max-w-[26rem] sm:w-[22rem] lg:w-[26rem]" : "mt-4 w-[44vw] max-w-[17rem] sm:w-[14rem] lg:w-[17rem]"}>
+            <Logo name={isUp ? "up-white" : "go-white"} sizes="(max-width: 640px) 62vw, 420px" className="w-full drop-shadow-[6px_8px_0_rgba(11,11,12,0.35)]" alt={`${t.name} — ${t.audience} ${t.ages}`} />
           </Reveal>
           <Reveal delay={0.15} className="mt-1 font-display text-2xl tracking-wide text-white/90 md:mt-2 md:text-4xl">
             {t.motto}

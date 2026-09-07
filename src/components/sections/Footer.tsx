@@ -5,6 +5,7 @@ import { PillButton } from "@/components/ui/PillButton";
 import { Sticker } from "@/components/ui/Sticker";
 import { site } from "@/content/site";
 import { isPlaceholder } from "@/lib/utils";
+import { Logo } from "@/components/ui/Logo";
 
 function ExtLink({ href, children }: { href: string; children: React.ReactNode }) {
   if (isPlaceholder(href)) {
@@ -82,7 +83,7 @@ export function Footer() {
           </div>
         </footer>
         <p className="flex flex-wrap items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-widest text-paper/40">
-          <span>© {year} CROSS · {site.churchShort}</span>
+          <span className="flex items-center gap-3"><Logo name="cross-white" sizes="100px" className="h-5 w-auto opacity-80" /> © {year} · {site.churchShort}</span>
           <span>Feito com ♥ pela galera do CROSS</span>
         </p>
       </div>

@@ -7,6 +7,7 @@ import { navItems, sections, type SectionId } from "@/content/sections";
 import { useSectionScroll } from "@/components/scroll/ScrollContext";
 import { PillButton } from "@/components/ui/PillButton";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/ui/Logo";
 
 interface Props {
   /** "home" usa o scroll por seção; "page" navega com âncoras para /#id */
@@ -50,11 +51,11 @@ export function Header({ variant = "home" }: Props) {
             go("inicio");
           }
         }}
-        className="font-display text-3xl leading-none tracking-wider md:text-4xl"
+        className="relative block h-7 w-[7.2rem] md:h-8 md:w-[8.2rem]"
         aria-label="CROSS — início"
       >
-        CROSS
-        <span className={cn("ml-1 inline-block size-2 rounded-full align-top", dark ? "bg-yellow" : "bg-red")} aria-hidden />
+        <Logo name="cross-black" priority sizes="140px" className={cn("absolute inset-0 h-full w-full object-contain transition-opacity duration-500", dark ? "opacity-0" : "opacity-100")} alt="" />
+        <Logo name="cross-white" priority sizes="140px" className={cn("absolute inset-0 h-full w-full object-contain transition-opacity duration-500", dark ? "opacity-100" : "opacity-0")} alt="" />
       </Link>
 
       <nav aria-label="Principal" className="hidden items-center gap-1 lg:flex">

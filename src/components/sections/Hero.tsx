@@ -8,6 +8,7 @@ import { CountUp } from "@/components/ui/CountUp";
 import { Marquee } from "@/components/ui/Marquee";
 import { site } from "@/content/site";
 import { useSectionScroll } from "@/components/scroll/ScrollContext";
+import { Logo } from "@/components/ui/Logo";
 
 export function Hero() {
   const api = useSectionScroll();
@@ -30,19 +31,19 @@ export function Hero() {
         {/* nome */}
         <div className="relative z-10 flex flex-col items-center text-center">
           <motion.h1
-            initial={reduce ? false : { opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={reduce ? false : { opacity: 0, y: 40, scale: 0.94 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display text-[26vw] leading-[0.85] text-ink md:text-[19vw] lg:text-[16rem] xl:text-[18rem]"
+            className="m-0 w-[82vw] max-w-[860px] sm:w-[70vw] lg:w-[58vw]"
           >
-            CROSS
+            <Logo name="cross-home" priority sizes="(max-width: 640px) 82vw, (max-width: 1024px) 70vw, 860px" className="w-full drop-shadow-[0_18px_30px_rgba(11,11,12,0.25)]" alt="CROSS — adolescentes e jovens da IBB" />
           </motion.h1>
           <div className="pointer-events-none absolute inset-0" aria-hidden>
             <motion.div
               initial={reduce ? false : { opacity: 0, scale: 0.5, rotate: -20 }}
               animate={{ opacity: 1, scale: 1, rotate: -8 }}
               transition={{ delay: 0.5, type: "spring", stiffness: 260, damping: 14 }}
-              className="pointer-events-auto absolute -left-1 top-[8%] md:left-[6%] md:top-[4%]"
+              className="pointer-events-auto absolute -left-2 -top-3 md:left-[4%] md:-top-2"
             >
               <Sticker tone="red" rotate={-8} size="lg">
                 UP
@@ -52,7 +53,7 @@ export function Hero() {
               initial={reduce ? false : { opacity: 0, scale: 0.5, rotate: 20 }}
               animate={{ opacity: 1, scale: 1, rotate: 6 }}
               transition={{ delay: 0.65, type: "spring", stiffness: 260, damping: 14 }}
-              className="pointer-events-auto absolute -right-1 bottom-[8%] md:right-[6%] md:bottom-[4%]"
+              className="pointer-events-auto absolute -right-2 -bottom-3 md:right-[4%] md:-bottom-2"
             >
               <Sticker tone="blue" rotate={6} size="lg">
                 GO
