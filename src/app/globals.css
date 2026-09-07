@@ -121,8 +121,14 @@ body {
   .marquee-track { animation: none; }
 }
 
-/* cursor customizado (ativado por JS só em ponteiro fino) */
-.custom-cursor, .custom-cursor * { cursor: none !important; }
+/* cursor: mãozinha estilo macOS
+   - mão aberta na página, mão fechada enquanto o mouse está pressionado
+   - mão apontando sobre links e botões
+   - texto/inputs mantêm o cursor padrão de edição */
+html { cursor: grab; }
+html:active { cursor: grabbing; }
+a, button, [role="button"], summary, label { cursor: pointer; }
+input, textarea, select, [contenteditable="true"] { cursor: auto; }
 
 /* flutuação suave (mobile / sem mouse) */
 @keyframes float {
