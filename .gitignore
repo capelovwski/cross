@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# vídeos-fonte pesados ficam fora do git (versões comprimidas vão em public/video)
+img/video/

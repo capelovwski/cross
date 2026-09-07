@@ -7,6 +7,8 @@ import { PillButton } from "@/components/ui/PillButton";
 import { site, type TribeId } from "@/content/site";
 import { isPlaceholder } from "@/lib/utils";
 import { Logo } from "@/components/ui/Logo";
+import { useMediaQuery } from "@/lib/useMediaQuery";
+import { useReducedMotion } from "framer-motion";
 
 interface Props {
   tribe: TribeId;
@@ -17,29 +19,55 @@ export function Tribe({ tribe }: Props) {
   const isUp = tribe === "up";
   const link = isUp ? site.links.whatsappUp : site.links.whatsappGo;
   const placeholder = isPlaceholder(link);
+  const desktop = useMediaQuery("(min-width: 768px)");
+  const reduce = useReducedMotion();
+  // vídeo de fundo só no GO, só em telas md+ e sem reduce-motion (no mobile nem baixa)
+  const showVideo = !isUp && desktop && !reduce;
 
   return (
-    <SectionShell id={t.id} bg={isUp ? "red" : "blue"}>
-      <div className="grid flex-1 grid-cols-1 items-center gap-4 md:gap-6 lg:grid-cols-12 lg:gap-10">
+    <SectionShell
+      id={t.id}
+      bg={isUp ? "red" : "blue"}
+      backdrop={
+        showVideo && (
+          <>
+            <video
+              className="h-full w-full object-cover opacity-45 mix-blend-luminosity"
+              src="/video/bg-go.mp4"
+              poster="/video/bg-go-poster.webp"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            />
+            {/* filtro azul + vinheta: o vídeo é textura, não protagonista */}
+            <div className="absolute inset-0 bg-blue/70 mix-blend-multiply" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(18,55,158,0.7)_100%)]" />
+          </>
+        )
+      }
+    >
+      <div className="grid flex-1 grid-cols-1 items-center gap-4 md:gap-6 lg:grid-cols-12 lg:gap-8">
         {/* nome gigante */}
-        <div className="relative lg:col-span-6">
+        <div className="relative lg:col-span-7">
           <Reveal>
             <Sticker tone="yellow" size="md" rotate={isUp ? -5 : 4}>
               {t.audience} · {t.ages}
             </Sticker>
           </Reveal>
-          <Reveal as="h2" delay={0.05} className="mt-4 h-[28vw] max-h-[11rem] sm:h-[10rem] lg:h-[13rem] xl:h-[14rem]">
+          <Reveal as="h2" delay={0.05} className="mt-4 h-[28vw] max-h-[11rem] sm:h-[10rem] lg:h-[16rem] xl:h-[19rem]">
             <Logo name={isUp ? "up-white" : "go-white"} sizes="(max-width: 640px) 62vw, 420px" className="h-full w-auto drop-shadow-[6px_8px_0_rgba(11,11,12,0.35)]" alt={`${t.name} — ${t.audience} ${t.ages}`} />
           </Reveal>
-          <Reveal delay={0.15} className="mt-1 font-display text-2xl tracking-wide text-white/90 md:mt-2 md:text-4xl">
+          <Reveal delay={0.15} className="mt-1 font-display text-2xl tracking-wide text-white/90 md:mt-3 md:text-4xl xl:text-5xl">
             {t.motto}
           </Reveal>
-          <Reveal delay={0.2} className="mt-3 max-w-xl text-sm leading-relaxed text-white/90 md:mt-4 md:text-lg">
+          <Reveal delay={0.2} className="mt-3 max-w-xl text-sm leading-relaxed text-white/90 md:mt-4 md:text-lg xl:max-w-2xl xl:text-xl">
             {t.pitch}
           </Reveal>
         </div>
 
-        <div className="flex flex-col gap-3 md:gap-4 lg:col-span-6">
+        <div className="flex flex-col gap-3 md:gap-4 lg:col-span-5">
           {/* card de horário */}
           <Reveal delay={0.1} className="grain rounded-card-lg bg-paper p-4 text-ink shadow-float md:p-7">
             <div className="grid grid-cols-3 gap-3">
