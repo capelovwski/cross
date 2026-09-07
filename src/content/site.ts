@@ -10,7 +10,12 @@ export const site = {
   tagline: "Adolescentes e jovens apontando essa geração para Cristo.",
   description:
     "CROSS é o ministério de adolescentes (UP) e jovens (GO) da Igreja Batista do Bacacheri. Encontros semanais, acampamentos, conferências e comunhão de verdade.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cross.ibb.org.br",
+  // URL pública: NEXT_PUBLIC_SITE_URL (se definida) → domínio de produção que a
+  // Vercel injeta automaticamente → localhost. Quando o domínio próprio chegar,
+  // basta definir NEXT_PUBLIC_SITE_URL no painel da Vercel.
+  url:
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000"),
 
   verse: {
     text: "Ninguém o despreze por você ser jovem, mas seja um exemplo para os fiéis na palavra, no procedimento, no amor, na fé e na pureza.",
