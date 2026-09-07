@@ -121,13 +121,14 @@ body {
   .marquee-track { animation: none; }
 }
 
-/* cursor: mãozinha estilo macOS
-   - mão aberta na página, mão fechada enquanto o mouse está pressionado
-   - mão apontando sobre links e botões
-   - texto/inputs mantêm o cursor padrão de edição */
-html { cursor: grab; }
-html:active { cursor: grabbing; }
-a, button, [role="button"], summary, label { cursor: pointer; }
+/* cursor: seta minimalista estilo Figma (preta com contorno branco; amarela sobre
+   links e botões). Hotspot na ponta (5,3). Fallback para o cursor nativo. */
+:root {
+  --cursor-arrow: image-set(url("/cursor/arrow.png") 1x, url("/cursor/arrow@2x.png") 2x) 5 3, auto;
+  --cursor-arrow-hover: image-set(url("/cursor/arrow-hover.png") 1x, url("/cursor/arrow-hover@2x.png") 2x) 5 3, pointer;
+}
+html { cursor: var(--cursor-arrow); }
+a, button, [role="button"], summary, label { cursor: var(--cursor-arrow-hover); }
 input, textarea, select, [contenteditable="true"] { cursor: auto; }
 
 /* flutuação suave (mobile / sem mouse) */

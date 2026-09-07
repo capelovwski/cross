@@ -2,7 +2,6 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { sections, type SectionId } from "@/content/sections";
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
-import { MouseGlow } from "@/components/fx/MouseGlow";
 
 type Bg = "paper" | "ink" | "blue" | "red" | "yellow" | "white";
 
@@ -37,7 +36,6 @@ export function SectionShell({ id, bg = "paper", children, className, align = "c
           {backdrop}
         </div>
       )}
-      {light && <MouseGlow color={bg === "ink" ? "255,201,31" : "255,255,255"} />}
       <SectionLabel num={meta.num} label={meta.label} tone={light ? "light" : "dark"} className="relative z-10 mb-4 md:mb-6" />
       <div className={cn("relative z-10 flex w-full flex-1 flex-col", align === "center" && "justify-center", className)}>{children}</div>
     </div>

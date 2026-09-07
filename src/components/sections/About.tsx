@@ -7,6 +7,7 @@ import { PillButton } from "@/components/ui/PillButton";
 import { site } from "@/content/site";
 import { useSectionScroll } from "@/components/scroll/ScrollContext";
 import { Logo, LogoBox } from "@/components/ui/Logo";
+import { Parallax, Tilt } from "@/components/fx/Tilt";
 
 const chips = ["Encontros semanais", "Acampamentos", "Conferências", "Muita comunhão"];
 
@@ -52,13 +53,16 @@ export function About() {
                 Versículo-base
               </Sticker>
             </span>
-            <blockquote className="grain rotate-[-1deg] rounded-card-lg bg-paper p-5 text-ink shadow-float md:p-7">
-              <p className="font-mono text-xs leading-relaxed md:text-sm">“{site.verse.text}”</p>
-              <footer className="mt-3 font-display text-2xl tracking-wide text-red">{site.verse.ref}</footer>
-            </blockquote>
+            <Tilt max={7} rotate={-1}>
+              <blockquote className="grain rounded-card-lg bg-paper p-5 text-ink shadow-float md:p-7">
+                <p className="font-mono text-xs leading-relaxed md:text-sm">“{site.verse.text}”</p>
+                <footer className="mt-3 font-display text-2xl tracking-wide text-red">{site.verse.ref}</footer>
+              </blockquote>
+            </Tilt>
           </Reveal>
           <Stagger className="grid grid-cols-2 gap-3" delay={0.4}>
             <StaggerItem>
+              <Parallax strength={-8}>
               <button
                 type="button"
                 onClick={() => api?.goTo("up")}
@@ -68,8 +72,10 @@ export function About() {
                 <span className="mt-1 text-sm opacity-90">Adolescentes · 13 a 17</span>
                 <span className="mt-3 font-mono text-[10px] uppercase tracking-widest text-yellow">Sextas 20h →</span>
               </button>
+              </Parallax>
             </StaggerItem>
             <StaggerItem>
+              <Parallax strength={10}>
               <button
                 type="button"
                 onClick={() => api?.goTo("go")}
@@ -79,6 +85,7 @@ export function About() {
                 <span className="mt-1 text-sm opacity-90">Jovens · 18 a 29</span>
                 <span className="mt-3 font-mono text-[10px] uppercase tracking-widest text-yellow">Sábados 20h →</span>
               </button>
+              </Parallax>
             </StaggerItem>
           </Stagger>
           <div className="hidden md:block">
