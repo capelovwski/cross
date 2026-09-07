@@ -121,6 +121,19 @@ body {
   .marquee-track { animation: none; }
 }
 
+/* cursor customizado (ativado por JS só em ponteiro fino) */
+.custom-cursor, .custom-cursor * { cursor: none !important; }
+
+/* flutuação suave (mobile / sem mouse) */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+.animate-float { animation: float 5s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-float { animation: none; }
+}
+
 /* foco visível consistente */
 :focus-visible {
   outline: 3px solid var(--color-yellow);

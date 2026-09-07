@@ -4,12 +4,12 @@ import { Sticker } from "@/components/ui/Sticker";
 import { PillButton } from "@/components/ui/PillButton";
 import { site } from "@/content/site";
 import { cn, isPlaceholder } from "@/lib/utils";
-import { Logo, type LogoName } from "@/components/ui/Logo";
+import { LogoBox, type LogoName } from "@/components/ui/Logo";
 
 const groups = [
-  { id: "cross", name: "CROSS", logo: "cross-white" as LogoName, logoCls: "h-6 md:h-10", desc: "Avisos gerais, eventos e tudo que envolve as duas tribos.", link: site.links.whatsappCross, cls: "bg-ink text-paper", dot: "yellow" as const },
-  { id: "up", name: "UP", logo: "up-white" as LogoName, logoCls: "h-7 md:h-12", desc: "Adolescentes 13–17. Programação de sexta e rolês.", link: site.links.whatsappUp, cls: "bg-red text-white", dot: "yellow" as const },
-  { id: "go", name: "GO", logo: "go-white" as LogoName, logoCls: "h-9 md:h-14", desc: "Jovens 18–29. Programação de sábado, células e missões.", link: site.links.whatsappGo, cls: "bg-blue text-white", dot: "yellow" as const },
+  { id: "cross", name: "CROSS", logo: "cross-white" as LogoName, desc: "Avisos gerais, eventos e tudo que envolve as duas tribos.", link: site.links.whatsappCross, cls: "bg-ink text-paper", dot: "yellow" as const },
+  { id: "up", name: "UP", logo: "up-white" as LogoName, desc: "Adolescentes 13–17. Programação de sexta e rolês.", link: site.links.whatsappUp, cls: "bg-red text-white", dot: "yellow" as const },
+  { id: "go", name: "GO", logo: "go-white" as LogoName, desc: "Jovens 18–29. Programação de sábado, células e missões.", link: site.links.whatsappGo, cls: "bg-blue text-white", dot: "yellow" as const },
 ];
 
 export function WhatsApp() {
@@ -45,7 +45,7 @@ export function WhatsApp() {
                 >
                   <div>
                     <p className="font-mono text-[10px] uppercase tracking-widest opacity-70">Grupo</p>
-                    <p className="mt-1 flex items-end" aria-label={g.name}><Logo name={g.logo} sizes="160px" className={cn("w-auto", g.logoCls)} /></p>
+                    <p className="mt-1" aria-label={g.name}><LogoBox name={g.logo} boxClassName="h-9 w-full md:h-12" /></p>
                     <p className="mt-1 text-xs opacity-90 md:mt-2 md:text-sm">{g.desc}</p>
                   </div>
                   <div className="mt-3 flex flex-col gap-1.5 md:mt-4 md:gap-2">

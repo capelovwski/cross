@@ -22,11 +22,15 @@ interface Props {
   name: LogoName;
   className?: string;
   priority?: boolean;
-  /** largura em px para o atributo sizes (ajuda o next/image a escolher a versão) */
   sizes?: string;
   alt?: string;
 }
 
+/**
+ * Logo com proporção preservada. Controle o tamanho pela ALTURA (ex.: `h-10`)
+ * para que logos de proporções diferentes (UP é larga, GO é quase quadrada)
+ * fiquem visualmente equilibradas lado a lado.
+ */
 export function Logo({ name, className, priority, sizes = "(max-width: 768px) 60vw, 30vw", alt }: Props) {
   const l = logos[name];
   return (
@@ -40,5 +44,18 @@ export function Logo({ name, className, priority, sizes = "(max-width: 768px) 60
       className={cn("h-auto w-auto select-none", className)}
       draggable={false}
     />
+  );
+}
+
+/**
+ * Caixa de altura fixa para alinhar logos em cards/listas: a logo cabe dentro
+ * da caixa (object-contain) alinhada à esquerda, sem mudar a altura do card.
+ */
+export function LogoBox({ name, className, boxClassName, alt, sizes = "200px" }: Props & { boxClassName?: string }) {
+  const l = logos[name];
+  return (
+    <span className={cn("relative block", boxClassName ?? "h-10 w-32")}>
+      <Image src={l.src} alt={alt ?? l.alt} fill sizes={sizes} className={cn("object-contain object-left select-none", className)} draggable={false} />
+    </span>
   );
 }

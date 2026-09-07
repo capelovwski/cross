@@ -6,7 +6,7 @@ import { Sticker } from "@/components/ui/Sticker";
 import { PillButton } from "@/components/ui/PillButton";
 import { site } from "@/content/site";
 import { useSectionScroll } from "@/components/scroll/ScrollContext";
-import { Logo } from "@/components/ui/Logo";
+import { Logo, LogoBox } from "@/components/ui/Logo";
 
 const chips = ["Encontros semanais", "Acampamentos", "Conferências", "Muita comunhão"];
 
@@ -24,16 +24,12 @@ export function About() {
           <Reveal delay={0.15} className="mt-5 max-w-2xl text-sm leading-relaxed text-paper/85 md:text-base xl:text-lg">
             {/* PLACEHOLDER — aprovar texto */}
             CROSS é o ministério de adolescentes e jovens da IBB (Igreja Batista do Bacacheri). Aqui, adolescentes{" "}
-            <button type="button" onClick={() => api?.goTo("up")} className="inline-flex align-middle">
-              <Sticker tone="red" size="sm" rotate={-3}>
-                UP
-              </Sticker>
+            <button type="button" onClick={() => api?.goTo("up")} aria-label="Ir para a seção UP" className="inline-block align-[-0.12em] transition-transform hover:scale-110">
+              <Logo name="up-white" sizes="80px" className="inline-block h-[0.95em] w-auto" alt="UP" />
             </button>{" "}
             e jovens{" "}
-            <button type="button" onClick={() => api?.goTo("go")} className="inline-flex align-middle">
-              <Sticker tone="blue" size="sm" rotate={3}>
-                GO
-              </Sticker>
+            <button type="button" onClick={() => api?.goTo("go")} aria-label="Ir para a seção GO" className="inline-block align-[-0.2em] transition-transform hover:scale-110">
+              <Logo name="go-white" sizes="80px" className="inline-block h-[1.15em] w-auto" alt="GO" />
             </button>{" "}
             encontram um lugar pra crescer na fé, fazer amizades de verdade e viver a Palavra de Deus na prática — através de
             encontros semanais, acampamentos, conferências e muita comunhão. Se você tem entre 13 e 29 anos, esse é o seu lugar.
@@ -68,7 +64,7 @@ export function About() {
                 onClick={() => api?.goTo("up")}
                 className="group flex w-full flex-col items-start rounded-card bg-red p-4 text-left text-white transition-transform hover:-rotate-1 hover:scale-[1.02]"
               >
-                <Logo name="up-white" sizes="120px" className="h-9 w-auto" />
+                <LogoBox name="up-white" boxClassName="h-11 w-full" />
                 <span className="mt-1 text-sm opacity-90">Adolescentes · 13 a 17</span>
                 <span className="mt-3 font-mono text-[10px] uppercase tracking-widest text-yellow">Sextas 20h →</span>
               </button>
@@ -79,7 +75,7 @@ export function About() {
                 onClick={() => api?.goTo("go")}
                 className="group flex w-full flex-col items-start rounded-card bg-blue p-4 text-left text-white transition-transform hover:rotate-1 hover:scale-[1.02]"
               >
-                <Logo name="go-white" sizes="120px" className="h-11 w-auto" />
+                <LogoBox name="go-white" boxClassName="h-11 w-full" />
                 <span className="mt-1 text-sm opacity-90">Jovens · 18 a 29</span>
                 <span className="mt-3 font-mono text-[10px] uppercase tracking-widest text-yellow">Sábados 20h →</span>
               </button>

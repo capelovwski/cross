@@ -293,7 +293,16 @@ export function FullPageScroll({ ids, children, chrome, duration = 750, cooldown
               tabIndex={-1}
               className="h-dvh w-full overflow-y-auto overscroll-contain no-scrollbar outline-none"
             >
-              {child}
+              <div
+                className="flex min-h-full flex-col origin-center will-change-transform"
+                style={{
+                  transform: i === index ? "scale(1)" : "scale(0.94)",
+                  opacity: i === index ? 1 : 0.6,
+                  transition: `transform ${duration}ms var(--ease-section), opacity ${duration}ms var(--ease-section)`,
+                }}
+              >
+                {child}
+              </div>
             </section>
           ))}
         </div>
