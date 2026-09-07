@@ -53,7 +53,7 @@ export function ProductCard({ p, i }: { p: Product; i: number }) {
       {(p.sizes || p.colors) && (
         <p className="mt-2 font-mono text-[10px] uppercase tracking-widest text-ink/50">
           {p.sizes && <>Tam. {p.sizes.join(" · ")}</>}
-          {p.sizes && p.colors && " — "}
+          {p.sizes && p.colors && " · "}
           {p.colors && p.colors.join(" · ")}
         </p>
       )}

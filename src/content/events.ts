@@ -53,7 +53,7 @@ export const events: CrossEvent[] = [
     name: "Acampamento UP",
     tagline: "Só pra adolescentes. Só pra quem aguenta.",
     description:
-      "Gincana, fogueira, culto ao ar livre e amizade que dura o ano inteiro. A edição deste ano já rolou — e foi histórica.",
+      "Gincana, fogueira, culto ao ar livre e amizade que dura o ano inteiro. A edição deste ano já rolou, e foi histórica.",
     tribe: "up",
     tone: "red",
     status: "tbd",

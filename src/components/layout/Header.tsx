@@ -52,7 +52,7 @@ export function Header({ variant = "home" }: Props) {
           }
         }}
         className="relative block h-7 w-[7.2rem] md:h-8 md:w-[8.2rem]"
-        aria-label="CROSS — início"
+        aria-label="CROSS, início"
       >
         <Logo name="cross-black" priority sizes="140px" className={cn("absolute inset-0 h-full w-full object-contain transition-opacity duration-500", dark ? "opacity-0" : "opacity-100")} alt="" />
         <Logo name="cross-white" priority sizes="140px" className={cn("absolute inset-0 h-full w-full object-contain transition-opacity duration-500", dark ? "opacity-100" : "opacity-0")} alt="" />

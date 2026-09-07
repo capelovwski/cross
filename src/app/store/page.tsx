@@ -66,7 +66,7 @@ export default function StorePage() {
         {/* rodapé simples */}
         <footer className="grain bg-ink px-5 py-10 text-paper md:px-10 lg:px-14">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <Link href="/" aria-label="CROSS — início" className="flex items-center gap-4">
+            <Link href="/" aria-label="CROSS, início" className="flex items-center gap-4">
               <Logo name="store-white" sizes="120px" className="h-12 w-auto" />
             </Link>
             <p className="font-mono text-[10px] uppercase tracking-widest text-paper/50">

@@ -29,7 +29,7 @@ export function WhatsApp() {
               </Sticker>
             </span>
             <p className="text-sm font-medium leading-snug text-ink/80 md:leading-relaxed md:text-base">
-              É lá que a programação da semana sai primeiro, que a inscrição abre e que a galera combina carona. Entra no grupo da sua tribo — e no do CROSS.
+              É lá que a programação da semana sai primeiro, que a inscrição abre e que a galera combina carona. Entra no grupo da sua tribo e no do CROSS.
             </p>
           </Reveal>
         </div>
@@ -51,7 +51,7 @@ export function WhatsApp() {
                   <div className="mt-3 flex flex-col gap-1.5 md:mt-4 md:gap-2">
                     {ph ? (
                       <>
-                        <PillButton tone="yellow" size="sm" className="self-start opacity-60" ariaLabel={`Grupo ${g.name} — link em breve`}>
+                        <PillButton tone="yellow" size="sm" className="self-start opacity-60" ariaLabel={`Grupo ${g.name}: link em breve`}>
                           Entrar no grupo
                         </PillButton>
                         <code className="hidden font-mono text-[10px] opacity-60 sm:block">{g.link}</code>

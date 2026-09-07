@@ -79,7 +79,7 @@ export function Calendar() {
                         <i className={cn("size-2 rounded-full", tribeDot[ev.tribe])} />
                         <span className="font-mono text-xs uppercase tracking-widest text-paper/70">{formatRange(ev.start, ev.end)}</span>
                         <span className="font-semibold">{ev.name}</span>
-                        <span className="hidden text-sm text-paper/60 sm:inline">— {ev.tagline}</span>
+                        <span className="hidden text-sm text-paper/60 sm:inline">· {ev.tagline}</span>
                       </li>
                     ))}
                   </ul>

@@ -47,7 +47,7 @@ Padrão: **blocos de cor sólida forte alternando com fundo claro**, texto escur
 - **Texturas**: fita rasgada/tecido no hero (imagem), grão sutil; sombras praticamente ausentes (cards "flat" sobre fundo claro).
 
 ### Scroll (observado)
-O DOM da referência **não** usa `scroll-snap` nem biblioteca de full-page (`scrollSnapType: none`, altura total 9.946px com blocos de 306 a 1.625px). A sensação de "engate" vem das animações de entrada do Framer. Mesmo assim, o requisito do briefing (1 gesto = 1 seção) foi implementado de verdade — ver seção 4.
+O DOM da referência **não** usa `scroll-snap` nem biblioteca de full-page (`scrollSnapType: none`, altura total 9.946px com blocos de 306 a 1.625px). A sensação de "engate" vem das animações de entrada do Framer. Mesmo assim, o requisito do briefing (1 gesto = 1 seção) foi implementado de verdade (ver seção 4).
 
 ---
 
@@ -71,9 +71,9 @@ Por tribo: **UP** = vermelho + amarelo; **GO** = azul + amarelo; **CROSS** = pre
 Contraste (WCAG AA): texto `ink` sobre `yellow` 12.6:1; `white` sobre `blue` 6.7:1; `white` sobre `red` 4.6:1 (usar peso ≥ semibold para texto pequeno sobre vermelho); `yellow` sobre `ink` 12.4:1.
 
 ### Tipografia
-- **Display**: Anton (Google Fonts) — condensada, pesada, sempre em caixa alta, `line-height 0.9`. Utilitário `font-display`.
+- **Display**: Anton (Google Fonts): condensada, pesada, sempre em caixa alta, `line-height 0.9`. Utilitário `font-display`.
 - **Corpo**: Inter.
-- **Mono**: JetBrains Mono — labels `[01 CROSS]`, datas, versículo.
+- **Mono**: JetBrains Mono: labels `[01 CROSS]`, datas, versículo.
 
 ### Componentes (em `src/components/ui`)
 | Componente | Descrição |
@@ -171,7 +171,7 @@ Sombra flutuante: `0 18px 40px -18px rgb(11 11 12 / .35)`.
 
 ---
 
-## 4. Scroll por seção — decisão técnica
+## 4. Scroll por seção: decisão técnica
 
 **Escolha: implementação própria** (`src/components/scroll/FullPageScroll.tsx`), sem biblioteca.
 

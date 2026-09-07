@@ -60,7 +60,7 @@ export function Tribe({ tribe }: Props) {
             </Sticker>
           </Reveal>
           <Reveal as="h2" delay={0.05} className="mt-4 h-[28vw] max-h-[11rem] sm:h-[10rem] lg:h-[16rem] xl:h-[19rem]">
-            <Logo name={isUp ? "up-white" : "go-white"} sizes="(max-width: 640px) 62vw, 420px" className="h-full w-auto drop-shadow-[6px_8px_0_rgba(11,11,12,0.35)]" alt={`${t.name} — ${t.audience} ${t.ages}`} />
+            <Logo name={isUp ? "up-white" : "go-white"} sizes="(max-width: 640px) 62vw, 420px" className="h-full w-auto drop-shadow-[6px_8px_0_rgba(11,11,12,0.35)]" alt={`${t.name}, ${t.audience} ${t.ages}`} />
           </Reveal>
           <Reveal delay={0.15} className="mt-1 font-display text-2xl tracking-wide text-white/90 md:mt-3 md:text-4xl xl:text-5xl">
             {t.motto}

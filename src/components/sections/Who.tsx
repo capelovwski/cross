@@ -6,7 +6,7 @@ import { Placeholder } from "@/components/ui/Placeholder";
 
 const values = [
   { k: "Jesus no centro", v: "Tudo começa e termina Nele." },
-  { k: "Palavra na prática", v: "Não só ouvir — viver." },
+  { k: "Palavra na prática", v: "Não só ouvir: viver." },
   { k: "Amizade de verdade", v: "Sem máscara, sem panelinha." },
   { k: "Servir", v: "Igreja não é plateia, é time." },
 ];
@@ -37,9 +37,9 @@ export function Who() {
             </span>
           </div>
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-paper/85 md:text-base xl:text-lg">
-            {/* PLACEHOLDER — aprovar texto */}
+            {/* PLACEHOLDER: aprovar texto */}
             Somos uma comunidade de adolescentes e jovens apaixonados por Jesus, liderados por uma equipe de líderes dedicados a
-            caminhar ao lado de cada um. O CROSS reúne duas tribos — UP e GO — debaixo do mesmo propósito: apontar essa geração
+            caminhar ao lado de cada um. O CROSS reúne duas tribos, UP e GO, debaixo do mesmo propósito: apontar essa geração
             para Cristo.
           </p>
         </Reveal>

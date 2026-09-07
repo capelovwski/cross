@@ -71,7 +71,7 @@ async function viaFeed(nsid: string, albumId: string): Promise<GalleryPhoto[] | 
   const res = await fetch(url, { next: { revalidate: REVALIDATE } });
   if (!res.ok) return null;
   const text = await res.text();
-  // O feed escapa aspas simples como \' (JSON inválido) — corrige antes do parse.
+  // O feed escapa aspas simples como \' (JSON inválido): corrige antes do parse.
   const json = JSON.parse(text.replace(/\\'/g, "'"));
   const items: { title: string; link: string; media: { m: string } }[] = json.items ?? [];
   return items.map((it) => ({

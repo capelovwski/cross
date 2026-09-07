@@ -1,6 +1,6 @@
 /**
  * Dados gerais do site. Tudo que ainda não está definido está marcado com
- * placeholders entre colchetes — basta trocar o valor aqui.
+ * placeholders entre colchetes: basta trocar o valor aqui.
  */
 export const site = {
   name: "CROSS",
@@ -37,7 +37,7 @@ export const site = {
     flickrAlbum: "[LINK_ALBUM_FLICKR]",
   },
 
-  // ---- Estatísticas do hero (placeholders — ajustar) ----
+  // ---- Estatísticas do hero (placeholders: ajustar) ----
   stats: [
     { value: 150, suffix: "+", label: "adolescentes e jovens" },
     { value: 2, suffix: "", label: "tribos: UP e GO" },
@@ -57,7 +57,7 @@ export const site = {
       color: "red",
       motto: "Levanta. Cresce. Sobe.",
       pitch:
-        "Se você tem entre 13 e 17 anos, o UP é o seu lugar. Toda sexta a gente se reúne pra louvar, ouvir a Palavra num papo direto e curtir a galera — sem enrolação e sem filtro.",
+        "Se você tem entre 13 e 17 anos, o UP é o seu lugar. Toda sexta a gente se reúne pra louvar, ouvir a Palavra num papo direto e curtir a galera, sem enrolação e sem filtro.",
       highlights: [
         { title: "Louvor", text: "Banda de adolescentes tocando pra adolescentes." },
         { title: "Palavra", text: "Mensagem curta, direta e que faz sentido pra sua semana." },

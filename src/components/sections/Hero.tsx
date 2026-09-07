@@ -63,7 +63,7 @@ export function Hero() {
             className={cn("m-0 w-[82vw] max-w-[860px] sm:w-[70vw] lg:w-[58vw]", !fine && !reduce && "animate-float")}
             style={fine ? { rotateX, rotateY, x: logoX, y: logoY, transformStyle: "preserve-3d" } : undefined}
           >
-            <Logo name="cross-home" priority sizes="(max-width: 640px) 82vw, (max-width: 1024px) 70vw, 860px" className="w-full drop-shadow-[0_18px_30px_rgba(11,11,12,0.25)]" alt="CROSS — adolescentes e jovens da IBB" />
+            <Logo name="cross-home" priority sizes="(max-width: 640px) 82vw, (max-width: 1024px) 70vw, 860px" className="w-full drop-shadow-[0_18px_30px_rgba(11,11,12,0.25)]" alt="CROSS, adolescentes e jovens da IBB" />
           </motion.h1>
         </div>
 

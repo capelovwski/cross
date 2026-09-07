@@ -1,5 +1,5 @@
 /**
- * Perguntas frequentes — primeiro rascunho para revisão.
+ * Perguntas frequentes: primeiro rascunho para revisão.
  * Cada item: pergunta + resposta (texto simples, pode ter quebras de linha).
  */
 export interface FaqItem {
@@ -14,7 +14,7 @@ export const faq: FaqItem[] = [
   },
   {
     q: "Preciso ser membro da IBB pra ir?",
-    a: "Não. O CROSS é aberto pra qualquer pessoa, de qualquer igreja ou de nenhuma. Chega, se apresenta na recepção e pronto — a gente cuida do resto.",
+    a: "Não. O CROSS é aberto pra qualquer pessoa, de qualquer igreja ou de nenhuma. Chega, se apresenta na recepção e pronto. A gente cuida do resto.",
   },
   {
     q: "Os encontros semanais têm algum custo?",

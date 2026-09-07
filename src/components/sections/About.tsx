@@ -22,7 +22,7 @@ export function About() {
             crescer na <span className="text-paper">fé</span>
           </Reveal>
           <Reveal delay={0.15} className="mt-5 max-w-2xl text-sm leading-relaxed text-paper/85 md:text-base xl:text-lg">
-            {/* PLACEHOLDER — aprovar texto */}
+            {/* PLACEHOLDER: aprovar texto */}
             CROSS é o ministério de adolescentes e jovens da IBB (Igreja Batista do Bacacheri). Aqui, adolescentes{" "}
             <button type="button" onClick={() => api?.goTo("up")} aria-label="Ir para a seção UP" className="inline-block align-[-0.12em] transition-transform hover:scale-110">
               <Logo name="up-white" sizes="80px" className="inline-block h-[0.95em] w-auto" alt="UP" />
@@ -31,7 +31,7 @@ export function About() {
             <button type="button" onClick={() => api?.goTo("go")} aria-label="Ir para a seção GO" className="inline-block align-[-0.2em] transition-transform hover:scale-110">
               <Logo name="go-white" sizes="80px" className="inline-block h-[1.15em] w-auto" alt="GO" />
             </button>{" "}
-            encontram um lugar pra crescer na fé, fazer amizades de verdade e viver a Palavra de Deus na prática — através de
+            encontram um lugar pra crescer na fé, fazer amizades de verdade e viver a Palavra de Deus na prática, através de
             encontros semanais, acampamentos, conferências e muita comunhão. Se você tem entre 13 e 29 anos, esse é o seu lugar.
           </Reveal>
           <Stagger className="mt-5 hidden flex-wrap gap-2 sm:flex" delay={0.3}>

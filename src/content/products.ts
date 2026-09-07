@@ -1,5 +1,5 @@
 /**
- * Cross Store — vitrine (sem checkout). Produtos fictícios para validar o layout.
+ * Cross Store: vitrine (sem checkout). Produtos fictícios para validar o layout.
  * `image` pode ser um caminho em /public ou uma URL externa.
  */
 export type Brand = "cross" | "up" | "go";

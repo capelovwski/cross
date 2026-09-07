@@ -11,7 +11,7 @@ interface Props {
 /**
  * Faixa de texto rolando infinitamente (estilo fita adesiva).
  * O trilho é composto por duas metades idênticas; a animação desloca -50%
- * e reinicia — como as metades são iguais, a emenda é invisível.
+ * e reinicia: como as metades são iguais, a emenda é invisível.
  */
 export function Marquee({ items, className, separator = "✦", repeat = 3 }: Props) {
   const row = items.flatMap((t) => [t, separator]);

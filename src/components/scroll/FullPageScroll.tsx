@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * FullPageScroll — scroll "engatado" por seção.
+ * FullPageScroll: scroll "engatado" por seção.
  *
  * Implementação customizada (sem lib) escolhida por ser a mais estável e
  * previsível: controlamos 100% do estado (índice) e a transição é um único

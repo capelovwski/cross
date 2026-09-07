@@ -1,4 +1,4 @@
-# CROSS — site do ministério de adolescentes (UP) e jovens (GO) da IBB
+# CROSS: site do ministério de adolescentes (UP) e jovens (GO) da IBB
 
 Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · Framer Motion.
 
