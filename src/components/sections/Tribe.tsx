@@ -21,8 +21,11 @@ export function Tribe({ tribe }: Props) {
   const placeholder = isPlaceholder(link);
   const desktop = useMediaQuery("(min-width: 768px)");
   const reduce = useReducedMotion();
-  // vídeo de fundo só no GO, só em telas md+ e sem reduce-motion (no mobile nem baixa)
-  const showVideo = !isUp && desktop && !reduce;
+  // vídeo de fundo só em telas md+ e sem reduce-motion (no mobile nem baixa)
+  const showVideo = desktop && !reduce;
+  const video = isUp
+    ? { src: "/video/bg-up.mp4", poster: "/video/bg-up-poster.webp", tint: "bg-red/70", vignette: "rgba(181,22,26,0.7)" }
+    : { src: "/video/bg-go.mp4", poster: "/video/bg-go-poster.webp", tint: "bg-blue/70", vignette: "rgba(18,55,158,0.7)" };
 
   return (
     <SectionShell
@@ -33,17 +36,17 @@ export function Tribe({ tribe }: Props) {
           <>
             <video
               className="h-full w-full object-cover opacity-45 mix-blend-luminosity"
-              src="/video/bg-go.mp4"
-              poster="/video/bg-go-poster.webp"
+              src={video.src}
+              poster={video.poster}
               autoPlay
               muted
               loop
               playsInline
               preload="metadata"
             />
-            {/* filtro azul + vinheta: o vídeo é textura, não protagonista */}
-            <div className="absolute inset-0 bg-blue/70 mix-blend-multiply" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(18,55,158,0.7)_100%)]" />
+            {/* filtro na cor da tribo + vinheta: o vídeo é textura, não protagonista */}
+            <div className={`absolute inset-0 mix-blend-multiply ${video.tint}`} />
+            <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at center, transparent 30%, ${video.vignette} 100%)` }} />
           </>
         )
       }
