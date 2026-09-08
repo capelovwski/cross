@@ -3,12 +3,12 @@
 /**
  * "Ilha" de navegação (só mobile), inspirada na Dynamic Island:
  * pílula preta flutuante com as logos; a aba ativa ganha uma bolha amarela
- * que desliza entre os itens e se expande mostrando o nome.
+ * que desliza entre os itens (sem rótulos, só o aria-label para leitores de tela).
  * A aba "Mais" abre um bottom sheet com todas as seções e a Cross Store.
  */
 import Link from "next/link";
 import { useState } from "react";
-import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-motion";
+import { LayoutGroup, motion, useReducedMotion } from "framer-motion";
 import { useSectionScroll } from "@/components/scroll/ScrollContext";
 import { sections, type SectionId } from "@/content/sections";
 import { BottomSheet } from "@/components/ui/BottomSheet";
@@ -84,7 +84,7 @@ export function TabBar({ variant = "home" }: Props) {
                     aria-current={active && t.id !== "more" ? "page" : undefined}
                     aria-label={t.label}
                     className={cn(
-                      "relative flex h-11 items-center gap-2 rounded-full px-3.5 transition-colors",
+                      "relative flex h-11 items-center justify-center rounded-full px-3.5 transition-colors",
                       active ? "text-ink" : "text-paper/75",
                     )}
                   >
@@ -98,20 +98,6 @@ export function TabBar({ variant = "home" }: Props) {
                     <span className="relative z-10 flex items-center">
                       {t.logo ? <LogoBox name={active ? t.logo[1] : t.logo[0]} boxClassName={t.box} className="object-center" /> : t.icon}
                     </span>
-                    <AnimatePresence initial={false}>
-                      {active && (
-                        <motion.span
-                          key="label"
-                          initial={reduce ? false : { width: 0, opacity: 0 }}
-                          animate={{ width: "auto", opacity: 1 }}
-                          exit={{ width: 0, opacity: 0 }}
-                          transition={{ duration: 0.22 }}
-                          className="relative z-10 overflow-hidden whitespace-nowrap font-mono text-[10px] font-bold uppercase tracking-[0.18em]"
-                        >
-                          {t.label}
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
                   </button>
                 </motion.li>
               );
