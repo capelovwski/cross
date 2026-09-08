@@ -14,7 +14,7 @@ export function Calendar() {
   return (
     <SectionShell id="calendario" bg="ink" align="top">
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-        <Reveal as="h2" className="font-display text-5xl leading-[0.9] text-yellow sm:text-6xl md:text-7xl">
+        <Reveal as="h2" className="font-display text-4xl leading-[0.9] text-yellow sm:text-6xl md:text-7xl">
           Agenda
         </Reveal>
         <Reveal delay={0.1} className="flex flex-wrap items-center gap-3 font-mono text-[10px] uppercase tracking-widest text-paper/60">
@@ -30,7 +30,7 @@ export function Calendar() {
           <div
             key={m.key}
             className={cn(
-              "flex flex-col items-center gap-0.5 rounded-lg border px-1 py-1.5 font-mono text-[10px] uppercase tracking-widest md:gap-1 md:py-2",
+              "flex flex-col items-center gap-0.5 rounded-lg border px-1 py-1 font-mono text-[10px] uppercase tracking-widest md:gap-1 md:py-2",
               m.items.length ? "border-yellow bg-yellow text-ink" : "border-paper/15 text-paper/50",
             )}
           >
@@ -68,7 +68,7 @@ export function Calendar() {
           <ol className="flex flex-col divide-y divide-paper/10">
             {withEvents.map((m) => (
               <StaggerItem key={m.key}>
-                <li className="grid grid-cols-[4rem_1fr] items-start gap-3 py-2.5 md:grid-cols-[6rem_1fr] md:py-3">
+                <li className="grid grid-cols-[4rem_1fr] items-start gap-3 py-2 md:grid-cols-[6rem_1fr] md:py-3">
                   <span className="font-display text-2xl leading-none text-yellow md:text-4xl">
                     {m.short}
                     <span className="block font-mono text-[10px] tracking-widest text-paper/50">{m.year}</span>

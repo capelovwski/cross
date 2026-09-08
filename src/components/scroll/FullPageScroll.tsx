@@ -24,6 +24,7 @@
 import { Children, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ScrollContext, type ScrollApi } from "./ScrollContext";
 import { cn } from "@/lib/utils";
+import { MOBILE, useMediaQuery } from "@/lib/useMediaQuery";
 
 interface Props {
   ids: readonly string[];
@@ -38,7 +39,11 @@ interface Props {
 }
 
 const WHEEL_GAP_MS = 150;
-const SWIPE_PX = 50;
+/** distância mínima (px) ou velocidade (px/ms) para trocar de seção ao soltar o dedo */
+const SWIPE_PX = 70;
+const SWIPE_VELOCITY = 0.45;
+/** quanto o trilho acompanha o dedo (1 = 1:1). Nas pontas o valor cai (efeito elástico). */
+const DRAG_FOLLOW = 0.55;
 
 /** Procura, do alvo até `root`, um elemento que ainda pode rolar na direção `dir`. */
 function findScrollable(target: EventTarget | null, dir: number, root: HTMLElement) {
@@ -54,18 +59,23 @@ function findScrollable(target: EventTarget | null, dir: number, root: HTMLEleme
   return null;
 }
 
-export function FullPageScroll({ ids, children, chrome, duration = 750, cooldown = 850, className }: Props) {
+export function FullPageScroll({ ids, children, chrome, duration: durationProp = 750, cooldown: cooldownProp = 850, className }: Props) {
   const count = ids.length;
+  // no mobile a troca é mais seca, como um feed (Reels/TikTok)
+  const mobile = useMediaQuery(MOBILE);
+  const duration = mobile ? 520 : durationProp;
+  const cooldown = mobile ? 600 : cooldownProp;
   const sectionsArr = useMemo(() => Children.toArray(children), [children]);
 
   const [mode, setMode] = useState<"snap" | "native">("snap");
   const [index, setIndex] = useState(0);
   const indexRef = useRef(0);
   const rootRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const lockedUntil = useRef(0);
   const nativeUntil = useRef(0);
   const lastWheel = useRef({ t: 0, abs: 0 });
-  const touch = useRef({ x: 0, y: 0, fired: false, horizontal: false });
+  const touch = useRef({ x: 0, y: 0, horizontal: false, dragging: false, lastY: 0, lastT: 0, vel: 0, inner: false });
 
   const clamp = useCallback((i: number) => Math.max(0, Math.min(count - 1, i)), [count]);
 
@@ -153,32 +163,60 @@ export function FullPageScroll({ ids, children, chrome, duration = 750, cooldown
       if (fresh) step(dir);
     };
 
+    const baseTransform = () => `translate3d(0, ${-(indexRef.current * 100) / count}%, 0)`;
+
     const onTouchStart = (e: TouchEvent) => {
-      touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, fired: false, horizontal: false };
+      const t = e.touches[0];
+      touch.current = { x: t.clientX, y: t.clientY, horizontal: false, dragging: false, lastY: t.clientY, lastT: performance.now(), vel: 0, inner: false };
     };
     const onTouchMove = (e: TouchEvent) => {
-      const dy = touch.current.y - e.touches[0].clientY;
-      const dx = touch.current.x - e.touches[0].clientX;
+      const t = e.touches[0];
+      const dy = touch.current.y - t.clientY; // >0 = dedo subiu = próxima seção
+      const dx = touch.current.x - t.clientX;
+      const now = performance.now();
+      // velocidade instantânea (px/ms)
+      const dt = Math.max(1, now - touch.current.lastT);
+      touch.current.vel = (touch.current.lastY - t.clientY) / dt;
+      touch.current.lastY = t.clientY;
+      touch.current.lastT = now;
+
       // gesto horizontal (carrossel, linha do tempo) → deixa o browser cuidar
-      if (touch.current.horizontal || (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy))) {
+      if (touch.current.horizontal || (!touch.current.dragging && Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy))) {
         touch.current.horizontal = true;
         return;
       }
       const dir = Math.sign(dy);
       if (!dir) return;
-      if (findScrollable(e.target, dir, root)) {
-        nativeUntil.current = performance.now() + 400;
-        return; // rolagem interna nativa
+      // seção maior que a tela: rolagem interna primeiro
+      if (!touch.current.dragging && findScrollable(e.target, dir, root)) {
+        touch.current.inner = true;
+        nativeUntil.current = now + 400;
+        return;
       }
+      if (touch.current.inner) return;
       if (e.cancelable) e.preventDefault();
-      if (touch.current.fired) return;
-      if (Math.abs(dy) > SWIPE_PX && performance.now() > nativeUntil.current) {
-        touch.current.fired = true;
-        step(dir);
-      }
+      if (now < lockedUntil.current) return;
+
+      // o trilho acompanha o dedo (com resistência nas pontas)
+      const track = trackRef.current;
+      if (!track) return;
+      const atEdge = (dir > 0 && indexRef.current === count - 1) || (dir < 0 && indexRef.current === 0);
+      const follow = dy * (atEdge ? DRAG_FOLLOW * 0.25 : DRAG_FOLLOW);
+      touch.current.dragging = true;
+      track.style.transition = "none";
+      track.style.transform = `translate3d(0, calc(${-(indexRef.current * 100) / count}% - ${follow}px), 0)`;
     };
     const onTouchEnd = () => {
-      touch.current.fired = false;
+      const track = trackRef.current;
+      const { dragging, y, lastY, vel } = touch.current;
+      touch.current.dragging = false;
+      if (!track || !dragging) return;
+      track.style.transition = `transform ${duration}ms var(--ease-section)`;
+      const dy = y - lastY;
+      const dir = Math.sign(dy);
+      const shouldStep = Math.abs(dy) > SWIPE_PX || (Math.abs(vel) > SWIPE_VELOCITY && Math.sign(vel) === dir);
+      if (dir && shouldStep && step(dir)) return; // React aplica o transform da nova seção
+      track.style.transform = baseTransform(); // volta pro lugar
     };
 
     const onKey = (e: KeyboardEvent) => {
@@ -227,6 +265,7 @@ export function FullPageScroll({ ids, children, chrome, duration = 750, cooldown
     root.addEventListener("touchstart", onTouchStart, { passive: true });
     root.addEventListener("touchmove", onTouchMove, { passive: false });
     root.addEventListener("touchend", onTouchEnd, { passive: true });
+    root.addEventListener("touchcancel", onTouchEnd, { passive: true });
     root.addEventListener("focusin", onFocusIn);
     root.addEventListener("scroll", onScrollRoot);
     window.addEventListener("keydown", onKey);
@@ -235,11 +274,12 @@ export function FullPageScroll({ ids, children, chrome, duration = 750, cooldown
       root.removeEventListener("touchstart", onTouchStart);
       root.removeEventListener("touchmove", onTouchMove);
       root.removeEventListener("touchend", onTouchEnd);
+      root.removeEventListener("touchcancel", onTouchEnd);
       root.removeEventListener("focusin", onFocusIn);
       root.removeEventListener("scroll", onScrollRoot);
       window.removeEventListener("keydown", onKey);
     };
-  }, [mode, step, goTo, count]);
+  }, [mode, step, goTo, count, duration]);
 
   // trava o scroll do documento enquanto o modo snap estiver ativo
   useEffect(() => {
@@ -276,6 +316,7 @@ export function FullPageScroll({ ids, children, chrome, duration = 750, cooldown
       {chrome}
       <div ref={rootRef} className={cn("relative h-dvh w-full overflow-hidden overscroll-none", className)}>
         <div
+          ref={trackRef}
           className="will-change-transform"
           style={{
             transform: `translate3d(0, ${-(index * 100) / count}%, 0)`,
@@ -296,8 +337,8 @@ export function FullPageScroll({ ids, children, chrome, duration = 750, cooldown
               <div
                 className="flex min-h-full flex-col origin-center will-change-transform"
                 style={{
-                  transform: i === index ? "scale(1)" : "scale(0.94)",
-                  opacity: i === index ? 1 : 0.6,
+                  transform: i === index ? "scale(1)" : mobile ? "scale(0.97)" : "scale(0.94)",
+                  opacity: i === index ? 1 : mobile ? 0.8 : 0.6,
                   transition: `transform ${duration}ms var(--ease-section), opacity ${duration}ms var(--ease-section)`,
                 }}
               >

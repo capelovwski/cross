@@ -97,7 +97,7 @@ export function Header({ variant = "home" }: Props) {
           aria-controls="mobile-menu"
           aria-label={open ? "Fechar menu" : "Abrir menu"}
           className={cn(
-            "grid size-10 place-items-center rounded-full border-2 lg:hidden",
+            "hidden size-10 place-items-center rounded-full border-2 md:grid lg:hidden",
             dark ? "border-paper/40" : "border-ink/30",
           )}
         >

@@ -30,7 +30,7 @@ export function SectionShell({ id, bg = "paper", children, className, align = "c
   const meta = sections.find((s) => s.id === id)!;
   const light = bg === "ink" || bg === "blue" || bg === "red";
   return (
-    <div className={cn("grain relative flex min-h-full w-full flex-1 flex-col px-5 pb-6 pt-20 md:px-10 md:pb-8 md:pt-24 lg:px-14", bgs[bg])}>
+    <div className={cn("grain relative flex min-h-full w-full flex-1 flex-col px-5 pb-[calc(4.75rem+env(safe-area-inset-bottom,0px))] pt-[calc(4.5rem+env(safe-area-inset-top,0px))] md:px-10 md:pb-8 md:pt-24 lg:px-14", bgs[bg])}>
       {backdrop && (
         <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
           {backdrop}

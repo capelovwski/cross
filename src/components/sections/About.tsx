@@ -17,12 +17,12 @@ export function About() {
     <SectionShell id="o-que-e" bg="ink">
       <div className="grid flex-1 grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-7">
-          <Reveal as="h2" className="font-display text-[15vw] leading-[0.88] text-yellow sm:text-6xl md:text-7xl xl:text-[5.75rem]">
+          <Reveal as="h2" className="font-display text-[13vw] leading-[0.88] text-yellow sm:text-6xl md:text-7xl xl:text-[5.75rem]">
             Um lugar pra
             <br />
             crescer na <span className="text-paper">fé</span>
           </Reveal>
-          <Reveal delay={0.15} className="mt-5 max-w-2xl text-sm leading-relaxed text-paper/85 md:text-base xl:text-lg">
+          <Reveal delay={0.15} className="mt-4 max-w-2xl text-sm leading-snug text-paper/85 md:mt-5 md:text-base md:leading-relaxed xl:text-lg">
             {/* PLACEHOLDER: aprovar texto */}
             CROSS é o ministério de adolescentes e jovens da IBB (Igreja Batista do Bacacheri). Aqui, adolescentes{" "}
             <button type="button" onClick={() => api?.goTo("up")} aria-label="Ir para a seção UP" className="inline-block align-[-0.12em] transition-transform hover:scale-110">
@@ -54,8 +54,8 @@ export function About() {
               </Sticker>
             </span>
             <Tilt max={7} rotate={-1}>
-              <blockquote className="grain rounded-card-lg bg-paper p-5 text-ink shadow-float md:p-7">
-                <p className="font-mono text-xs leading-relaxed md:text-sm">“{site.verse.text}”</p>
+              <blockquote className="grain rounded-card-lg bg-paper p-4 text-ink shadow-float md:p-7">
+                <p className="font-mono text-[11px] leading-relaxed md:text-sm">“{site.verse.text}”</p>
                 <footer className="mt-3 font-display text-2xl tracking-wide text-red">{site.verse.ref}</footer>
               </blockquote>
             </Tilt>

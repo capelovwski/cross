@@ -1,6 +1,8 @@
 import { FullPageScroll } from "@/components/scroll/FullPageScroll";
 import { SectionNav } from "@/components/scroll/SectionNav";
 import { Header } from "@/components/layout/Header";
+import { TabBar } from "@/components/layout/TabBar";
+import { StoriesBar } from "@/components/scroll/StoriesBar";
 import { sections } from "@/content/sections";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
@@ -23,6 +25,8 @@ export default function HomePage() {
         <>
           <Header variant="home" />
           <SectionNav />
+          <StoriesBar />
+          <TabBar variant="home" />
         </>
       }
     >

@@ -97,11 +97,18 @@ export function Hero() {
             </div>
           ))}
         </dl>
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink/60 md:text-right">
+        <p className="hidden font-mono text-[11px] uppercase tracking-[0.18em] text-ink/60 md:block md:text-right">
           {site.church} · {site.city}
           <br />
           role pra descobrir ↓
         </p>
+        {/* dica de swipe (mobile) */}
+        <div className="flex items-center justify-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-ink/50 md:hidden" aria-hidden>
+          <motion.span animate={reduce ? undefined : { y: [0, -6, 0] }} transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }} className="inline-block">
+            ↑
+          </motion.span>
+          desliza pra cima
+        </div>
       </div>
     </SectionShell>
   );

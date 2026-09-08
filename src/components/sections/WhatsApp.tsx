@@ -17,7 +17,7 @@ export function WhatsApp() {
     <SectionShell id="whatsapp" bg="yellow">
       <div className="flex flex-1 flex-col justify-center gap-4 md:gap-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
-          <Reveal as="h2" className="font-display text-[15vw] leading-[0.85] sm:text-8xl md:text-9xl">
+          <Reveal as="h2" className="font-display text-[13vw] leading-[0.85] sm:text-8xl md:text-9xl">
             Chama
             <br />
             no zap
@@ -40,13 +40,13 @@ export function WhatsApp() {
             return (
               <StaggerItem key={g.id}>
                 <div
-                  className={cn("grain flex h-full flex-col justify-between rounded-card-lg p-4 shadow-float md:p-6", g.cls)}
+                  className={cn("grain flex h-full flex-col justify-between rounded-card-lg p-3 shadow-float md:p-6", g.cls)}
                   style={{ rotate: `${[-1, 0.8, -0.6][i]}deg` }}
                 >
                   <div>
                     <p className="font-mono text-[10px] uppercase tracking-widest opacity-70">Grupo</p>
                     <p className="mt-1" aria-label={g.name}><LogoBox name={g.logo} boxClassName="h-9 w-full md:h-12" /></p>
-                    <p className="mt-1 text-xs opacity-90 md:mt-2 md:text-sm">{g.desc}</p>
+                    <p className="mt-1 text-[11px] leading-snug opacity-90 md:mt-2 md:text-sm md:leading-normal">{g.desc}</p>
                   </div>
                   <div className="mt-3 flex flex-col gap-1.5 md:mt-4 md:gap-2">
                     {ph ? (

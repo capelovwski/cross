@@ -26,10 +26,10 @@ export function Footer() {
   const year = new Date().getFullYear();
   return (
     <SectionShell id="contato" bg="ink" align="top">
-      <div className="flex flex-1 flex-col justify-between gap-8">
+      <div className="flex flex-1 flex-col justify-between gap-6 md:gap-8">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <Reveal>
-            <h2 className="font-display text-[22vw] leading-[0.82] text-yellow sm:text-[9rem] md:text-[11rem] xl:text-[13rem]">
+            <h2 className="font-display text-[18vw] leading-[0.82] text-yellow sm:text-[9rem] md:text-[11rem] xl:text-[13rem]">
               Bora?
             </h2>
             <p className="mt-3 max-w-md text-base text-paper/80 md:text-lg">
@@ -46,7 +46,7 @@ export function Footer() {
           </Reveal>
         </div>
 
-        <footer className="grid grid-cols-2 gap-6 border-t border-paper/15 pt-6 text-sm md:grid-cols-4">
+        <footer className="grid grid-cols-2 gap-4 border-t border-paper/15 pt-5 text-sm md:grid-cols-4 md:gap-6 md:pt-6">
           <div>
             <p className="mb-2 font-mono text-[10px] uppercase tracking-widest text-paper/50">Onde</p>
             <p className="font-semibold">{site.church}</p>

@@ -7,9 +7,12 @@ import { PillButton } from "@/components/ui/PillButton";
 import { Accordion } from "@/components/ui/Accordion";
 import { faq } from "@/content/faq";
 import { useSectionScroll } from "@/components/scroll/ScrollContext";
+import { BottomSheet } from "@/components/ui/BottomSheet";
+import { useState } from "react";
 
 export function Faq() {
   const api = useSectionScroll();
+  const [all, setAll] = useState(false);
   return (
     <SectionShell id="faq" bg="white" align="top">
       <div className="grid flex-1 grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-10">
@@ -37,9 +40,20 @@ export function Faq() {
         </div>
         <div className="min-h-0 lg:col-span-7">
           {/* lista rolável dentro da seção (o motor de scroll respeita a rolagem interna) */}
-          <div className="overflow-y-auto overscroll-contain rounded-card-lg pr-1 no-scrollbar lg:max-h-[calc(100dvh-13rem)]">
+          {/* desktop: lista completa rolável dentro da seção */}
+          <div className="hidden overflow-y-auto overscroll-contain rounded-card-lg pr-1 no-scrollbar md:block lg:max-h-[calc(100dvh-13rem)]">
             <Accordion items={faq} defaultOpen={0} />
           </div>
+          {/* mobile: as 3 primeiras + bottom sheet com todas (cabe na tela, estilo app) */}
+          <div className="flex flex-col gap-3 md:hidden">
+            <Accordion items={faq.slice(0, 3)} />
+            <PillButton tone="ink" size="md" className="self-start" onClick={() => setAll(true)}>
+              Ver todas as {faq.length} perguntas
+            </PillButton>
+          </div>
+          <BottomSheet open={all} onClose={() => setAll(false)} title="Dúvidas">
+            <Accordion items={faq} defaultOpen={0} />
+          </BottomSheet>
         </div>
       </div>
     </SectionShell>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
+import { TabBar } from "@/components/layout/TabBar";
 import { Sticker } from "@/components/ui/Sticker";
 import { PillButton } from "@/components/ui/PillButton";
 import { Marquee } from "@/components/ui/Marquee";
@@ -19,7 +20,8 @@ export default function StorePage() {
   return (
     <>
       <Header variant="page" />
-      <main className="flex-1">
+      <TabBar variant="page" />
+      <main className="flex-1 pb-20 md:pb-0">
         {/* abertura */}
         <section className="grain relative overflow-hidden bg-ink px-5 pb-10 pt-28 text-paper md:px-10 md:pb-14 md:pt-36 lg:px-14">
           <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-paper/60">[ Cross Store ]</p>
