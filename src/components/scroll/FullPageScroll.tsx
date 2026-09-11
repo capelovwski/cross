@@ -317,7 +317,7 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
         {chrome}
         <div className={className}>
           {sectionsArr.map((child, i) => (
-            <section key={ids[i]} id={ids[i]} data-section data-index={i} className="min-h-dvh">
+            <section key={ids[i]} id={ids[i]} data-section data-index={i} className="flex min-h-dvh flex-col">
               {child}
             </section>
           ))}
