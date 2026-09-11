@@ -2,6 +2,8 @@
 
 Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · Framer Motion.
 
+**Navegação**: no desktop a home rola livremente (documento normal, cada seção com altura mínima de uma tela). No celular (< 768px) vira um feed com encaixe por seção, estilo Reels: 1 swipe = 1 tela, com barra de stories no topo e a "ilha" de navegação no rodapé. Detalhes em `DESIGN.md`, seção 4.
+
 ```bash
 npm install
 npm run dev      # http://localhost:3000

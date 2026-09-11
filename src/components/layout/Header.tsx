@@ -20,6 +20,8 @@ export function Header({ variant = "home" }: Props) {
 
   const activeId = api ? sections[api.index]?.id : undefined;
   const dark = variant === "home" && ["o-que-e", "up", "go", "calendario", "contato"].includes(activeId ?? "");
+  // com rolagem livre (desktop) o header passa por cima do conteúdo: ganha fundo translúcido
+  const solid = variant === "page" || api?.mode === "native";
 
   useEffect(() => {
     document.documentElement.classList.toggle("menu-open", open);
@@ -40,7 +42,8 @@ export function Header({ variant = "home" }: Props) {
       className={cn(
         "fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-3 md:px-8 md:py-5 transition-colors duration-500",
         dark ? "text-paper" : "text-ink",
-        variant === "page" && "border-b border-ink/10 bg-paper/90 backdrop-blur md:py-3",
+        solid && "border-b backdrop-blur-md md:py-3",
+        solid && (dark ? "border-paper/10 bg-ink/80" : "border-ink/10 bg-paper/85"),
       )}
     >
       <Link

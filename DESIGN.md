@@ -173,6 +173,8 @@ Sombra flutuante: `0 18px 40px -18px rgb(11 11 12 / .35)`.
 
 ## 4. Scroll por seção: decisão técnica
 
+> **Atualização (11/09/2026)**: o scroll engatado ficou **só no mobile** (< 768px), como feed estilo Reels. No desktop a home usa **rolagem livre** nativa; header, bolinhas e âncoras acompanham a seção visível por IntersectionObserver. O texto abaixo descreve o motor do modo mobile.
+
 **Escolha: implementação própria** (`src/components/scroll/FullPageScroll.tsx`), sem biblioteca.
 
 | Opção | Prós | Contras | Veredito |

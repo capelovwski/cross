@@ -1,30 +1,28 @@
 "use client";
 
 /**
- * FullPageScroll: scroll "engatado" por seção.
+ * FullPageScroll
  *
- * Implementação customizada (sem lib) escolhida por ser a mais estável e
- * previsível: controlamos 100% do estado (índice) e a transição é um único
- * `transform: translateY` com easing, sem depender do scroll nativo.
+ * Dois modos, escolhidos pelo tamanho da tela:
+ *  - "snap" (mobile, < 768px): feed engatado por seção, 1 swipe = 1 tela,
+ *    o trilho acompanha o dedo e encaixa (estilo Reels).
+ *  - "native" (desktop, ou prefers-reduced-motion): documento comum com
+ *    rolagem livre; cada seção tem altura mínima de uma tela. O índice ativo
+ *    (header, bolinhas) é acompanhado por IntersectionObserver.
  *
- * Regras:
- *  - 1 gesto de roda/trackpad = 1 seção, independente da intensidade.
- *    Inércia de trackpad é filtrada por (a) cooldown de ~850ms e (b) só
- *    disparar quando o delta é "novo" (gap > 150ms) ou não está decaindo.
- *  - 1 swipe = 1 seção em touch (limiar de 50px).
+ * Regras do modo snap:
+ *  - 1 gesto de roda/trackpad = 1 seção, independente da intensidade
+ *    (inércia filtrada por cooldown + delta "novo"/não decaindo).
+ *  - 1 swipe = 1 seção em touch (limiar de distância ou velocidade).
  *  - Teclado: ↑ ↓ PageUp PageDown Space Home End.
- *  - Hash (#up) e âncoras do menu continuam funcionando.
- *  - Se uma seção for maior que a viewport (mobile / janela baixa), a rolagem
- *    interna acontece primeiro; só quando ela chega ao limite o próximo gesto
- *    avança de seção.
- *  - prefers-reduced-motion → modo "native": documento comum com scroll-snap
- *    de proximidade e sem hijack.
+ *  - Hash (#up) e âncoras do menu funcionam nos dois modos.
+ *  - Seção maior que a tela: rolagem interna primeiro, depois troca.
  */
 
 import { Children, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ScrollContext, type ScrollApi } from "./ScrollContext";
 import { cn } from "@/lib/utils";
-import { MOBILE, useMediaQuery } from "@/lib/useMediaQuery";
+import { MOBILE, REDUCED_MOTION, useMediaQuery } from "@/lib/useMediaQuery";
 
 interface Props {
   ids: readonly string[];
@@ -67,7 +65,8 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
   const cooldown = mobile ? 600 : cooldownProp;
   const sectionsArr = useMemo(() => Children.toArray(children), [children]);
 
-  const [mode, setMode] = useState<"snap" | "native">("snap");
+  const reduce = useMediaQuery(REDUCED_MOTION);
+  const mode: "snap" | "native" = mobile && !reduce ? "snap" : "native";
   const [index, setIndex] = useState(0);
   const indexRef = useRef(0);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -84,6 +83,7 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
       const i = clamp(typeof target === "number" ? target : Math.max(0, ids.indexOf(target)));
       if (mode === "native") {
         document.getElementById(ids[i])?.scrollIntoView({ behavior: "smooth", block: "start" });
+        history.replaceState(null, "", `#${ids[i]}`);
         return;
       }
       if (i === indexRef.current) return;
@@ -112,15 +112,30 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
     [clamp, goTo],
   );
 
-  /* -------- modo (reduced motion) + hash inicial -------- */
+  /* -------- modo native: acompanha a seção visível -------- */
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const apply = () => setMode(mq.matches ? "native" : "snap");
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
+    if (mode !== "native") return;
+    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-section]"));
+    const io = new IntersectionObserver(
+      (entries) => {
+        // a seção com maior área visível vira a ativa
+        let best: { i: number; r: number } | null = null;
+        for (const en of entries) {
+          const i = Number((en.target as HTMLElement).dataset.index);
+          if (en.isIntersecting && (!best || en.intersectionRatio > best.r)) best = { i, r: en.intersectionRatio };
+        }
+        if (best && best.i !== indexRef.current) {
+          indexRef.current = best.i;
+          setIndex(best.i);
+        }
+      },
+      { threshold: [0.35, 0.5, 0.65] },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [mode]);
 
+  /* -------- hash inicial -------- */
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
     const i = ids.indexOf(hash);
@@ -300,9 +315,9 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
     return (
       <ScrollContext.Provider value={api}>
         {chrome}
-        <div className={cn("snap-y snap-proximity", className)}>
+        <div className={className}>
           {sectionsArr.map((child, i) => (
-            <section key={ids[i]} id={ids[i]} data-section data-index={i} className="min-h-dvh snap-start">
+            <section key={ids[i]} id={ids[i]} data-section data-index={i} className="min-h-dvh">
               {child}
             </section>
           ))}

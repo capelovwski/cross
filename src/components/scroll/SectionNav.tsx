@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { sections } from "@/content/sections";
 import { useSectionScroll } from "./ScrollContext";
 import { cn } from "@/lib/utils";
@@ -8,26 +7,8 @@ import { cn } from "@/lib/utils";
 /** Indicador lateral de progresso (bolinhas clicáveis). */
 export function SectionNav() {
   const api = useSectionScroll();
-  const [nativeActive, setNativeActive] = useState(0);
-
-  // no modo native, acompanha a seção visível via IntersectionObserver
-  useEffect(() => {
-    if (!api || api.mode !== "native") return;
-    const els = sections.map((s) => document.getElementById(s.id)).filter(Boolean) as HTMLElement[];
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((en) => {
-          if (en.isIntersecting) setNativeActive(Number((en.target as HTMLElement).dataset.index));
-        });
-      },
-      { threshold: 0.5 },
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, [api]);
-
   if (!api) return null;
-  const active = api.mode === "native" ? nativeActive : api.index;
+  const active = api.index;
   const onDark = ["o-que-e", "calendario", "contato", "go", "up"].includes(sections[active].id);
 
   return (
