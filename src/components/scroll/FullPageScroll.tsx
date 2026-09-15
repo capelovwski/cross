@@ -42,20 +42,26 @@ interface Props {
 
 const WHEEL_GAP_MS = 150;
 /** distância mínima (px) ou velocidade (px/ms) para trocar de seção ao soltar o dedo */
-const SWIPE_PX = 70;
-const SWIPE_VELOCITY = 0.45;
-/** quanto o trilho acompanha o dedo (1 = 1:1). Nas pontas o valor cai (efeito elástico). */
-const DRAG_FOLLOW = 0.55;
+const SWIPE_PX = 60;
+const SWIPE_VELOCITY = 0.35;
+/** quanto o trilho acompanha o dedo (1 = 1:1, como um feed). Nas pontas o valor cai (efeito elástico). */
+const DRAG_FOLLOW = 1;
 /** desktop: o conteúdo da seção inativa fica deslocado (vh) e chega um pouco depois do trilho (paralaxe) */
-const DEPTH_SHIFT_VH = 9;
-const DEPTH_LAG_MS = 180;
+const DEPTH_SHIFT_VH = 6;
+const DEPTH_LAG_MS = 100;
 
-/** Procura, do alvo até `root`, um elemento que ainda pode rolar na direção `dir`. */
+/**
+ * Procura, do alvo até `root`, um elemento que ainda pode rolar na direção `dir`.
+ * Numa seção, sobras pequenas (< 8% da altura) são ignoradas: durante a transição as
+ * transformações da coreografia (elementos vindo de baixo, paralaxe) esticam a área
+ * rolável por alguns px e um gesto legítimo acabaria engolido pela rolagem interna.
+ */
 function findScrollable(target: EventTarget | null, dir: number, root: HTMLElement) {
   let el = target instanceof HTMLElement ? target : null;
   while (el && el !== root) {
     const { overflowY } = getComputedStyle(el);
-    if (/(auto|scroll)/.test(overflowY) && el.scrollHeight > el.clientHeight + 1) {
+    const slack = el.hasAttribute("data-section") ? el.clientHeight * 0.08 : 1;
+    if (/(auto|scroll)/.test(overflowY) && el.scrollHeight > el.clientHeight + slack) {
       if (dir > 0 && el.scrollTop + el.clientHeight < el.scrollHeight - 1) return el;
       if (dir < 0 && el.scrollTop > 0) return el;
     }
@@ -64,12 +70,15 @@ function findScrollable(target: EventTarget | null, dir: number, root: HTMLEleme
   return null;
 }
 
-export function FullPageScroll({ ids, children, chrome, duration: durationProp = 750, cooldown: cooldownProp = 850, className }: Props) {
+export function FullPageScroll({ ids, children, chrome, duration: durationProp = 650, cooldown: cooldownProp = 420, className }: Props) {
   const count = ids.length;
-  // no mobile a troca é mais seca, como um feed (Reels/TikTok)
   const mobile = useMediaQuery(MOBILE);
-  const duration = mobile ? 520 : durationProp;
-  const cooldown = mobile ? 600 : cooldownProp;
+  // mobile: encaixe curto com desaceleração natural e bloqueio mínimo (só evita disparo duplo
+  // do mesmo gesto). desktop: o bloqueio é menor que a transição; um gesto novo no meio dela
+  // simplesmente muda o alvo (a transição CSS continua de onde está, sem solavanco).
+  const duration = mobile ? 460 : durationProp;
+  const cooldown = mobile ? 120 : cooldownProp;
+  const ease = mobile ? "cubic-bezier(0.22, 1, 0.36, 1)" : "var(--ease-section)";
   const sectionsArr = useMemo(() => Children.toArray(children), [children]);
 
   const reduce = useMediaQuery(REDUCED_MOTION);
@@ -83,7 +92,7 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
   const lockedUntil = useRef(0);
   const nativeUntil = useRef(0);
   const lastWheel = useRef({ t: 0, abs: 0 });
-  const touch = useRef({ x: 0, y: 0, horizontal: false, dragging: false, lastY: 0, lastT: 0, vel: 0, inner: false });
+  const touch = useRef({ x: 0, y: 0, horizontal: false, dragging: false, lastY: 0, lastT: 0, vel: 0, inner: false, basePx: 0 });
 
   const clamp = useCallback((i: number) => Math.max(0, Math.min(count - 1, i)), [count]);
 
@@ -201,7 +210,21 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
 
     const onTouchStart = (e: TouchEvent) => {
       const t = e.touches[0];
-      touch.current = { x: t.clientX, y: t.clientY, horizontal: false, dragging: false, lastY: t.clientY, lastT: performance.now(), vel: 0, inner: false };
+      const track = trackRef.current;
+      // posição atual do trilho em px. Se uma transição ainda estiver rolando, congela onde está:
+      // o dedo assume o controle no meio do movimento, sem esperar terminar.
+      let basePx = -indexRef.current * root.clientHeight;
+      if (track) {
+        const m = new DOMMatrixReadOnly(getComputedStyle(track).transform);
+        const settled = Math.abs(m.m42 - basePx) < 1;
+        if (!settled && Number.isFinite(m.m42)) {
+          basePx = m.m42;
+          track.style.transition = "none";
+          track.style.transform = `translate3d(0, ${basePx}px, 0)`;
+        }
+      }
+      lockedUntil.current = 0;
+      touch.current = { x: t.clientX, y: t.clientY, horizontal: false, dragging: false, lastY: t.clientY, lastT: performance.now(), vel: 0, inner: false, basePx };
     };
     const onTouchMove = (e: TouchEvent) => {
       const t = e.touches[0];
@@ -229,28 +252,27 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
       }
       if (touch.current.inner) return;
       if (e.cancelable) e.preventDefault();
-      if (now < lockedUntil.current) return;
 
-      // o trilho acompanha o dedo (com resistência nas pontas)
+      // o trilho acompanha o dedo 1:1 (com resistência nas pontas)
       const track = trackRef.current;
       if (!track) return;
       const atEdge = (dir > 0 && indexRef.current === count - 1) || (dir < 0 && indexRef.current === 0);
-      const follow = dy * (atEdge ? DRAG_FOLLOW * 0.25 : DRAG_FOLLOW);
+      const follow = dy * (atEdge ? DRAG_FOLLOW * 0.3 : DRAG_FOLLOW);
       touch.current.dragging = true;
       track.style.transition = "none";
-      track.style.transform = `translate3d(0, calc(${-(indexRef.current * 100) / count}% - ${follow}px), 0)`;
+      track.style.transform = `translate3d(0, ${touch.current.basePx - follow}px, 0)`;
     };
     const onTouchEnd = () => {
       const track = trackRef.current;
       const { dragging, y, lastY, vel } = touch.current;
       touch.current.dragging = false;
       if (!track || !dragging) return;
-      track.style.transition = `transform ${duration}ms var(--ease-section)`;
+      track.style.transition = `transform ${duration}ms ${ease}`;
       const dy = y - lastY;
       const dir = Math.sign(dy);
       const shouldStep = Math.abs(dy) > SWIPE_PX || (Math.abs(vel) > SWIPE_VELOCITY && Math.sign(vel) === dir);
       if (dir && shouldStep && step(dir)) return; // React aplica o transform da nova seção
-      track.style.transform = baseTransform(); // volta pro lugar
+      track.style.transform = baseTransform(); // volta pro lugar (ou conclui a transição interrompida)
     };
 
     const onKey = (e: KeyboardEvent) => {
@@ -313,7 +335,7 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
       root.removeEventListener("scroll", onScrollRoot);
       window.removeEventListener("keydown", onKey);
     };
-  }, [mode, step, goTo, count, duration]);
+  }, [mode, step, goTo, count, duration, ease]);
 
   // trava o scroll do documento enquanto o modo snap estiver ativo
   useEffect(() => {
@@ -356,7 +378,7 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
           className="will-change-transform"
           style={{
             transform: `translate3d(0, ${-(index * 100) / count}%, 0)`,
-            transition: `transform ${duration}ms var(--ease-section)`,
+            transition: `transform ${duration}ms ${ease}`,
             height: `${count * 100}%`,
           }}
         >
@@ -378,12 +400,16 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
               >
                 {/* linha minmax(100%, auto): a seção ocupa a tela inteira e cresce se o conteúdo for maior */}
                 <div
-                  className="grid h-full grid-rows-[minmax(100%,auto)] origin-center will-change-transform"
-                  style={{
-                    transform: active ? "translate3d(0,0,0) scale(1)" : `translate3d(0, ${shift}vh, 0) scale(${mobile ? 0.97 : 0.92})`,
-                    opacity: active ? 1 : mobile ? 0.8 : 0.5,
-                    transition: `transform ${contentMs}ms var(--ease-section), opacity ${contentMs}ms var(--ease-section)`,
-                  }}
+                  className="grid h-full grid-rows-[minmax(100%,auto)] origin-center overflow-hidden will-change-transform"
+                  style={
+                    mobile
+                      ? undefined // feed puro: sem escala/opacidade, só o trilho se move (mais leve)
+                      : {
+                          transform: active ? "translate3d(0,0,0) scale(1)" : `translate3d(0, ${shift}vh, 0) scale(0.95)`,
+                          opacity: active ? 1 : 0.55,
+                          transition: `transform ${contentMs}ms var(--ease-section), opacity ${contentMs}ms var(--ease-section)`,
+                        }
+                  }
                 >
                   <SectionStateContext.Provider value={stateFor(i)}>{child}</SectionStateContext.Provider>
                 </div>

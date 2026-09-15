@@ -9,6 +9,7 @@ import { isPlaceholder } from "@/lib/utils";
 import { Logo } from "@/components/ui/Logo";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 import { useReducedMotion } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 interface Props {
   tribe: TribeId;
@@ -23,6 +24,22 @@ export function Tribe({ tribe }: Props) {
   const reduce = useReducedMotion();
   // vídeo de fundo só em telas md+ e sem reduce-motion (no mobile nem baixa)
   const showVideo = desktop && !reduce;
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // toca só enquanto a seção está na tela (dois vídeos 1080p decodificando fora da tela pesam no scroll)
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const io = new IntersectionObserver(
+      ([en]) => {
+        if (en.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      },
+      { threshold: 0.05 },
+    );
+    io.observe(v);
+    return () => io.disconnect();
+  }, [showVideo]);
   const video = isUp
     ? { src: "/video/bg-up.mp4", poster: "/video/bg-up-poster.webp", tint: "bg-red/70", vignette: "rgba(181,22,26,0.7)" }
     : { src: "/video/bg-go.mp4", poster: "/video/bg-go-poster.webp", tint: "bg-blue/70", vignette: "rgba(18,55,158,0.7)" };
@@ -35,7 +52,8 @@ export function Tribe({ tribe }: Props) {
         showVideo && (
           <>
             <video
-              className="h-full w-full object-cover opacity-45 mix-blend-luminosity"
+              ref={videoRef}
+              className="h-full w-full object-cover opacity-40 grayscale"
               src={video.src}
               poster={video.poster}
               autoPlay
@@ -45,7 +63,7 @@ export function Tribe({ tribe }: Props) {
               preload="metadata"
             />
             {/* filtro na cor da tribo + vinheta: o vídeo é textura, não protagonista */}
-            <div className={`absolute inset-0 mix-blend-multiply ${video.tint}`} />
+            <div className={`absolute inset-0 ${video.tint}`} />
             <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at center, transparent 30%, ${video.vignette} 100%)` }} />
           </>
         )

@@ -5,7 +5,7 @@
  *
  * Dois comportamentos, decididos pelo estado da seção (ver `useSectionState`):
  *  - `build` (desktop, feed engatado): a coreografia é comandada pela seção.
- *    Quando ela vira a ativa, os elementos "se montam" (subida + blur + escala,
+ *    Quando ela vira a ativa, os elementos "se montam" (subida + escala,
  *    com atraso pequeno depois do trilho começar a andar); quando ela sai,
  *    eles se desmontam rápido, para se montarem de novo na próxima visita.
  *  - fora disso (mobile, /store, reduced motion): fade + slide ao entrar na
@@ -30,11 +30,11 @@ interface Props {
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 /** atraso base depois que o trilho começa a andar: a seção "chega" e então se monta */
-const BUILD_DELAY = 0.16;
+const BUILD_DELAY = 0.1;
 
 const variants: Variants = {
-  hidden: { opacity: 0, y: 28, filter: "blur(4px)" },
-  show: { opacity: 1, y: 0, filter: "blur(0px)" },
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0 },
 };
 
 function buildVariants(from: From, delay: number): Variants {
@@ -44,17 +44,15 @@ function buildVariants(from: From, delay: number): Variants {
     hidden: {
       opacity: 0,
       ...start,
-      scale: from === "scale" ? 0.86 : 0.97,
-      filter: "blur(10px)",
-      transition: { duration: 0.32, ease: [0.4, 0, 1, 1] },
+      scale: from === "scale" ? 0.88 : 0.98,
+      transition: { duration: 0.24, ease: [0.4, 0, 1, 1] },
     },
     show: {
       opacity: 1,
       x: 0,
       y: 0,
       scale: 1,
-      filter: "blur(0px)",
-      transition: { duration: 0.95, delay: BUILD_DELAY + delay, ease: EASE },
+      transition: { duration: 0.7, delay: BUILD_DELAY + delay, ease: EASE },
     },
   };
 }
@@ -123,13 +121,13 @@ export function Stagger({ children, className, delay = 0 }: { children: ReactNod
 }
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 28, filter: "blur(4px)", transition: { duration: 0.3, ease: [0.4, 0, 1, 1] } },
-  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: EASE } },
+  hidden: { opacity: 0, y: 24, transition: { duration: 0.25, ease: [0.4, 0, 1, 1] } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
 };
 
 const itemBuildVariants: Variants = {
-  hidden: { opacity: 0, y: 40, scale: 0.96, filter: "blur(8px)", transition: { duration: 0.3, ease: [0.4, 0, 1, 1] } },
-  show: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: 0.85, ease: EASE } },
+  hidden: { opacity: 0, y: 36, scale: 0.97, transition: { duration: 0.24, ease: [0.4, 0, 1, 1] } },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.65, ease: EASE } },
 };
 
 export function StaggerItem({ children, className }: { children: ReactNode; className?: string }) {

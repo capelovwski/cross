@@ -186,8 +186,10 @@ Sombra flutuante: `0 18px 40px -18px rgb(11 11 12 / .35)`.
 | CSS `scroll-snap` puro | zero JS | não garante 1 gesto = 1 seção (flick forte pula várias), sem cooldown | usada só como fallback (reduce-motion) |
 
 Como funciona:
-- Container `100dvh`, `overflow: hidden`; trilho com `translate3d` e `transition 750ms cubic-bezier(.76,0,.24,1)`.
-- **Roda/trackpad**: dispara só quando o evento é "novo" (gap > 150 ms) ou o delta **não está decaindo** (inércia decai monotonicamente) e fora do cooldown de 850 ms. Testado: um flick de trackpad com 14 eventos decrescentes = 1 seção; 6 ticks de mouse em 240 ms = 1 seção; 3 ticks espaçados = 3 seções.
+- Container `100dvh`, `overflow: hidden`; trilho com `translate3d` e `transition 650ms cubic-bezier(.76,0,.24,1)` no desktop (460 ms com ease-out no mobile). Um gesto novo no meio da transição só muda o alvo: a transição CSS continua de onde está, sem solavanco.
+- **Roda/trackpad**: dispara só quando o evento é "novo" (gap > 150 ms) ou o delta **não está decaindo** (inércia decai monotonicamente) e fora do cooldown de 420 ms (120 ms no mobile, só para evitar disparo duplo do mesmo gesto). Testado: um flick de trackpad com 14 eventos decrescentes = 1 seção; ticks de mouse a cada 500 a 700 ms = 1 seção cada, sem perdas; roda girando sem parar avança uma seção a cada ~420 ms.
+- **Sem blur nem blend modes** durante a transição (filtros animados e `mix-blend-mode` eram a maior fonte de engasgo); o grão sai no mobile; vídeos de fundo pausam fora da tela.
+- Transformações da coreografia não contam como rolagem interna: o wrapper da seção clipa o excesso transitório e sobras menores que 8% da altura são ignoradas.
 - **Touch**: 1 swipe vertical (> 50 px) = 1 seção; swipes horizontais (carrossel de eventos, timeline) são deixados para o browser.
 - **Teclado**: ↑ ↓ PageUp PageDown Space Home End. Tab em elemento de outra seção traz a seção (foco nunca fica invisível).
 - **Hash / âncoras**: `#up` no load e `hashchange` funcionam; o hash é atualizado a cada troca.
