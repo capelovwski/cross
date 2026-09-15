@@ -8,8 +8,8 @@ import { LogoBox, type LogoName } from "@/components/ui/Logo";
 
 const groups = [
   { id: "cross", name: "CROSS", logo: "cross-white" as LogoName, desc: "Avisos gerais, eventos e tudo que envolve as duas tribos.", link: site.links.whatsappCross, cls: "bg-ink text-paper", dot: "yellow" as const },
-  { id: "up", name: "UP", logo: "up-white" as LogoName, desc: "Adolescentes 13–17. Programação de sexta e rolês.", link: site.links.whatsappUp, cls: "bg-red text-white", dot: "yellow" as const },
-  { id: "go", name: "GO", logo: "go-white" as LogoName, desc: "Jovens 18–29. Programação de sábado, células e missões.", link: site.links.whatsappGo, cls: "bg-blue text-white", dot: "yellow" as const },
+  { id: "up", name: "UP", logo: "up-white" as LogoName, desc: "Adolescentes 13–17. Programação de sexta e rolês.", link: site.links.whatsappUp, cls: "bg-red text-white border-2 border-ink shadow-sticker", dot: "yellow" as const },
+  { id: "go", name: "GO", logo: "go-white" as LogoName, desc: "Jovens 18–29. Programação de sábado, células e missões.", link: site.links.whatsappGo, cls: "bg-blue text-white border border-white/20", dot: "yellow" as const },
 ];
 
 export function WhatsApp() {
@@ -41,7 +41,7 @@ export function WhatsApp() {
               <StaggerItem key={g.id}>
                 <div
                   className={cn("grain flex h-full flex-col justify-between rounded-card-lg p-3 shadow-float md:p-6", g.cls)}
-                  style={{ rotate: `${[-1, 0.8, -0.6][i]}deg` }}
+                  style={{ rotate: `${[-1, -1.5, 0][i]}deg` }}
                 >
                   <div>
                     <p className="font-mono text-[10px] uppercase tracking-widest opacity-70">Grupo</p>

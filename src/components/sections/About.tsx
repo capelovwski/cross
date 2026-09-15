@@ -66,7 +66,7 @@ export function About() {
               <button
                 type="button"
                 onClick={() => api?.goTo("up")}
-                className="group flex w-full flex-col items-start rounded-card bg-red p-4 text-left text-white transition-transform hover:-rotate-1 hover:scale-[1.02]"
+                className="group flex w-full -rotate-1 flex-col items-start rounded-card border-2 border-ink bg-red p-4 text-left text-white shadow-sticker transition-transform hover:-rotate-2 hover:scale-[1.03]"
               >
                 <LogoBox name="up-white" boxClassName="h-11 w-full" />
                 <span className="mt-1 text-sm opacity-90">Adolescentes · 13 a 17</span>
@@ -79,7 +79,7 @@ export function About() {
               <button
                 type="button"
                 onClick={() => api?.goTo("go")}
-                className="group flex w-full flex-col items-start rounded-card bg-blue p-4 text-left text-white transition-transform hover:rotate-1 hover:scale-[1.02]"
+                className="group flex w-full flex-col items-start rounded-card border border-white/20 bg-blue p-4 text-left text-white transition-transform hover:scale-[1.02]"
               >
                 <LogoBox name="go-white" boxClassName="h-11 w-full" />
                 <span className="mt-1 text-sm opacity-90">Jovens · 18 a 29</span>
