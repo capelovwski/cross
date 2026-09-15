@@ -164,6 +164,16 @@ input, textarea, select, [contenteditable="true"] { cursor: auto; }
   a:active, button:active, [role="button"]:active { transform: scale(0.97); transition: transform 80ms; }
 }
 
+/* barras do botão de som */
+@keyframes eq {
+  0%, 100% { height: 4px; }
+  50% { height: 16px; }
+}
+.animate-eq { height: 4px; animation: eq 0.9s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-eq { animation: none; height: 10px; }
+}
+
 /* foco visível consistente */
 :focus-visible {
   outline: 3px solid var(--color-yellow);

@@ -3,6 +3,7 @@ import { Anton, Inter, JetBrains_Mono } from "next/font/google";
 import { site } from "@/content/site";
 import "./globals.css";
 import { PageIntro } from "@/components/fx/PageIntro";
+import { AmbientAudioProvider } from "@/components/fx/AmbientAudio";
 
 const anton = Anton({ weight: "400", subsets: ["latin"], variable: "--font-anton", display: "swap" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -50,7 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" className={`${anton.variable} ${inter.variable} ${mono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-paper text-ink">
-        {children}
+        <AmbientAudioProvider>{children}</AmbientAudioProvider>
         <PageIntro />
       </body>
     </html>

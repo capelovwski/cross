@@ -8,6 +8,7 @@ import { useSectionScroll } from "@/components/scroll/ScrollContext";
 import { PillButton } from "@/components/ui/PillButton";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/ui/Logo";
+import { AudioToggle } from "@/components/fx/AmbientAudio";
 
 interface Props {
   /** "home" usa o scroll por seção; "page" navega com âncoras para /#id */
@@ -84,6 +85,7 @@ export function Header({ variant = "home" }: Props) {
       </nav>
 
       <div className="flex items-center gap-2">
+        <AudioToggle dark={dark} />
         <PillButton
           tone="yellow"
           size="sm"
