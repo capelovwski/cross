@@ -107,8 +107,8 @@ export const events: CrossEvent[] = [
   },
 ];
 
-/** Encontros semanais fixos (aparecem no calendário). */
+/** Encontros semanais fixos (aparecem no calendário). `weekday`: 0 = domingo … 6 = sábado. */
 export const weekly = [
-  { tribe: "up" as const, label: "UP · Adolescentes", when: "Sextas · 20h", place: "Salão de Cultos da IBB" },
-  { tribe: "go" as const, label: "GO · Jovens", when: "Sábados · 20h", place: "Salão de Cultos da IBB" },
+  { tribe: "up" as const, label: "UP · Adolescentes", when: "Sextas · 20h", place: "Salão de Cultos da IBB", weekday: 5, time: "20h" },
+  { tribe: "go" as const, label: "GO · Jovens", when: "Sábados · 20h", place: "Salão de Cultos da IBB", weekday: 6, time: "20h" },
 ];

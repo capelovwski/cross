@@ -8,14 +8,20 @@ import { PillButton } from "@/components/ui/PillButton";
 import { CountUp } from "@/components/ui/CountUp";
 import { Marquee } from "@/components/ui/Marquee";
 import { site } from "@/content/site";
-import { useSectionScroll } from "@/components/scroll/ScrollContext";
+import { useSectionScroll, useSectionState } from "@/components/scroll/ScrollContext";
 import { Logo } from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
 
+const EASE = [0.22, 1, 0.36, 1] as const;
+
 export function Hero() {
   const api = useSectionScroll();
+  const section = useSectionState();
   const reduce = useReducedMotion();
   const fine = useMediaQuery(FINE_POINTER) && !reduce;
+  // desktop (feed engatado): a seção se monta de novo toda vez que vira a ativa
+  const build = Boolean(section?.build) && !reduce;
+  const state = reduce ? undefined : build ? (section!.active ? "show" : "hidden") : "show";
 
   // posição do mouse normalizada (-1..1) com mola → inclina a logo e desloca a fita
   const mx = useMotionValue(0);
@@ -44,9 +50,12 @@ export function Hero() {
       <div className="relative flex flex-1 flex-col justify-center">
         {/* fita vermelha atrás do nome */}
         <motion.div
-          initial={reduce ? false : { opacity: 0, rotate: -8, scaleX: 0.6 }}
-          animate={{ opacity: 1, rotate: -3, scaleX: 1 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          initial={reduce ? false : "hidden"}
+          animate={state}
+          variants={{
+            hidden: { opacity: 0, rotate: -8, scaleX: 0.6, transition: { duration: 0.3 } },
+            show: { opacity: 1, rotate: -3, scaleX: 1, transition: { duration: 0.8, delay: build ? 0.16 : 0, ease: EASE } },
+          }}
           className="absolute left-1/2 top-[24%] z-0 w-[130vw] bg-red py-1.5 text-yellow shadow-float sm:top-[34%] md:top-[38%] md:py-3"
           style={{ x: fine ? tapeX : 0, y: fine ? tapeY : 0, marginLeft: "-65vw" }}
           aria-hidden
@@ -57,9 +66,12 @@ export function Hero() {
         {/* nome */}
         <div className="relative z-10 flex flex-col items-center text-center" style={{ perspective: 1200 }}>
           <motion.h1
-            initial={reduce ? false : { opacity: 0, y: 40, scale: 0.94 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            initial={reduce ? false : "hidden"}
+            animate={state}
+            variants={{
+              hidden: { opacity: 0, y: 40, scale: 0.94, filter: "blur(8px)", transition: { duration: 0.3 } },
+              show: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: 0.9, delay: build ? 0.2 : 0, ease: EASE } },
+            }}
             className={cn("m-0 w-[82vw] max-w-[860px] sm:w-[70vw] lg:w-[58vw]", !fine && !reduce && "animate-float")}
             style={fine ? { rotateX, rotateY, x: logoX, y: logoY, transformStyle: "preserve-3d" } : undefined}
           >
@@ -68,9 +80,12 @@ export function Hero() {
         </div>
 
         <motion.div
-          initial={reduce ? false : { opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.7 }}
+          initial={reduce ? false : "hidden"}
+          animate={state}
+          variants={{
+            hidden: { opacity: 0, y: 24, transition: { duration: 0.3 } },
+            show: { opacity: 1, y: 0, transition: { delay: build ? 0.5 : 0.35, duration: 0.7, ease: EASE } },
+          }}
           className="relative z-10 mx-auto mt-6 flex max-w-2xl flex-col items-center gap-5 text-center md:mt-8"
         >
           <p className="text-balance text-lg font-medium leading-snug text-ink/80 md:text-2xl">{site.tagline}</p>
@@ -86,7 +101,15 @@ export function Hero() {
       </div>
 
       {/* estatísticas */}
-      <div className="relative z-10 mt-6 flex flex-col gap-4 border-t-2 border-ink/10 pt-5 md:mt-4 md:flex-row md:items-end md:justify-between">
+      <motion.div
+        initial={reduce ? false : "hidden"}
+        animate={state}
+        variants={{
+          hidden: { opacity: 0, y: 24, transition: { duration: 0.3 } },
+          show: { opacity: 1, y: 0, transition: { delay: build ? 0.65 : 0.45, duration: 0.7, ease: EASE } },
+        }}
+        className="relative z-10 mt-6 flex flex-col gap-4 border-t-2 border-ink/10 pt-5 md:mt-4 md:flex-row md:items-end md:justify-between"
+      >
         <dl className="flex flex-wrap gap-x-10 gap-y-3">
           {site.stats.map((s) => (
             <div key={s.label} className="min-w-[7rem]">
@@ -109,7 +132,7 @@ export function Hero() {
           </motion.span>
           desliza pra cima
         </div>
-      </div>
+      </motion.div>
     </SectionShell>
   );
 }

@@ -3,12 +3,16 @@
 /**
  * FullPageScroll
  *
- * Dois modos, escolhidos pelo tamanho da tela:
- *  - "snap" (mobile, < 768px): feed engatado por seção, 1 swipe = 1 tela,
- *    o trilho acompanha o dedo e encaixa (estilo Reels).
- *  - "native" (desktop, ou prefers-reduced-motion): documento comum com
- *    rolagem livre; cada seção tem altura mínima de uma tela. O índice ativo
- *    (header, bolinhas) é acompanhado por IntersectionObserver.
+ * Dois modos:
+ *  - "snap" (padrão): feed engatado por seção, 1 gesto = 1 tela.
+ *      · mobile (< 768px): o trilho acompanha o dedo e encaixa (estilo Reels).
+ *      · desktop: a cada troca a seção que chega "se constrói" (os elementos
+ *        entram em coreografia, ver `Reveal`/`Stagger`) e a que sai se desmonta,
+ *        com um leve atraso de paralaxe entre o trilho e o conteúdo. A sensação
+ *        é a de página que vai se montando a cada scroll, como nos sites da Apple.
+ *  - "native" (prefers-reduced-motion): documento comum com rolagem livre;
+ *    cada seção tem altura mínima de uma tela. O índice ativo (header,
+ *    bolinhas) é acompanhado por IntersectionObserver.
  *
  * Regras do modo snap:
  *  - 1 gesto de roda/trackpad = 1 seção, independente da intensidade
@@ -20,7 +24,7 @@
  */
 
 import { Children, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { ScrollContext, type ScrollApi } from "./ScrollContext";
+import { ScrollContext, SectionStateContext, type ScrollApi, type SectionState } from "./ScrollContext";
 import { cn } from "@/lib/utils";
 import { MOBILE, REDUCED_MOTION, useMediaQuery } from "@/lib/useMediaQuery";
 
@@ -42,6 +46,9 @@ const SWIPE_PX = 70;
 const SWIPE_VELOCITY = 0.45;
 /** quanto o trilho acompanha o dedo (1 = 1:1). Nas pontas o valor cai (efeito elástico). */
 const DRAG_FOLLOW = 0.55;
+/** desktop: o conteúdo da seção inativa fica deslocado (vh) e chega um pouco depois do trilho (paralaxe) */
+const DEPTH_SHIFT_VH = 9;
+const DEPTH_LAG_MS = 180;
 
 /** Procura, do alvo até `root`, um elemento que ainda pode rolar na direção `dir`. */
 function findScrollable(target: EventTarget | null, dir: number, root: HTMLElement) {
@@ -66,7 +73,9 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
   const sectionsArr = useMemo(() => Children.toArray(children), [children]);
 
   const reduce = useMediaQuery(REDUCED_MOTION);
-  const mode: "snap" | "native" = mobile && !reduce ? "snap" : "native";
+  const mode: "snap" | "native" = reduce ? "native" : "snap";
+  // coreografia de construção só no desktop (no mobile o feed já tem o arraste 1:1)
+  const build = mode === "snap" && !mobile;
   const [index, setIndex] = useState(0);
   const indexRef = useRef(0);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -90,8 +99,10 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
       indexRef.current = i;
       setIndex(i);
       lockedUntil.current = performance.now() + cooldown;
-      // reseta a rolagem interna da seção que ficou pra trás
+      // reseta a rolagem interna da seção que ficou pra trás (e qualquer scroll que o browser
+      // tenha aplicado no container por causa de uma âncora)
       const root = rootRef.current;
+      if (root) root.scrollTop = 0;
       root?.querySelectorAll<HTMLElement>("[data-section]").forEach((s, si) => {
         if (si !== i) s.scrollTop = 0;
       });
@@ -139,6 +150,13 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
     const i = ids.indexOf(hash);
+    // o browser (ou o router) pode rolar o container (overflow hidden) até a âncora em volta da
+    // hidratação; desfaz agora e logo depois, para o trilho ser a única fonte de posição
+    const reset = () => {
+      if (rootRef.current) rootRef.current.scrollTop = 0;
+    };
+    reset();
+    const t = setTimeout(reset, 80);
     // pula para a seção do hash no próximo frame (evita setState síncrono no effect)
     const raf = i > 0 ? requestAnimationFrame(() => goTo(i)) : 0;
     const onHash = () => {
@@ -149,6 +167,7 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
     window.addEventListener("hashchange", onHash);
     return () => {
       cancelAnimationFrame(raf);
+      clearTimeout(t);
       window.removeEventListener("hashchange", onHash);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -311,6 +330,8 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
     [index, count, mode, goTo, step],
   );
 
+  const stateFor = (i: number): SectionState => ({ index: i, active: i === index, offset: i - index, build });
+
   if (mode === "native") {
     return (
       <ScrollContext.Provider value={api}>
@@ -318,7 +339,7 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
         <div className={className}>
           {sectionsArr.map((child, i) => (
             <section key={ids[i]} id={ids[i]} data-section data-index={i} className="flex min-h-dvh flex-col">
-              {child}
+              <SectionStateContext.Provider value={stateFor(i)}>{child}</SectionStateContext.Provider>
             </section>
           ))}
         </div>
@@ -329,7 +350,7 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
   return (
     <ScrollContext.Provider value={api}>
       {chrome}
-      <div ref={rootRef} className={cn("relative h-dvh w-full overflow-hidden overscroll-none", className)}>
+      <div ref={rootRef} className={cn("relative h-dvh w-full overflow-hidden overscroll-none md:bg-ink", className)}>
         <div
           ref={trackRef}
           className="will-change-transform"
@@ -339,28 +360,36 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
             height: `${count * 100}%`,
           }}
         >
-          {sectionsArr.map((child, i) => (
-            <section
-              key={ids[i]}
-              id={ids[i]}
-              data-section
-              data-index={i}
-              aria-current={i === index ? "page" : undefined}
-              tabIndex={-1}
-              className="h-dvh w-full overflow-y-auto overscroll-contain no-scrollbar outline-none"
-            >
-              <div
-                className="flex min-h-full flex-col origin-center will-change-transform"
-                style={{
-                  transform: i === index ? "scale(1)" : mobile ? "scale(0.97)" : "scale(0.94)",
-                  opacity: i === index ? 1 : mobile ? 0.8 : 0.6,
-                  transition: `transform ${duration}ms var(--ease-section), opacity ${duration}ms var(--ease-section)`,
-                }}
+          {sectionsArr.map((child, i) => {
+            const active = i === index;
+            // desktop: a seção inativa fica um pouco menor, mais escura e deslocada na direção de onde vem;
+            // o conteúdo chega com um leve atraso em relação ao trilho (profundidade)
+            const shift = active || mobile ? 0 : Math.sign(i - index) * DEPTH_SHIFT_VH;
+            const contentMs = mobile ? duration : duration + DEPTH_LAG_MS;
+            return (
+              <section
+                key={ids[i]}
+                id={ids[i]}
+                data-section
+                data-index={i}
+                aria-current={active ? "page" : undefined}
+                tabIndex={-1}
+                className="h-dvh w-full overflow-y-auto overscroll-contain no-scrollbar outline-none"
               >
-                {child}
-              </div>
-            </section>
-          ))}
+                {/* linha minmax(100%, auto): a seção ocupa a tela inteira e cresce se o conteúdo for maior */}
+                <div
+                  className="grid h-full grid-rows-[minmax(100%,auto)] origin-center will-change-transform"
+                  style={{
+                    transform: active ? "translate3d(0,0,0) scale(1)" : `translate3d(0, ${shift}vh, 0) scale(${mobile ? 0.97 : 0.92})`,
+                    opacity: active ? 1 : mobile ? 0.8 : 0.5,
+                    transition: `transform ${contentMs}ms var(--ease-section), opacity ${contentMs}ms var(--ease-section)`,
+                  }}
+                >
+                  <SectionStateContext.Provider value={stateFor(i)}>{child}</SectionStateContext.Provider>
+                </div>
+              </section>
+            );
+          })}
         </div>
       </div>
     </ScrollContext.Provider>

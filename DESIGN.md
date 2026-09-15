@@ -81,7 +81,7 @@ Contraste (WCAG AA): texto `ink` sobre `yellow` 12.6:1; `white` sobre `blue` 6.7
 | `PillButton` | pílula com bolinha antes do texto; tons `yellow/ink/paper/blue/red/outline`; hover escala 1.04 |
 | `Sticker` | etiqueta rotacionada (2–8°) com borda preta e sombra deslocada `4px 5px 0` (adesivo) |
 | `SectionLabel` | `[NN LABEL]` em mono, fixo no canto da seção |
-| `Reveal` / `Stagger` | fade + slide + blur ao entrar na viewport (desligado com reduce-motion) |
+| `Reveal` / `Stagger` | desktop: coreografia comandada pela seção ativa (monta ao chegar, desmonta ao sair; `from="up|down|left|right|scale"`); mobile/store: fade + slide + blur ao entrar na viewport (desligado com reduce-motion) |
 | `CountUp` | número contando de 0 até o valor ao entrar em tela |
 | `Accordion` | FAQ com "+" que gira e vira "×", animação de altura |
 | `Marquee` | fita de texto rolando (hero e store) |
@@ -120,17 +120,18 @@ Sombra flutuante: `0 18px 40px -18px rgb(11 11 12 / .35)`.
 │ └────────────┘└─────────────┘│          └──────────────────────────────┘
 └──────────────────────────────┘
 
-06 EVENTOS (paper)                        07 CALENDÁRIO (ink)
+06 EVENTOS (paper)                        07 CALENDÁRIO (ink · "app de calendário")
 ┌──────────────────────────────┐          ┌──────────────────────────────┐
-│ O QUE VEM POR AÍ     subtít. │          │ AGENDA               ●UP●GO● │
-│ ┌────┐┌────┐┌────┐┌────┐┌───┐│          │ [set][OUT][nov]…[FEV]…[AGO]  │
-│ │ VM ││ACMP││ACMP││CONF││FST││          │ ┌UP sex 20h┐ OUT ● Acamp GO  │
-│ │ink ││ UP ││ GO ││FLEX││CHO││          │ └──────────┘ FEV ● VM        │
-│ │    ││red ││blue││yel ││pau││          │ ┌GO sáb 20h┐ AGO ● Flechas   │
-│ │[●] ││    ││[●] ││[●] ││sad││          │ └──────────┘  ?  Acamp UP    │
-│ └────┘└────┘└────┘└────┘└───┘│          │                  Chocolate   │
-│ (mobile: carrossel horizontal)│          └──────────────────────────────┘
-└──────────────────────────────┘
+│ O QUE VEM POR AÍ     subtít. │          │●●● agenda.cross     ●UP●GO●  │
+│ ┌────┐┌────┐┌────┐┌────┐┌───┐│          │ OUTUBRO 2026  [‹][Hoje][›]│▓▓│
+│ │ VM ││ACMP││ACMP││CONF││FST││          │ dom seg ter qua qui SEX SÁB│Acamp GO
+│ │ink ││ UP ││ GO ││FLEX││CHO││          │ ┌──┬──┬──┬──┬──┬──┬──┐  │[● inscr]
+│ │    ││red ││blue││yel ││pau││          │ │  │  │  │  │▓▓▓▓▓▓▓▓│  │PRÓXIMOS
+│ │[●] ││    ││[●] ││[●] ││sad││          │ │  │  │  │  │  │UP│GO│  │ ● 8–11 out
+│ └────┘└────┘└────┘└────┘└───┘│          │ ├──┼──┼──┼──┼──┼──┼──┤  │ ● 6–9 fev
+│ (mobile: carrossel horizontal)│          │ │▓ │  │  │  │  │UP│GO│  │TODA SEMANA
+└──────────────────────────────┘          └──────────────────────────────┘
+                                          (mobile: grade com pontinhos + lista do mês)
 
 08 FOTOS (paper · mosaico 6×3)            09 FAQ (white)
 ┌──────────────────────────────┐          ┌──────────────────────────────┐
@@ -173,7 +174,7 @@ Sombra flutuante: `0 18px 40px -18px rgb(11 11 12 / .35)`.
 
 ## 4. Scroll por seção: decisão técnica
 
-> **Atualização (11/09/2026)**: o scroll engatado ficou **só no mobile** (< 768px), como feed estilo Reels. No desktop a home usa **rolagem livre** nativa; header, bolinhas e âncoras acompanham a seção visível por IntersectionObserver. O texto abaixo descreve o motor do modo mobile.
+> **Atualização (15/09/2026)**: o scroll engatado (1 gesto = 1 seção) vale para **mobile e desktop**. No mobile é o feed estilo Reels (trilho acompanha o dedo). No desktop, a cada troca a seção que chega **"se constrói"**: os elementos entram em coreografia (subida + blur + escala, escalonados, ~160 ms depois do trilho começar a andar) e a que sai se desmonta rápido, para se montar de novo na próxima visita; o conteúdo da seção inativa fica deslocado 9vh e menor (0.92), chegando ~180 ms depois do trilho (paralaxe de profundidade). A sensação é a de página que vai se montando a cada scroll, como nos sites da Apple. Implementação: `FullPageScroll` fornece `SectionStateContext` (`active`, `build`) a cada seção; `Reveal`/`Stagger`/Hero animam por `animate={active ? "show" : "hidden"}` em vez de `whileInView`. A rolagem livre nativa fica só para `prefers-reduced-motion`.
 
 **Escolha: implementação própria** (`src/components/scroll/FullPageScroll.tsx`), sem biblioteca.
 

@@ -2,7 +2,7 @@
 
 Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · Framer Motion.
 
-**Navegação**: no desktop a home rola livremente (documento normal, cada seção com altura mínima de uma tela). No celular (< 768px) vira um feed com encaixe por seção, estilo Reels: 1 swipe = 1 tela, com barra de stories no topo e a "ilha" de navegação no rodapé. Detalhes em `DESIGN.md`, seção 4.
+**Navegação**: a home é um feed engatado por seção (1 gesto = 1 tela) no desktop e no celular. No desktop, a cada scroll a seção que chega "se constrói" (elementos entram em coreografia, estilo Apple) e a que sai se desmonta. No celular (< 768px) é o feed estilo Reels: 1 swipe = 1 tela, com barra de stories no topo e a "ilha" de navegação no rodapé. Detalhes em `DESIGN.md`, seção 4.
 
 ```bash
 npm install
@@ -54,7 +54,7 @@ O resultado é cacheado por 1h (`revalidate`).
 
 ## Atualizando conteúdo
 
-- **Evento novo / data nova**: edite `src/content/events.ts` (`status`, `start`, `end`, `dateLabel`, `badge`, `cta`). O calendário é derivado automaticamente.
+- **Evento novo / data nova**: edite `src/content/events.ts` (`status`, `start`, `end`, `dateLabel`, `badge`, `cta`). A seção Calendário (app de calendário: grade do mês, barras de eventos, chips UP/GO semanais, próximos) é derivada automaticamente; os encontros semanais vêm de `weekly` (`weekday`, `time`).
 - **FAQ**: `src/content/faq.ts`.
 - **Cross Store**: `src/content/products.ts` (imagem em `public/store`).
 - **Ordem/nomes das seções**: `src/content/sections.ts`.
