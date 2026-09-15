@@ -19,7 +19,7 @@ export function Header({ variant = "home" }: Props) {
   const [open, setOpen] = useState(false);
 
   const activeId = api ? sections[api.index]?.id : undefined;
-  const dark = variant === "home" && ["o-que-e", "up", "go", "calendario", "contato"].includes(activeId ?? "");
+  const dark = variant === "home" && ["o-que-e", "up", "go", "calendario"].includes(activeId ?? "");
   // com rolagem livre (desktop) o header passa por cima do conteúdo: ganha fundo translúcido
   const solid = variant === "page" || api?.mode === "native";
 

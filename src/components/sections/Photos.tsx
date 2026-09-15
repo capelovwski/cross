@@ -24,7 +24,7 @@ export async function Photos() {
         </div>
         <div className="flex items-center gap-3">
           <p className="hidden font-mono text-[11px] uppercase tracking-widest text-ink/60 md:block">Marca a gente: @cross.ibb</p>
-          <PillButton tone="ink" size="sm" href={albumOk ? site.links.flickrAlbum : "#contato"}>
+          <PillButton tone="ink" size="sm" href={albumOk ? site.links.flickrAlbum : "#whatsapp"}>
             {albumOk ? "Ver álbum completo" : "Álbum em breve"}
           </PillButton>
         </div>

@@ -64,7 +64,7 @@ O resultado é cacheado por 1h (`revalidate`).
 No celular o site se comporta como um app:
 
 - **Feed vertical** (estilo Reels): cada seção ocupa a tela; o dedo arrasta o conteúdo e, ao soltar, ele encaixa na próxima seção (ou volta, se o gesto foi curto). Implementado em `FullPageScroll` (`DRAG_FOLLOW`, `SWIPE_PX`, `SWIPE_VELOCITY`).
-- **Barra de stories** no topo (`StoriesBar`) mostrando o progresso entre as 11 seções.
+- **Barra de stories** no topo (`StoriesBar`) mostrando o progresso entre as 10 seções.
 - **Tab bar** no rodapé (`TabBar`): Início, UP, GO, Eventos e Mais (abre um bottom sheet com todas as seções e a Cross Store).
 - **Bottom sheets** (`BottomSheet`): menu e FAQ completo, com arraste para fechar.
 - **Instalável** (PWA): `src/app/manifest.ts` + ícones em `public/icons`. No iPhone: Compartilhar → Adicionar à Tela de Início; abre sem a barra do navegador.

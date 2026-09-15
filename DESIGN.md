@@ -144,7 +144,7 @@ Sombra flutuante: `0 18px 40px -18px rgb(11 11 12 / .35)`.
 │ └─────────────┘└────────────┘│          │                └────────────┘│
 └──────────────────────────────┘          └──────────────────────────────┘
 
-10 WHATSAPP (yellow)                      11 CONTATO / RODAPÉ (ink)
+10 WHATSAPP + RODAPÉ (yellow; o rodapé é um card preto dentro da mesma tela; a antiga tela 11 foi fundida aqui)
 ┌──────────────────────────────┐          ┌──────────────────────────────┐
 │ CHAMA          [Comunidade]  │          │ BORA?            [Te esperam]│
 │ NO ZAP         texto         │          │ frase            [● grupo]   │

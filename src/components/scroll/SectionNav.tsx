@@ -9,7 +9,7 @@ export function SectionNav() {
   const api = useSectionScroll();
   if (!api) return null;
   const active = api.index;
-  const onDark = ["o-que-e", "calendario", "contato", "go", "up"].includes(sections[active].id);
+  const onDark = ["o-que-e", "calendario", "go", "up"].includes(sections[active].id);
 
   return (
     <nav

@@ -13,7 +13,6 @@ import { Calendar } from "@/components/sections/Calendar";
 import { Photos } from "@/components/sections/Photos";
 import { Faq } from "@/components/sections/Faq";
 import { WhatsApp } from "@/components/sections/WhatsApp";
-import { Footer } from "@/components/sections/Footer";
 
 const ids = sections.map((s) => s.id);
 
@@ -40,7 +39,6 @@ export default function HomePage() {
       <Photos />
       <Faq />
       <WhatsApp />
-      <Footer />
     </FullPageScroll>
   );
 }

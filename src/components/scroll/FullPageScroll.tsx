@@ -52,18 +52,21 @@ const DEPTH_LAG_MS = 100;
 
 /**
  * Procura, do alvo até `root`, um elemento que ainda pode rolar na direção `dir`.
- * Numa seção, sobras pequenas (< 8% da altura) são ignoradas: durante a transição as
- * transformações da coreografia (elementos vindo de baixo, paralaxe) esticam a área
- * rolável por alguns px e um gesto legítimo acabaria engolido pela rolagem interna.
+ * Numa seção, a "altura real" do conteúdo é a altura de layout da casca (offsetHeight),
+ * que ignora transformações: durante a coreografia os elementos animados esticam o
+ * scrollHeight por alguns px e um gesto legítimo acabaria engolido pela rolagem interna.
  */
 function findScrollable(target: EventTarget | null, dir: number, root: HTMLElement) {
   let el = target instanceof HTMLElement ? target : null;
   while (el && el !== root) {
     const { overflowY } = getComputedStyle(el);
-    const slack = el.hasAttribute("data-section") ? el.clientHeight * 0.08 : 1;
-    if (/(auto|scroll)/.test(overflowY) && el.scrollHeight > el.clientHeight + slack) {
-      if (dir > 0 && el.scrollTop + el.clientHeight < el.scrollHeight - 1) return el;
-      if (dir < 0 && el.scrollTop > 0) return el;
+    if (/(auto|scroll)/.test(overflowY)) {
+      const shell = el.hasAttribute("data-section") ? (el.firstElementChild?.firstElementChild as HTMLElement | null) : null;
+      const contentH = shell ? shell.offsetHeight : el.scrollHeight;
+      if (contentH > el.clientHeight + 1) {
+        if (dir > 0 && el.scrollTop + el.clientHeight < contentH - 1) return el;
+        if (dir < 0 && el.scrollTop > 0) return el;
+      }
     }
     el = el.parentElement;
   }
@@ -400,7 +403,7 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
               >
                 {/* linha minmax(100%, auto): a seção ocupa a tela inteira e cresce se o conteúdo for maior */}
                 <div
-                  className="grid h-full grid-rows-[minmax(100%,auto)] origin-center overflow-hidden will-change-transform"
+                  className="grid h-full grid-rows-[minmax(100%,auto)] origin-center will-change-transform"
                   style={
                     mobile
                       ? undefined // feed puro: sem escala/opacidade, só o trilho se move (mais leve)
