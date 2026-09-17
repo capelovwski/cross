@@ -130,7 +130,7 @@ export const site = {
       highlights: [
         { title: "Adoração", text: "Um tempo de louvor pra recalibrar a semana." },
         { title: "Ensino", text: "Estudos bíblicos profundos, com espaço pra pergunta difícil." },
-        { title: "PGM", text: "Células de jovens: onde a fé vira vida compartilhada." },
+        { title: "PGM", text: "PGMs de jovens: onde a fé vira vida compartilhada." },
         { title: "Missão", text: "Ação social, viagens missionárias e serviço na igreja." },
       ],
     },
