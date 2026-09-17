@@ -1,27 +1,50 @@
 "use client";
 
+/**
+ * Header: barra sólida flutuante de alto contraste.
+ * A cor da barra é sempre a que mais contrasta com a seção atual (ver `headerThemes`), e cada
+ * troca de seção passa uma onda líquida pela barra (LiquidFill). O texto troca de cor quando a
+ * onda cruza o meio da barra, para nunca ficar ilegível durante a transição.
+ */
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { darkSections, navItems, sections, type SectionId } from "@/content/sections";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { headerThemes, navItems, sections, type SectionId } from "@/content/sections";
 import { useSectionScroll } from "@/components/scroll/ScrollContext";
 import { PillButton } from "@/components/ui/PillButton";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/ui/Logo";
+import { LiquidFill } from "./LiquidFill";
 
 interface Props {
   /** "home" usa o scroll por seção; "page" navega com âncoras para /#id */
   variant?: "home" | "page";
 }
 
+/**
+ * momento em que a borda da onda da cor final cruza o meio da barra:
+ * atraso 140 ms + ~47% de 850 ms com o easing (0.65, 0, 0.35, 1). A cor do texto troca de uma vez
+ * nesse instante (sem transição), para não existir quadro com texto apagado.
+ */
+const TEXT_SWAP_MS = 540;
+
 export function Header({ variant = "home" }: Props) {
   const api = useSectionScroll();
+  const reduce = useReducedMotion();
   const [open, setOpen] = useState(false);
 
-  const activeId = api ? sections[api.index]?.id : undefined;
-  const dark = variant === "home" && !!activeId && darkSections.includes(activeId);
-  // com rolagem livre (desktop) o header passa por cima do conteúdo: ganha fundo translúcido
-  const solid = variant === "page" || api?.mode === "native";
+  const index = variant === "home" && api ? api.index : 0;
+  const activeId: SectionId | undefined = variant === "home" && api ? sections[index]?.id : undefined;
+  const target = activeId ? headerThemes[activeId] : { bg: "paper" as const, wave: "yellow" as const };
+
+  // tema aplicado ao conteúdo (texto, logo, botões): acompanha a onda com um pequeno atraso
+  const [shown, setShown] = useState(target.bg);
+  useEffect(() => {
+    const t = setTimeout(() => setShown(target.bg), reduce ? 0 : TEXT_SWAP_MS);
+    return () => clearTimeout(t);
+  }, [target.bg, reduce]);
+
+  const dark = shown === "ink";
 
   useEffect(() => {
     document.documentElement.classList.toggle("menu-open", open);
@@ -40,12 +63,14 @@ export function Header({ variant = "home" }: Props) {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-3 md:px-8 md:py-5 transition-colors duration-500",
+        "fixed inset-x-3 top-[calc(env(safe-area-inset-top,0px)+14px)] z-50 flex h-11 items-center justify-between rounded-2xl px-3",
+        "shadow-[0_14px_34px_-16px_rgba(11,11,12,0.6)]",
+        "md:inset-x-6 md:top-4 md:h-16 md:rounded-[22px] md:px-5 lg:inset-x-8",
         dark ? "text-paper" : "text-ink",
-        solid && "border-b backdrop-blur-md md:py-3",
-        solid && (dark ? "border-paper/10 bg-ink/80" : "border-ink/10 bg-paper/85"),
       )}
     >
+      <LiquidFill index={index} color={target.bg} wave={target.wave} className="z-[41] rounded-[inherit]" />
+
       <Link
         href="/"
         onClick={(e) => {
@@ -54,40 +79,43 @@ export function Header({ variant = "home" }: Props) {
             go("inicio");
           }
         }}
-        className="relative block h-7 w-[7.2rem] md:h-8 md:w-[8.2rem]"
+        className="relative z-[42] block h-6 w-[6.4rem] md:h-8 md:w-[8.2rem]"
         aria-label="CROSS, início"
       >
-        <Logo name="cross-black" priority sizes="140px" className={cn("absolute inset-0 h-full w-full object-contain transition-opacity duration-500", dark ? "opacity-0" : "opacity-100")} alt="" />
-        <Logo name="cross-white" priority sizes="140px" className={cn("absolute inset-0 h-full w-full object-contain transition-opacity duration-500", dark ? "opacity-100" : "opacity-0")} alt="" />
+        <Logo name="cross-black" priority sizes="140px" className={cn("absolute inset-0 h-full w-full object-contain", dark ? "opacity-0" : "opacity-100")} alt="" />
+        <Logo name="cross-white" priority sizes="140px" className={cn("absolute inset-0 h-full w-full object-contain", dark ? "opacity-100" : "opacity-0")} alt="" />
       </Link>
 
-      <nav aria-label="Principal" className="hidden items-center gap-1 lg:flex">
-        {navItems.map((item) => (
-          <Link
-            key={item.label}
-            href={linkFor(item)}
-            onClick={(e) => {
-              if (item.id && variant === "home" && api) {
-                e.preventDefault();
-                go(item.id);
-              }
-            }}
-            className={cn(
-              "rounded-pill px-3 py-1.5 text-sm font-semibold transition-colors",
-              item.id && item.id === activeId ? (dark ? "bg-paper/15" : "bg-ink/10") : "hover:bg-current/10",
-              item.href && "font-mono text-xs uppercase tracking-widest",
-            )}
-          >
-            {item.label}
-          </Link>
-        ))}
+      <nav aria-label="Principal" className="relative z-[42] hidden items-center gap-1 lg:flex">
+        {navItems.map((item) => {
+          const active = !!item.id && item.id === activeId;
+          return (
+            <Link
+              key={item.label}
+              href={linkFor(item)}
+              onClick={(e) => {
+                if (item.id && variant === "home" && api) {
+                  e.preventDefault();
+                  go(item.id);
+                }
+              }}
+              aria-current={active ? "true" : undefined}
+              className={cn(
+                "rounded-pill px-3 py-1.5 text-sm font-semibold",
+                active ? (dark ? "bg-yellow text-ink" : "bg-ink text-paper") : dark ? "hover:bg-paper/15" : "hover:bg-ink/10",
+                item.href && "font-mono text-xs uppercase tracking-widest",
+              )}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
 
-      <div className="flex items-center gap-2">
+      <div className="relative z-[42] flex items-center gap-2">
         <PillButton
-          tone="yellow"
+          tone={dark ? "yellow" : "ink"}
           size="sm"
-          className="hidden sm:inline-flex"
           href={variant === "home" ? "#faca-parte" : "/#faca-parte"}
           onClick={() => variant === "home" && go("faca-parte")}
         >
@@ -99,10 +127,7 @@ export function Header({ variant = "home" }: Props) {
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "Fechar menu" : "Abrir menu"}
-          className={cn(
-            "hidden size-10 place-items-center rounded-full border-2 md:grid lg:hidden",
-            dark ? "border-paper/40" : "border-ink/30",
-          )}
+          className={cn("hidden size-10 place-items-center rounded-full border-2 md:grid lg:hidden", dark ? "border-paper/50" : "border-ink/40")}
         >
           <span className="relative block h-3 w-5">
             <span className={cn("absolute inset-x-0 top-0 h-0.5 bg-current transition-transform", open && "translate-y-[5px] rotate-45")} />
@@ -119,7 +144,7 @@ export function Header({ variant = "home" }: Props) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25 }}
-            className="grain fixed inset-0 z-40 flex flex-col bg-ink px-6 pb-8 pt-24 text-paper lg:hidden"
+            className="grain fixed inset-0 z-40 flex flex-col bg-ink px-6 pb-8 pt-28 text-paper lg:hidden"
           >
             <ul className="flex flex-col gap-1">
               {navItems.map((item, i) => (

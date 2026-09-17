@@ -18,6 +18,26 @@ export type SectionId = (typeof sections)[number]["id"];
 /** seções com fundo escuro (header e indicador lateral trocam para versão clara) */
 export const darkSections: readonly SectionId[] = ["lema", "up", "go", "calendario"];
 
+/**
+ * Header de alto contraste: cor sólida da barra em cada seção (sempre a que mais contrasta
+ * com o fundo da seção) e a cor da onda líquida que atravessa a barra na troca.
+ */
+export type HeaderBg = "ink" | "paper" | "yellow";
+export type HeaderWave = "red" | "blue" | "yellow";
+export const headerThemes: Record<SectionId, { bg: HeaderBg; wave: HeaderWave }> = {
+  inicio: { bg: "ink", wave: "red" },
+  lema: { bg: "paper", wave: "yellow" },
+  "quem-somos": { bg: "ink", wave: "blue" },
+  pgm: { bg: "ink", wave: "yellow" },
+  up: { bg: "yellow", wave: "red" },
+  go: { bg: "paper", wave: "blue" },
+  eventos: { bg: "ink", wave: "red" },
+  calendario: { bg: "paper", wave: "yellow" },
+  fotos: { bg: "ink", wave: "blue" },
+  faq: { bg: "ink", wave: "red" },
+  "faca-parte": { bg: "ink", wave: "yellow" },
+};
+
 export const navItems: { label: string; id?: SectionId; href?: string }[] = [
   { label: "Quem somos", id: "quem-somos" },
   { label: "PGM", id: "pgm" },
