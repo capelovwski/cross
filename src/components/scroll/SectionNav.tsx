@@ -1,6 +1,6 @@
 "use client";
 
-import { sections } from "@/content/sections";
+import { darkSections, sections } from "@/content/sections";
 import { useSectionScroll } from "./ScrollContext";
 import { cn } from "@/lib/utils";
 
@@ -9,7 +9,7 @@ export function SectionNav() {
   const api = useSectionScroll();
   if (!api) return null;
   const active = api.index;
-  const onDark = ["o-que-e", "calendario", "go", "up"].includes(sections[active].id);
+  const onDark = darkSections.includes(sections[active].id);
 
   return (
     <nav

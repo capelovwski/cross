@@ -25,7 +25,11 @@
 
   /* tipografia */
   --font-display: var(--font-anton), "Anton", "Impact", "Arial Narrow", sans-serif;
-  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
+  /* texto corrido: Helvetica Now (tracking -20). Enquanto os arquivos webfont licenciados não
+     entram no projeto (ver src/app/fonts/README.md), usa a Helvetica Now se estiver instalada no
+     aparelho e cai para Helvetica Neue (Apple), Helvetica e Arial. */
+  --font-sans: var(--font-helvetica-now, "Helvetica Now Text"), "Helvetica Now Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --tracking-body: -0.02em;
   --font-mono: var(--font-mono-jb), "JetBrains Mono", ui-monospace, monospace;
 
   /* raios */
@@ -59,6 +63,7 @@ body {
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  letter-spacing: var(--tracking-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -66,6 +71,20 @@ body {
 ::selection {
   background: var(--color-yellow);
   color: var(--color-ink);
+}
+
+/* tracking -20 proporcional ao tamanho de cada texto (em vez de herdar px do body).
+   Fica em @layer base: as utilidades do Tailwind (tracking-*, font-display) vencem sempre.
+   Mono e display ficam de fora (têm tracking próprio). span não entra para não quebrar
+   rótulos mono com partes internas. */
+@layer base {
+  :where(p, div, li, dd, dt, address, blockquote, label, small, strong, em, a, button, input, textarea):not(:where(.font-mono, .font-display, .font-mono *, .font-display *)) {
+    letter-spacing: var(--tracking-body);
+  }
+  /* mono sem tracking herdado do texto corrido (classes tracking-* continuam vencendo) */
+  :where(.font-mono) {
+    letter-spacing: 0;
+  }
 }
 
 /* ---------- utilitários de marca ---------- */
@@ -162,16 +181,6 @@ input, textarea, select, [contenteditable="true"] { cursor: auto; }
 /* feedback de toque estilo app */
 @media (hover: none) {
   a:active, button:active, [role="button"]:active { transform: scale(0.97); transition: transform 80ms; }
-}
-
-/* barras do botão de som */
-@keyframes eq {
-  0%, 100% { height: 4px; }
-  50% { height: 16px; }
-}
-.animate-eq { height: 4px; animation: eq 0.9s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) {
-  .animate-eq { animation: none; height: 10px; }
 }
 
 /* foco visível consistente */

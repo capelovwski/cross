@@ -40,6 +40,16 @@ export function PhotoMosaic({ photos }: { photos: GalleryPhoto[] }) {
               loading={i < 2 ? "eager" : "lazy"}
               unoptimized={p.src.endsWith(".svg")}
             />
+            {p.tribe && (
+              <span
+                className={cn(
+                  "absolute left-2 top-2 rounded-pill px-2 py-0.5 font-display text-xs tracking-widest text-white",
+                  p.tribe === "up" ? "-rotate-3 border-2 border-ink bg-red" : "bg-blue",
+                )}
+              >
+                {p.tribe.toUpperCase()}
+              </span>
+            )}
             <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 to-transparent p-2 font-mono text-[9px] uppercase tracking-widest text-paper opacity-0 transition-opacity group-hover:opacity-100">
               {p.alt}
             </span>
@@ -48,7 +58,7 @@ export function PhotoMosaic({ photos }: { photos: GalleryPhoto[] }) {
         return (
           <li key={p.src} className={cn("group min-h-0", layout[i % layout.length])}>
             {p.href ? (
-              <a href={p.href} target="_blank" rel="noopener noreferrer" className="block h-full" aria-label={`Abrir no Flickr: ${p.alt}`}>
+              <a href={p.href} target="_blank" rel="noopener noreferrer" className="block h-full" aria-label={`Abrir álbum no Flickr: ${p.alt}`}>
                 {inner}
               </a>
             ) : (

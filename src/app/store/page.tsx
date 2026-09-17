@@ -50,8 +50,8 @@ export default function StorePage() {
               <span className="mr-2 inline-block size-2 rounded-full bg-red align-middle" aria-hidden />
               {storeNotice}
             </p>
-            <PillButton tone="ink" size="sm" href="/#whatsapp">
-              Tirar dúvida no WhatsApp
+            <PillButton tone="ink" size="sm" href="/#faq">
+              Tirar dúvidas
             </PillButton>
           </div>
         </section>

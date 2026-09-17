@@ -298,7 +298,7 @@ export function Calendar() {
                       <PillButton
                         tone={selected.tone === "yellow" || selected.tone === "ink" ? "ink" : "yellow"}
                         size="sm"
-                        href={isPlaceholder(selected.cta.href) ? "#whatsapp" : selected.cta.href}
+                        href={isPlaceholder(selected.cta.href) ? "#faq" : selected.cta.href}
                         className="mt-3"
                       >
                         {selected.cta.label}

@@ -72,7 +72,7 @@ Contraste (WCAG AA): texto `ink` sobre `yellow` 12.6:1; `white` sobre `blue` 6.7
 
 ### Tipografia
 - **Display**: Anton (Google Fonts): condensada, pesada, sempre em caixa alta, `line-height 0.9`. Utilitário `font-display`.
-- **Corpo**: Inter.
+- **Corpo**: Helvetica Now, tracking -20 (`-0.02em`). Até os arquivos webfont licenciados entrarem, cai para Helvetica Neue / Helvetica / Arial. (Antes: Inter.)
 - **Mono**: JetBrains Mono: labels `[01 CROSS]`, datas, versículo.
 
 ### Componentes (em `src/components/ui`)
@@ -144,7 +144,7 @@ Sombra flutuante: `0 18px 40px -18px rgb(11 11 12 / .35)`.
 │ └─────────────┘└────────────┘│          │                └────────────┘│
 └──────────────────────────────┘          └──────────────────────────────┘
 
-10 WHATSAPP + RODAPÉ (yellow; o rodapé é um card preto dentro da mesma tela; a antiga tela 11 foi fundida aqui)
+11 FAÇA PARTE + RODAPÉ (yellow; convite para entrar num PGM de UP ou GO + card "primeira vez"; o rodapé é um card preto na mesma tela)
 ┌──────────────────────────────┐          ┌──────────────────────────────┐
 │ CHAMA          [Comunidade]  │          │ BORA?            [Te esperam]│
 │ NO ZAP         texto         │          │ frase            [● grupo]   │
@@ -196,3 +196,23 @@ Como funciona:
 - **Seções mais altas que a tela** (mobile, janela baixa): rolagem interna acontece primeiro; só no limite o próximo gesto troca de seção.
 - **`prefers-reduced-motion: reduce`**: vira documento comum com `scroll-snap-type: y proximity`, sem hijack; animações de entrada desligadas.
 - Indicador lateral (`SectionNav`) com bolinhas clicáveis e rótulo no hover (oculto em telas < md).
+
+---
+
+## 5. Narrativa (set/2026)
+
+A home deixou de falar em grupos de WhatsApp. O eixo agora é o **PGM (Pequeno Grupo Multiplicador)**,
+a base do ministério, e o lema do CROSS: **Amar, Servir, Transbordar**.
+
+| # | Seção | Papel |
+|---|---|---|
+| 01 | Início | logo, lema, tagline, "Fazer parte" |
+| 02 | Nosso lema | os três verbos + versículo; ponte para o PGM |
+| 03 | Quem somos | a juventude como um todo; UP e GO; diagrama CROSS → tribos → PGMs |
+| 04 | PGM | o que é; "quer servir? começa num PGM"; o lema vivido no PGM (multiplicação animada) |
+| 05–06 | UP / GO | linguagens próprias; lema do CROSS no estilo de cada tribo; CTA "Quero um PGM"; fotos do último culto |
+| 07–10 | Eventos, Calendário, Fotos, FAQ | fotos = últimos álbuns de UP e GO; FAQ com perguntas de PGM |
+| 11 | Faça parte + rodapé | PGM do UP, PGM do GO, primeira vez (endereço/mapa); Instagram UP, GO e IBB |
+
+Os lemas antigos de cada tribo foram removidos. A trilha ambiente foi arquivada
+(`src/components/_archived/ambient-audio`, tag `arquivo/musica-ambiente`).

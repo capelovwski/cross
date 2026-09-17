@@ -26,9 +26,10 @@ interface Props {
 export function Tribe({ tribe }: Props) {
   const t = site.tribes[tribe];
   const isUp = tribe === "up";
-  const link = isUp ? site.links.whatsappUp : site.links.whatsappGo;
+  const link = isUp ? site.links.pgmUp : site.links.pgmGo;
   const placeholder = isPlaceholder(link);
-  const href = placeholder ? "#whatsapp" : link;
+  const href = placeholder ? "#faca-parte" : link;
+  const album = site.albums[tribe];
   const desktop = useMediaQuery("(min-width: 768px)");
   const reduce = useReducedMotion();
   // vídeo de fundo só em telas md+ e sem reduce-motion (no mobile nem baixa)
@@ -99,9 +100,9 @@ export function Tribe({ tribe }: Props) {
               </motion.div>
             </Reveal>
             <Reveal delay={0.15} className="mt-2 font-display text-3xl leading-[0.95] md:mt-3 md:text-5xl xl:text-6xl">
-              {t.motto.split(" ").map((w, i) => (
+              {site.lema.map((w, i) => (
                 <span key={w} className={cn("mr-3 inline-block", i === 1 ? "text-yellow" : "text-white", i === 2 && "rotate-[-2deg]")}>
-                  {w}
+                  {w}.
                 </span>
               ))}
             </Reveal>
@@ -145,15 +146,17 @@ export function Tribe({ tribe }: Props) {
 
             <Reveal delay={0.35} className="flex flex-wrap items-center gap-3">
               <PillButton tone="yellow" size="md" href={href}>
-                Entrar no grupo {t.name}
+                Quero um PGM do {t.name}
               </PillButton>
-              <span className="font-mono text-[11px] uppercase tracking-widest text-white/80">{placeholder ? "link do grupo em breve" : "abre no WhatsApp"}</span>
+              <a href={album.url} target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] uppercase tracking-widest text-white/85 underline-offset-4 hover:underline">
+                Fotos do último culto ↗
+              </a>
             </Reveal>
           </div>
 
           {/* fita amarela cruzando a base (desktop) */}
           <div className="pointer-events-none absolute -bottom-10 left-1/2 hidden w-[120vw] -translate-x-1/2 rotate-[-2deg] bg-yellow py-1.5 text-ink shadow-float md:block" aria-hidden>
-            <Marquee items={["Sexta 20h", "13 a 17 anos", "Salão de Cultos da IBB", "Traz um amigo", "Levanta. Cresce. Sobe."]} separator="★" />
+            <Marquee items={["Sexta 20h", "13 a 17 anos", "Salão de Cultos da IBB", "Encontre seu PGM", "Amar · Servir · Transbordar"]} separator="★" />
           </div>
         </div>
       ) : (
@@ -168,7 +171,7 @@ export function Tribe({ tribe }: Props) {
               <Logo name="go-white" sizes="(max-width: 640px) 55vw, 380px" className="h-full w-auto drop-shadow-[0_24px_40px_rgba(11,11,12,0.45)]" alt={`${t.name}, ${t.audience} ${t.ages}`} />
             </Reveal>
             <Reveal delay={0.15} className="mt-4 font-mono text-xs uppercase tracking-[0.32em] text-white/70 md:mt-5 md:text-sm">
-              {t.motto}
+              {site.lema.join(" · ")}
             </Reveal>
             <Reveal delay={0.2} className="mt-3 max-w-xl text-base leading-relaxed text-white/90 md:mt-4 md:text-lg xl:max-w-2xl xl:text-xl xl:leading-relaxed">
               {t.pitch}
@@ -205,9 +208,11 @@ export function Tribe({ tribe }: Props) {
 
             <Reveal delay={0.35} className="flex flex-wrap items-center gap-4">
               <PillButton tone="outline-light" size="md" href={href}>
-                Entrar no grupo {t.name}
+                Quero um PGM do {t.name}
               </PillButton>
-              <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/55">{placeholder ? "link em breve" : "abre no WhatsApp"}</span>
+              <a href={album.url} target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/65 underline-offset-4 hover:text-white hover:underline">
+                Fotos do último culto ↗
+              </a>
             </Reveal>
           </div>
         </div>

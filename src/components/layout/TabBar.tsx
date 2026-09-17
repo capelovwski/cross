@@ -7,6 +7,7 @@
  * A aba "Mais" abre um bottom sheet com todas as seções e a Cross Store.
  */
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { LayoutGroup, motion, useReducedMotion } from "framer-motion";
 import { useSectionScroll } from "@/components/scroll/ScrollContext";
@@ -19,6 +20,17 @@ type Tab = { id: SectionId | "more"; label: string; logo?: [LogoName, LogoName];
 
 const tabs: Tab[] = [
   { id: "inicio", label: "Início", logo: ["cross-white", "cross-black"], box: "h-4 w-12" },
+  {
+    id: "pgm",
+    label: "PGM",
+    icon: (
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+        <circle cx="12" cy="7" r="3.2" />
+        <circle cx="6" cy="16.5" r="3.2" />
+        <circle cx="18" cy="16.5" r="3.2" />
+      </svg>
+    ),
+  },
   { id: "up", label: "UP", logo: ["up-white", "up-black"], box: "h-4 w-8" },
   { id: "go", label: "GO", logo: ["go-white", "go-black"], box: "h-5 w-6" },
   {
@@ -49,6 +61,7 @@ interface Props {
 
 export function TabBar({ variant = "home" }: Props) {
   const api = useSectionScroll();
+  const router = useRouter();
   const [more, setMore] = useState(false);
   const reduce = useReducedMotion();
   const activeId = api ? sections[api.index]?.id : undefined;
@@ -56,7 +69,7 @@ export function TabBar({ variant = "home" }: Props) {
   const go = (id: SectionId) => {
     setMore(false);
     if (api && variant === "home") api.goTo(id);
-    else window.location.href = `/#${id}`;
+    else router.push(`/#${id}`);
   };
 
   // qual aba está "acesa": a seção ativa, ou "Mais" enquanto o sheet estiver aberto
@@ -71,7 +84,7 @@ export function TabBar({ variant = "home" }: Props) {
         <LayoutGroup id="island">
           <motion.ul
             layout
-            className="flex items-center gap-0.5 rounded-full border border-white/10 bg-ink/90 p-1.5 text-paper shadow-[0_12px_40px_rgba(11,11,12,0.5)] backdrop-blur-xl"
+            className="flex items-center gap-0 rounded-full border border-white/10 bg-ink/90 p-1 min-[380px]:gap-0.5 min-[380px]:p-1.5 text-paper shadow-[0_12px_40px_rgba(11,11,12,0.5)] backdrop-blur-xl"
             transition={{ type: "spring", stiffness: 500, damping: 40 }}
           >
             {tabs.map((t) => {
@@ -84,7 +97,7 @@ export function TabBar({ variant = "home" }: Props) {
                     aria-current={active && t.id !== "more" ? "page" : undefined}
                     aria-label={t.label}
                     className={cn(
-                      "relative flex h-11 items-center justify-center rounded-full px-3.5 transition-colors",
+                      "relative flex h-11 items-center justify-center rounded-full px-3 transition-colors min-[380px]:px-3.5",
                       active ? "text-ink" : "text-paper/75",
                     )}
                   >

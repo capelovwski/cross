@@ -7,9 +7,17 @@ export const site = {
   church: "IBB · Igreja Batista do Bacacheri",
   churchShort: "IBB",
   city: "Curitiba, PR",
+  address: {
+    street: "R. Amazonas de Souza Azevedo, 134",
+    district: "Bacacheri",
+    city: "Curitiba · PR",
+    zip: "82520-620",
+  },
   tagline: "Adolescentes e jovens apontando essa geração para Cristo.",
+  /** lema do CROSS */
+  lema: ["Amar", "Servir", "Transbordar"] as const,
   description:
-    "CROSS é o ministério de adolescentes (UP) e jovens (GO) da Igreja Batista do Bacacheri. Encontros semanais, acampamentos, conferências e comunhão de verdade.",
+    "CROSS é a juventude da Igreja Batista do Bacacheri: adolescentes (UP) e jovens (GO) que vivem a fé em PGMs. Amar, servir e transbordar.",
   // URL pública: NEXT_PUBLIC_SITE_URL (se definida) → domínio de produção que a
   // Vercel injeta automaticamente → localhost. Quando o domínio próprio chegar,
   // basta definir NEXT_PUBLIC_SITE_URL no painel da Vercel.
@@ -24,18 +32,61 @@ export const site = {
 
   // ---- Links (trocar quando tiver) ----
   links: {
-    whatsappCross: "[LINK_WHATSAPP_CROSS]",
-    whatsappUp: "[LINK_WHATSAPP_UP]",
-    whatsappGo: "[LINK_WHATSAPP_GO]",
-    instagramCross: "[LINK_INSTAGRAM_CROSS]",
-    instagramUp: "[LINK_INSTAGRAM_UP]",
-    instagramGo: "[LINK_INSTAGRAM_GO]",
+    pgmUp: "[LINK_PGM_UP]",
+    pgmGo: "[LINK_PGM_GO]",
+    instagramIbb: "https://www.instagram.com/ibbcuritiba/",
+    instagramUp: "https://www.instagram.com/_crossup/",
+    instagramGo: "https://www.instagram.com/_crossgo/",
     youtube: "[LINK_YOUTUBE]",
     church: "[LINK_SITE_IBB]",
-    maps: "[LINK_GOOGLE_MAPS_IBB]",
+    maps: "https://share.google/0hyA05tV2mAOygMcU",
     email: "[EMAIL_CONTATO]",
-    flickrAlbum: "[LINK_ALBUM_FLICKR]",
+    flickr: "https://www.flickr.com/photos/ibbfotografia/albums",
   },
+
+  /** Flickr da IBB (feed público, sem chave de API) */
+  flickr: { nsid: "60884541@N02", user: "ibbfotografia" },
+
+  /** álbum da última celebração de cada tribo: trocar id/data/capa a cada culto */
+  albums: {
+    up: {
+      id: "72177720335613278",
+      title: "Celebração UP",
+      date: "04/09/2026",
+      url: "https://www.flickr.com/photos/ibbfotografia/albums/72177720335613278",
+      cover: "https://live.staticflickr.com/65535/55526696973_63d23bf9c1_h.jpg",
+    },
+    go: {
+      id: "72177720335625159",
+      title: "Celebração GO",
+      date: "12/09/2026",
+      url: "https://www.flickr.com/photos/ibbfotografia/albums/72177720335625159",
+      cover: "https://live.staticflickr.com/65535/55526732499_4521e9e375_h.jpg",
+    },
+  },
+
+  /** PGM: Pequeno Grupo Multiplicador (RASCUNHO: revisar textos) */
+  pgm: {
+    short: "PGM",
+    name: "Pequeno Grupo Multiplicador",
+    pitch:
+      "O PGM é a base do CROSS. Um grupo pequeno, com liderança, onde você é chamado pelo nome, cuida e é cuidado, e a fé sai do culto e entra na semana.",
+    rule: "Quer servir? Começa num PGM.",
+    ruleDetail:
+      "É no PGM que a gente é discipulado, cuidado e preparado. Por isso, pra servir em qualquer área do CROSS, você precisa fazer parte de um.",
+    steps: [
+      { verb: "Amar", text: "No PGM a gente se conhece de verdade: Palavra, oração e cuidado uns com os outros." },
+      { verb: "Servir", text: "Do PGM pro ministério: quem está num PGM serve na igreja e na cidade." },
+      { verb: "Transbordar", text: "O PGM cresce, forma novos líderes e se multiplica. Um vira dois, e mais gente é alcançada." },
+    ],
+  },
+
+  /** o que cada verbo do lema significa (RASCUNHO: revisar) */
+  lemaCaptions: [
+    "A Deus em primeiro lugar, e às pessoas do nosso lado.",
+    "Igreja não é plateia. Cada um tem um lugar pra servir.",
+    "O que Deus faz em nós não cabe só em nós: alcança outros.",
+  ],
 
   // ---- Estatísticas do hero (placeholders: ajustar) ----
   stats: [
@@ -55,13 +106,12 @@ export const site = {
       time: "20h",
       place: "Salão de Cultos da IBB",
       color: "red",
-      motto: "Levanta. Cresce. Sobe.",
       pitch:
-        "Se você tem entre 13 e 17 anos, o UP é o seu lugar. Toda sexta a gente se reúne pra louvar, ouvir a Palavra num papo direto e curtir a galera, sem enrolação e sem filtro.",
+        "Se você tem entre 13 e 17 anos, o UP é o seu lugar. Toda sexta a gente se reúne pra louvar, ouvir a Palavra num papo direto e curtir a galera. E durante a semana, a vida continua no seu PGM.",
       highlights: [
         { title: "Louvor", text: "Banda de adolescentes tocando pra adolescentes." },
         { title: "Palavra", text: "Mensagem curta, direta e que faz sentido pra sua semana." },
-        { title: "Small groups", text: "Rodas pequenas pra conversar de verdade e orar uns pelos outros." },
+        { title: "PGM", text: "Seu grupo pequeno: amizade, Palavra e cuidado de perto." },
         { title: "Rolês", text: "Gincanas, noite do jogo, acampamento UP e muito mais." },
       ],
     },
@@ -75,13 +125,12 @@ export const site = {
       time: "20h",
       place: "Salão de Cultos da IBB",
       color: "blue",
-      motto: "Vai. Vive. Serve.",
       pitch:
-        "Dos 18 aos 29, a vida acelera: faculdade, trabalho, decisões. O GO é uma comunidade pra viver essa fase com propósito, com gente que caminha junto e uma fé que sai do banco e vai pra rua.",
+        "Dos 18 aos 29, a vida acelera: faculdade, trabalho, decisões. O GO é uma comunidade pra viver essa fase com propósito, com gente que caminha junto no PGM e uma fé que sai do banco e vai pra rua.",
       highlights: [
         { title: "Adoração", text: "Um tempo de louvor pra recalibrar a semana." },
         { title: "Ensino", text: "Estudos bíblicos profundos, com espaço pra pergunta difícil." },
-        { title: "Comunidade", text: "Células, mentorias e amizades que atravessam a década." },
+        { title: "PGM", text: "Células de jovens: onde a fé vira vida compartilhada." },
         { title: "Missão", text: "Ação social, viagens missionárias e serviço na igreja." },
       ],
     },

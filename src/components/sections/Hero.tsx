@@ -60,7 +60,7 @@ export function Hero() {
           style={{ x: fine ? tapeX : 0, y: fine ? tapeY : 0, marginLeft: "-65vw" }}
           aria-hidden
         >
-          <Marquee items={["ADOLESCENTES", "JOVENS", "IBB", "UP 13–17", "GO 18–29", "SEXTA 20H", "SÁBADO 20H"]} />
+          <Marquee items={["AMAR", "SERVIR", "TRANSBORDAR", "UP 13–17", "GO 18–29", "SEXTA 20H", "SÁBADO 20H"]} />
         </motion.div>
 
         {/* nome */}
@@ -88,9 +88,12 @@ export function Hero() {
           }}
           className="relative z-10 mx-auto mt-6 flex max-w-2xl flex-col items-center gap-5 text-center md:mt-8"
         >
-          <p className="text-balance text-lg font-medium leading-snug text-ink/80 md:text-2xl">{site.tagline}</p>
+          <div className="flex flex-col items-center gap-2">
+            <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-red md:text-xs">{site.lema.join(" · ")}</p>
+            <p className="text-balance text-lg font-medium leading-snug text-ink/80 md:text-2xl">{site.tagline}</p>
+          </div>
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <PillButton tone="yellow" size="lg" href="#whatsapp" onClick={() => api?.goTo("whatsapp")}>
+            <PillButton tone="yellow" size="lg" href="#faca-parte" onClick={() => api?.goTo("faca-parte")}>
               Fazer parte
             </PillButton>
             <PillButton tone="outline" size="lg" href="#eventos" onClick={() => api?.goTo("eventos")}>

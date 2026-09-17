@@ -1,12 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Anton, Inter, JetBrains_Mono } from "next/font/google";
+import { Anton, JetBrains_Mono } from "next/font/google";
 import { site } from "@/content/site";
 import "./globals.css";
 import { PageIntro } from "@/components/fx/PageIntro";
-import { AmbientAudioProvider } from "@/components/fx/AmbientAudio";
 
 const anton = Anton({ weight: "400", subsets: ["latin"], variable: "--font-anton", display: "swap" });
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono-jb", display: "swap" });
 
 export const metadata: Metadata = {
@@ -49,9 +47,9 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${anton.variable} ${inter.variable} ${mono.variable} h-full antialiased`}>
+    <html lang="pt-BR" className={`${anton.variable} ${mono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-paper text-ink">
-        <AmbientAudioProvider>{children}</AmbientAudioProvider>
+        {children}
         <PageIntro />
       </body>
     </html>

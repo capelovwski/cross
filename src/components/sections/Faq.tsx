@@ -30,11 +30,11 @@ export function Faq() {
             responde
           </Reveal>
           <Reveal delay={0.15} className="mt-4 max-w-md text-sm text-ink/70 md:text-base">
-            Não achou o que procurava? Manda no grupo do WhatsApp ou fala com um líder no próximo encontro.
+            Não achou o que procurava? Pergunta pro líder do seu PGM ou fala com a gente no próximo encontro.
           </Reveal>
           <Reveal delay={0.2} className="mt-5 hidden lg:block">
-            <PillButton tone="ink" href="#whatsapp" onClick={() => api?.goTo("whatsapp")}>
-              Perguntar no WhatsApp
+            <PillButton tone="ink" href="#faca-parte" onClick={() => api?.goTo("faca-parte")}>
+              Encontrar um PGM
             </PillButton>
           </Reveal>
         </div>

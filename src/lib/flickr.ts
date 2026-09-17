@@ -7,9 +7,12 @@
  * 3) Caso contrário → retorna null e a galeria usa as fotos estáticas.
  */
 import { staticPhotos, type StaticPhoto } from "@/content/photos";
+import { site, type TribeId } from "@/content/site";
 
 export interface GalleryPhoto extends StaticPhoto {
   href?: string;
+  /** tribo do álbum de origem (vira uma etiqueta na foto) */
+  tribe?: TribeId;
 }
 
 const REVALIDATE = 3600;
@@ -99,6 +102,34 @@ export async function getGalleryPhotos(): Promise<{ photos: GalleryPhoto[]; sour
     }
   } catch (err) {
     console.warn("[flickr] falha ao carregar álbum, usando fallback estático:", err);
+  }
+  return { photos: staticPhotos, source: "static" };
+}
+
+/**
+ * Fotos da última celebração de UP e GO (álbuns em `site.albums`), intercaladas.
+ * Usa o feed público do Flickr (sem chave). Se algum álbum falhar, usa as capas;
+ * se tudo falhar, as fotos estáticas.
+ */
+export async function getTribeAlbumPhotos(perAlbum = 4): Promise<{ photos: GalleryPhoto[]; source: "flickr" | "static" }> {
+  const tribes: TribeId[] = ["up", "go"];
+  try {
+    const lists = await Promise.all(
+      tribes.map(async (t) => {
+        const album = site.albums[t];
+        const label = `${album.title} · ${album.date}`;
+        const photos = (await viaFeed(site.flickr.nsid, album.id).catch(() => null)) ?? [];
+        const picked = photos.length
+          ? photos.slice(0, perAlbum).map((p) => ({ ...p, alt: label, href: album.url, tribe: t }))
+          : [{ src: album.cover, alt: label, width: 1600, height: 1200, href: album.url, tribe: t }];
+        return picked;
+      }),
+    );
+    const mixed: GalleryPhoto[] = [];
+    for (let i = 0; i < Math.max(...lists.map((l) => l.length)); i++) for (const l of lists) if (l[i]) mixed.push(l[i]);
+    if (mixed.length) return { photos: mixed, source: "flickr" };
+  } catch (err) {
+    console.warn("[flickr] falha ao carregar álbuns das tribos, usando fallback estático:", err);
   }
   return { photos: staticPhotos, source: "static" };
 }

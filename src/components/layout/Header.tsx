@@ -3,12 +3,11 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { navItems, sections, type SectionId } from "@/content/sections";
+import { darkSections, navItems, sections, type SectionId } from "@/content/sections";
 import { useSectionScroll } from "@/components/scroll/ScrollContext";
 import { PillButton } from "@/components/ui/PillButton";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/ui/Logo";
-import { AudioToggle } from "@/components/fx/AmbientAudio";
 
 interface Props {
   /** "home" usa o scroll por seção; "page" navega com âncoras para /#id */
@@ -20,7 +19,7 @@ export function Header({ variant = "home" }: Props) {
   const [open, setOpen] = useState(false);
 
   const activeId = api ? sections[api.index]?.id : undefined;
-  const dark = variant === "home" && ["o-que-e", "up", "go", "calendario"].includes(activeId ?? "");
+  const dark = variant === "home" && !!activeId && darkSections.includes(activeId);
   // com rolagem livre (desktop) o header passa por cima do conteúdo: ganha fundo translúcido
   const solid = variant === "page" || api?.mode === "native";
 
@@ -85,15 +84,14 @@ export function Header({ variant = "home" }: Props) {
       </nav>
 
       <div className="flex items-center gap-2">
-        <AudioToggle dark={dark} />
         <PillButton
           tone="yellow"
           size="sm"
           className="hidden sm:inline-flex"
-          href={variant === "home" ? "#whatsapp" : "/#whatsapp"}
-          onClick={() => variant === "home" && go("whatsapp")}
+          href={variant === "home" ? "#faca-parte" : "/#faca-parte"}
+          onClick={() => variant === "home" && go("faca-parte")}
         >
-          Entrar no grupo
+          Encontrar um PGM
         </PillButton>
         <button
           type="button"
@@ -143,8 +141,8 @@ export function Header({ variant = "home" }: Props) {
               ))}
             </ul>
             <div className="mt-auto">
-              <PillButton tone="yellow" size="lg" href="#whatsapp" onClick={() => go("whatsapp")}>
-                Entrar no grupo
+              <PillButton tone="yellow" size="lg" href="#faca-parte" onClick={() => go("faca-parte")}>
+                Encontrar um PGM
               </PillButton>
             </div>
           </motion.div>

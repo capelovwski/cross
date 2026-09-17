@@ -54,14 +54,14 @@ function EventCard({ ev, i }: { ev: CrossEvent; i: number }) {
             <PillButton
               tone={ev.tone === "yellow" || ev.tone === "paper" ? "ink" : "yellow"}
               size="sm"
-              href={isPlaceholder(ev.cta.href) ? "#whatsapp" : ev.cta.href}
+              href={isPlaceholder(ev.cta.href) ? "#faq" : ev.cta.href}
               className="self-start"
             >
               {ev.cta.label}
             </PillButton>
           ) : (
             <span className="font-mono text-[10px] uppercase tracking-widest opacity-60">
-              {paused ? "volta no próximo ano" : "fica de olho no WhatsApp"}
+              {paused ? "volta no próximo ano" : "fica de olho no Instagram"}
             </span>
           )}
         </div>

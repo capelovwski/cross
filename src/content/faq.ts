@@ -1,6 +1,6 @@
 /**
- * Perguntas frequentes: primeiro rascunho para revisão.
- * Cada item: pergunta + resposta (texto simples, pode ter quebras de linha).
+ * Perguntas frequentes: rascunho para revisão.
+ * Cada item: pergunta + resposta (texto simples).
  */
 export interface FaqItem {
   q: string;
@@ -13,20 +13,28 @@ export const faq: FaqItem[] = [
     a: "Todo mundo entre 13 e 29 anos. Dos 13 aos 17 você é UP (adolescentes) e se encontra nas sextas. Dos 18 aos 29 você é GO (jovens) e se encontra nos sábados. Se você está bem na fronteira, fala com um líder que a gente te ajuda a escolher.",
   },
   {
+    q: "O que é um PGM?",
+    a: "PGM é Pequeno Grupo Multiplicador. É um grupo pequeno, com liderança, onde a gente se conhece de verdade, estuda a Palavra, ora junto e cuida uns dos outros. UP e GO funcionam com PGMs, e é ali que a vida do CROSS acontece durante a semana.",
+  },
+  {
+    q: "Como entro num PGM?",
+    a: "Na seção Faça parte aqui do site, escolhe a sua tribo e a gente te conecta com um PGM. Se preferir, chega num encontro de sexta (UP) ou sábado (GO) e fala com a recepção.",
+  },
+  {
+    q: "Preciso estar num PGM pra servir?",
+    a: "Sim. É no PGM que a gente é discipulado, cuidado e preparado. Por isso, pra servir em qualquer área do CROSS, você precisa fazer parte de um.",
+  },
+  {
     q: "Preciso ser membro da IBB pra ir?",
     a: "Não. O CROSS é aberto pra qualquer pessoa, de qualquer igreja ou de nenhuma. Chega, se apresenta na recepção e pronto. A gente cuida do resto.",
   },
   {
     q: "Os encontros semanais têm algum custo?",
-    a: "Zero. UP (sexta) e GO (sábado) são totalmente gratuitos. Só eventos especiais como acampamentos, VM e a Conferência Flechas têm inscrição paga.",
-  },
-  {
-    q: "Como entro no grupo de WhatsApp?",
-    a: "É só clicar no botão da seção WhatsApp aqui do site (tem um grupo do CROSS e grupos separados pra UP e GO). Lá a gente avisa tudo: programação da semana, inscrições e mudanças de última hora.",
+    a: "Zero. UP (sexta), GO (sábado) e os PGMs são gratuitos. Só eventos especiais como acampamentos, VM e a Conferência Flechas têm inscrição paga.",
   },
   {
     q: "Como funcionam as inscrições e pagamentos dos eventos?",
-    a: "As inscrições do VM, dos acampamentos e da Conferência Flechas abrem pelo link divulgado no site e no WhatsApp. O pagamento é por Pix ou cartão no formulário de inscrição, com lotes: quanto antes você garantir, mais barato. Vagas são limitadas e a inscrição só é confirmada após o pagamento.",
+    a: "As inscrições do VM, dos acampamentos e da Conferência Flechas abrem pelo link divulgado aqui no site, no Instagram e nos PGMs. O pagamento é por Pix ou cartão no formulário de inscrição, com lotes: quanto antes você garantir, mais barato. Vagas são limitadas e a inscrição só é confirmada após o pagamento.",
   },
   {
     q: "O que devo levar pros acampamentos?",
@@ -38,7 +46,7 @@ export const faq: FaqItem[] = [
   },
   {
     q: "Como compro produtos da Cross Store?",
-    a: "A Cross Store é só vitrine: você escolhe aqui no site e compra presencialmente com a equipe da loja nos encontros de sexta/sábado e nos eventos. Aceitamos Pix, dinheiro e cartão. Sem entrega, sem frete.",
+    a: "A Cross Store é só vitrine: você escolhe aqui no site e compra presencialmente com a equipe da loja nos encontros de sexta e sábado e nos eventos. Aceitamos Pix, dinheiro e cartão. Sem entrega, sem frete.",
   },
   {
     q: "Sou pai/mãe. Meu filho de 13 anos pode ir sozinho?",
