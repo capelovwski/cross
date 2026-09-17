@@ -54,7 +54,7 @@ export function Lema() {
           </Reveal>
           <Reveal delay={0.35} className="flex flex-col gap-3 md:rounded-card-lg md:border md:border-paper/15 md:p-5">
             <p className="hidden text-sm leading-relaxed text-paper/75 md:block">
-              E onde isso acontece na prática? No <strong className="font-semibold text-paper">PGM</strong>, o pequeno grupo que é a base do CROSS.
+              E onde isso acontece na prática? No <strong className="font-semibold text-paper">PGM</strong>, o pequeno grupo que é a base da IBB.
             </p>
             <PillButton tone="yellow" size="md" className="self-start" href="#pgm" onClick={() => api?.goTo("pgm")}>
               Entender o PGM

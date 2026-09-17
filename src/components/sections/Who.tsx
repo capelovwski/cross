@@ -29,7 +29,7 @@ export function Who() {
     <SectionShell id="quem-somos" bg="paper">
       <div className="grid flex-1 grid-cols-1 gap-3 md:grid-cols-6 md:grid-rows-[1fr_auto] md:gap-4">
         {/* texto principal */}
-        <Reveal className="flex flex-col justify-between gap-4 rounded-card-lg bg-ink p-5 text-paper shadow-float md:col-span-3 md:p-7">
+        <Reveal className="flex flex-col justify-between gap-3 rounded-card-lg bg-ink p-4 text-paper shadow-float md:col-span-3 md:gap-4 md:p-7">
           <div>
             <div className="flex items-start justify-between gap-3">
               <h2 className="font-display text-4xl leading-[0.9] sm:text-5xl xl:text-6xl">
@@ -74,7 +74,7 @@ export function Who() {
         </Reveal>
 
         {/* estrutura: CROSS → UP / GO → PGMs */}
-        <Reveal delay={0.1} className="flex flex-col justify-between gap-4 rounded-card-lg border-2 border-ink/10 bg-white p-5 shadow-float md:col-span-3 md:p-7">
+        <Reveal delay={0.1} className="flex flex-col justify-between gap-3 rounded-card-lg border-2 border-ink/10 bg-white p-4 shadow-float md:col-span-3 md:gap-4 md:p-7">
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink/55">Como a gente se organiza</p>
           <div className="flex flex-col items-center">
             <LogoBox name="cross-black" boxClassName="h-7 w-28 md:h-9 md:w-36" className="object-center" />

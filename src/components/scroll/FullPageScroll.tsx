@@ -401,9 +401,10 @@ export function FullPageScroll({ ids, children, chrome, duration: durationProp =
                 tabIndex={-1}
                 className="h-dvh w-full overflow-y-auto overscroll-contain no-scrollbar outline-none"
               >
-                {/* linha minmax(100%, auto): a seção ocupa a tela inteira e cresce se o conteúdo for maior */}
+                {/* coluna flex com altura mínima de tela: a casca da seção cresce com o conteúdo real
+                    (em telas baixas a seção rola por dentro antes de trocar) */}
                 <div
-                  className="grid h-full grid-rows-[minmax(100%,auto)] origin-center will-change-transform"
+                  className="flex min-h-full flex-col origin-center will-change-transform"
                   style={
                     mobile
                       ? undefined // feed puro: sem escala/opacidade, só o trilho se move (mais leve)

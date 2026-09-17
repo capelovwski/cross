@@ -70,14 +70,14 @@ export const site = {
     short: "PGM",
     name: "Pequeno Grupo Multiplicador",
     pitch:
-      "O PGM é a base do CROSS. Um grupo pequeno, com liderança, onde você é chamado pelo nome, cuida e é cuidado, e a fé sai do culto e entra na semana.",
+      "O PGM é a base da IBB, e o CROSS vive isso também. Um grupo pequeno, com liderança, onde você é chamado pelo nome, cuida e é cuidado, e a fé sai do culto e entra na semana.",
     rule: "Quer servir? Começa num PGM.",
     ruleDetail:
       "É no PGM que a gente é discipulado, cuidado e preparado. Por isso, pra servir em qualquer área do CROSS, você precisa fazer parte de um.",
     steps: [
       { verb: "Amar", text: "No PGM a gente se conhece de verdade: Palavra, oração e cuidado uns com os outros." },
-      { verb: "Servir", text: "Do PGM pro ministério: quem está num PGM serve na igreja e na cidade." },
-      { verb: "Transbordar", text: "O PGM cresce, forma novos líderes e se multiplica. Um vira dois, e mais gente é alcançada." },
+      { verb: "Servir", text: "No PGM você entende, na prática, o que é ser igreja. E aí servir deixa de ser tarefa: é cuidar da sua igreja local." },
+      { verb: "Transbordar", text: "Quando o PGM cresce, ele se multiplica: um grupo vira dois, novos líderes surgem e mais gente é alcançada." },
     ],
   },
 

@@ -109,7 +109,7 @@ export function Calendar() {
   const monthName = cursor ? MONTHS_LONG[cursor.m] : "";
 
   return (
-    <SectionShell id="calendario" bg="ink" align="top" className="min-h-0">
+    <SectionShell id="calendario" bg="ink" align="top" fit="screen" className="min-h-0">
       <Reveal from="scale" className="flex min-h-0 flex-1 flex-col">
         {/* ---------- moldura estilo janela ---------- */}
         <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-card-lg border border-paper/10 bg-ink-soft/70 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)] backdrop-blur-sm">

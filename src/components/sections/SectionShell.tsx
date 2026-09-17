@@ -23,21 +23,27 @@ interface Props {
   align?: "top" | "center";
   /** camada de fundo (vídeo, imagem) atrás do conteúdo, cobrindo a seção inteira */
   backdrop?: ReactNode;
+  /**
+   * "grow" (padrão): a seção ocupa no mínimo a tela e cresce se o conteúdo for maior
+   * (em telas baixas a seção rola por dentro antes de trocar).
+   * "screen": travada na altura da tela, para seções que rolam listas internas (ex.: calendário).
+   */
+  fit?: "grow" | "screen";
 }
 
 /** Casca padrão de uma seção: fundo, grão, padding e o marcador [NN LABEL] fixo no canto. */
-export function SectionShell({ id, bg = "paper", children, className, align = "center", backdrop }: Props) {
+export function SectionShell({ id, bg = "paper", children, className, align = "center", backdrop, fit = "grow" }: Props) {
   const meta = sections.find((s) => s.id === id)!;
   const light = bg === "ink" || bg === "blue" || bg === "red";
   return (
-    <div className={cn("grain relative flex min-h-full w-full flex-1 flex-col px-5 pb-[calc(4.75rem+env(safe-area-inset-bottom,0px))] pt-[calc(4.5rem+env(safe-area-inset-top,0px))] md:px-10 md:pb-8 md:pt-24 lg:px-14", bgs[bg])}>
+    <div className={cn("grain relative flex w-full grow flex-col px-5 pb-[calc(4.75rem+env(safe-area-inset-bottom,0px))] pt-[calc(4.5rem+env(safe-area-inset-top,0px))] md:px-10 md:pb-8 md:pt-24 lg:px-14", fit === "screen" && "h-dvh max-h-dvh", bgs[bg])}>
       {backdrop && (
         <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
           {backdrop}
         </div>
       )}
       <SectionLabel num={meta.num} label={meta.label} tone={light ? "light" : "dark"} className="relative z-10 mb-4 md:mb-6" />
-      <div className={cn("relative z-10 flex w-full flex-1 flex-col", align === "center" && "justify-center", className)}>{children}</div>
+      <div className={cn("relative z-10 flex w-full grow flex-col", align === "center" && "justify-center", className)}>{children}</div>
     </div>
   );
 }

@@ -14,7 +14,7 @@ export const faq: FaqItem[] = [
   },
   {
     q: "O que é um PGM?",
-    a: "PGM é Pequeno Grupo Multiplicador. É um grupo pequeno, com liderança, onde a gente se conhece de verdade, estuda a Palavra, ora junto e cuida uns dos outros. UP e GO funcionam com PGMs, e é ali que a vida do CROSS acontece durante a semana.",
+    a: "PGM é Pequeno Grupo Multiplicador. É a base da IBB: um grupo pequeno, com liderança, onde a gente se conhece de verdade, estuda a Palavra, ora junto e cuida uns dos outros. UP e GO funcionam com PGMs, e é ali que a vida do CROSS acontece durante a semana.",
   },
   {
     q: "Como entro num PGM?",
