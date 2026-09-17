@@ -50,7 +50,15 @@ A seção Fotos mostra a **última celebração de UP e GO**, direto dos álbuns
 
 A cada culto novo, troque em `src/content/site.ts` → `albums.up` / `albums.go`:
 `id` (número no fim da URL do álbum), `date`, `url` e `cover` (a imagem do código de embed).
-O site se atualiza sozinho a cada hora. Se o Flickr falhar, usa as capas; se tudo falhar, as fotos estáticas.
+
+**Quais fotos aparecem**
+- Sem `pick`, o site escolhe sozinho: analisa as miniaturas e prefere fotos nítidas, bem expostas e com
+  pessoas visíveis, e descarta as quase iguais. Fotos de palco muito escuras tendem a ficar de fora.
+- Para escolher a dedo, preencha `pick` com os IDs das fotos (o número na URL da foto no Flickr), na ordem.
+  Se os IDs não existirem no álbum atual, volta para a escolha automática.
+
+O mural usa linhas justificadas: cada foto ocupa a largura do próprio formato, então quase nada é cortado.
+O site se atualiza sozinho a cada hora. Se o Flickr falhar, usa as fotos estáticas.
 
 ## Atualizando conteúdo
 

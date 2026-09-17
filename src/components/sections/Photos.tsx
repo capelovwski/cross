@@ -1,13 +1,13 @@
 import { SectionShell } from "./SectionShell";
 import { Reveal } from "@/components/ui/Reveal";
 import { Sticker } from "@/components/ui/Sticker";
-import { PhotoMosaic } from "@/components/photos/PhotoMosaic";
-import { getTribeAlbumPhotos } from "@/lib/flickr";
+import { PhotoMural } from "@/components/photos/PhotoMosaic";
+import { getMuralPhotos } from "@/lib/flickr";
 import { site } from "@/content/site";
 
 /** 09 · Fotos: a última celebração de cada tribo, direto dos álbuns do Flickr da IBB. */
 export async function Photos() {
-  const { photos, source } = await getTribeAlbumPhotos(4);
+  const { desktop, mobile, source } = await getMuralPhotos();
   const { up, go } = site.albums;
 
   return (
@@ -40,7 +40,7 @@ export async function Photos() {
           </a>
         </div>
       </div>
-      <PhotoMosaic photos={photos} />
+      <PhotoMural desktop={desktop} mobile={mobile} />
     </SectionShell>
   );
 }

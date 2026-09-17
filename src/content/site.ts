@@ -47,7 +47,12 @@ export const site = {
   /** Flickr da IBB (feed público, sem chave de API) */
   flickr: { nsid: "60884541@N02", user: "ibbfotografia" },
 
-  /** álbum da última celebração de cada tribo: trocar id/data/capa a cada culto */
+  /**
+   * álbum da última celebração de cada tribo: trocar id/data/url/capa a cada culto.
+   * `pick` (opcional): IDs das fotos que devem aparecer no mural, na ordem. Sem `pick`
+   * (ou se os IDs não estiverem no álbum), o site escolhe sozinho as fotos mais claras e nítidas,
+   * com pessoas visíveis, e descarta as quase iguais. O ID é o número na URL da foto no Flickr.
+   */
   albums: {
     up: {
       id: "72177720335613278",
@@ -55,6 +60,7 @@ export const site = {
       date: "04/09/2026",
       url: "https://www.flickr.com/photos/ibbfotografia/albums/72177720335613278",
       cover: "https://live.staticflickr.com/65535/55526696973_63d23bf9c1_h.jpg",
+      pick: ["55526595331", "55526595241", "55526750139", "55525576657", "55526750159"] as string[],
     },
     go: {
       id: "72177720335625159",
@@ -62,6 +68,7 @@ export const site = {
       date: "12/09/2026",
       url: "https://www.flickr.com/photos/ibbfotografia/albums/72177720335625159",
       cover: "https://live.staticflickr.com/65535/55526732499_4521e9e375_h.jpg",
+      pick: ["55526964370", "55525557112", "55526964515", "55526731624", "55526964650", "55525557402", "55526963915", "55526576356"] as string[],
     },
   },
 
