@@ -217,10 +217,9 @@ a base do ministério, e o lema do CROSS: **Amar, Servir, Transbordar**.
 Os lemas antigos de cada tribo foram removidos. A trilha ambiente foi arquivada
 (`src/components/_archived/ambient-audio`, tag `arquivo/musica-ambiente`).
 
-### Header (set/2026)
+### Menu líquido (set/2026)
 
-Barra sólida flutuante de **alto contraste**: a cor muda por seção (`headerThemes` em `src/content/sections.ts`),
-sempre a que mais contrasta com o fundo da seção (preta nas seções claras e amarelas, clara nas escuras e no GO,
-amarela no UP). A cada troca, uma **onda líquida** atravessa a barra (`LiquidFill`): primeiro a cor de destaque,
-depois a cor final; sobe quando a página desce e desce quando a página sobe. O texto troca de cor de uma vez
-quando a onda cruza o meio da barra. Com reduce-motion a cor só troca.
+Header transparente. A seção ativa é marcada por uma pílula de alto contraste (amarela nas seções escuras,
+preta nas claras) que **escorre como uma ameba** até o botão novo (`GooIndicator`): uma cabeça rápida,
+uma cauda atrasada e uma ponte fina, fundidas por um filtro gooey do SVG. O mesmo indicador marca a aba
+ativa da ilha no celular. O texto fica fora do filtro; com reduce-motion a pílula só pula de lugar.

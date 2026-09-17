@@ -8,12 +8,12 @@
  */
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { LayoutGroup, motion, useReducedMotion } from "framer-motion";
+import { useRef, useState } from "react";
 import { useSectionScroll } from "@/components/scroll/ScrollContext";
 import { sections, type SectionId } from "@/content/sections";
 import { BottomSheet } from "@/components/ui/BottomSheet";
 import { LogoBox, type LogoName } from "@/components/ui/Logo";
+import { GooIndicator } from "@/components/ui/GooIndicator";
 import { cn } from "@/lib/utils";
 
 type Tab = { id: SectionId | "more"; label: string; logo?: [LogoName, LogoName]; icon?: React.ReactNode; box?: string };
@@ -63,7 +63,6 @@ export function TabBar({ variant = "home" }: Props) {
   const api = useSectionScroll();
   const router = useRouter();
   const [more, setMore] = useState(false);
-  const reduce = useReducedMotion();
   const activeId = api ? sections[api.index]?.id : undefined;
 
   const go = (id: SectionId) => {
@@ -74,6 +73,9 @@ export function TabBar({ variant = "home" }: Props) {
 
   // qual aba está "acesa": a seção ativa, ou "Mais" enquanto o sheet estiver aberto
   const lit = more ? "more" : (tabs.find((t) => t.id === activeId)?.id ?? null);
+  const islandRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const litIndex = tabs.findIndex((t) => t.id === lit);
 
   return (
     <>
@@ -81,42 +83,39 @@ export function TabBar({ variant = "home" }: Props) {
         aria-label="Navegação principal"
         className="fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+12px)] z-[70] flex justify-center px-4 md:hidden"
       >
-        <LayoutGroup id="island">
-          <motion.ul
-            layout
-            className="flex items-center gap-0 rounded-full border border-white/10 bg-ink/90 p-1 min-[380px]:gap-0.5 min-[380px]:p-1.5 text-paper shadow-[0_12px_40px_rgba(11,11,12,0.5)] backdrop-blur-xl"
-            transition={{ type: "spring", stiffness: 500, damping: 40 }}
-          >
-            {tabs.map((t) => {
+        <div
+          ref={islandRef}
+          className="relative rounded-full border border-white/10 bg-ink/90 p-1 text-paper shadow-[0_12px_40px_rgba(11,11,12,0.5)] backdrop-blur-xl min-[380px]:p-1.5"
+        >
+          {/* bolha líquida da aba ativa */}
+          <GooIndicator containerRef={islandRef} getItem={(i) => tabRefs.current[i]} activeIndex={litIndex} color="#ffc91f" blur={7} />
+          <ul className="relative flex items-center gap-0 min-[380px]:gap-0.5">
+            {tabs.map((t, i) => {
               const active = lit === t.id;
               return (
-                <motion.li key={t.id} layout transition={{ type: "spring", stiffness: 500, damping: 40 }}>
+                <li key={t.id}>
                   <button
+                    ref={(el) => {
+                      tabRefs.current[i] = el;
+                    }}
                     type="button"
                     onClick={() => (t.id === "more" ? setMore((m) => !m) : go(t.id))}
                     aria-current={active && t.id !== "more" ? "page" : undefined}
                     aria-label={t.label}
                     className={cn(
-                      "relative flex h-11 items-center justify-center rounded-full px-3 transition-colors min-[380px]:px-3.5",
-                      active ? "text-ink" : "text-paper/75",
+                      "relative flex h-11 items-center justify-center rounded-full px-3 transition-colors duration-200 min-[380px]:px-3.5",
+                      active ? "text-ink delay-150" : "text-paper/75",
                     )}
                   >
-                    {active && (
-                      <motion.span
-                        layoutId="island-bubble"
-                        className="absolute inset-0 rounded-full bg-yellow"
-                        transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 500, damping: 38 }}
-                      />
-                    )}
                     <span className="relative z-10 flex items-center">
                       {t.logo ? <LogoBox name={active ? t.logo[1] : t.logo[0]} boxClassName={t.box} className="object-center" /> : t.icon}
                     </span>
                   </button>
-                </motion.li>
+                </li>
               );
             })}
-          </motion.ul>
-        </LayoutGroup>
+          </ul>
+        </div>
       </nav>
 
       <BottomSheet open={more} onClose={() => setMore(false)} title="Menu">
