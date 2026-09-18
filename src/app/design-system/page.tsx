@@ -9,6 +9,7 @@ import { Marquee } from "@/components/ui/Marquee";
 import { CountUp } from "@/components/ui/CountUp";
 import { Logo, LogoBox } from "@/components/ui/Logo";
 import { CrossMark } from "@/components/ui/CrossMark";
+import { CrossHero } from "@/components/ui/CrossHero";
 import { Placeholder } from "@/components/ui/Placeholder";
 import { Tilt } from "@/components/fx/Tilt";
 import { IconAmar, IconServir, IconTransbordar } from "@/components/fx/PgmIcons";
@@ -359,14 +360,21 @@ export default function DesignSystemPage() {
               </div>
             ))}
           </div>
+          <h3 className="font-display text-2xl">CrossHero · versão do hero</h3>
+          <p className="mb-3 mt-1 text-sm text-ink/70">O mesmo desenho dentro da elipse de adesivo. Anel, miolo e letras também são configuráveis.</p>
+          <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className="flex items-center justify-center rounded-card border-2 border-ink/10 bg-paper p-4">
+              <CrossHero className="w-full max-w-[16rem]" />
+            </div>
+            <div className="flex items-center justify-center rounded-card bg-ink p-4">
+              <CrossHero ring="#ffc91f" inner="#f3f0e8" fill="#0b0b0c" letters="#f3f0e8" className="w-full max-w-[16rem]" />
+            </div>
+            <div className="flex items-center justify-center rounded-card bg-blue p-4">
+              <CrossHero ring="#f3f0e8" inner="#0b0b0c" fill="#ffc91f" letters="#0b0b0c" shadow="#e8262a" className="w-full max-w-[16rem]" />
+            </div>
+          </div>
           <h3 className="font-display text-2xl">Tribos e loja</h3>
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-            <div className="flex h-28 items-center justify-center rounded-card border-2 border-ink/10 bg-paper p-4">
-              <Logo name="cross-home" sizes="200px" className="h-12 w-auto" />
-            </div>
-            <div className="flex h-28 items-center justify-center rounded-card bg-ink p-4">
-              <Logo name="cross-white" sizes="200px" className="h-7 w-auto" />
-            </div>
             <div className="flex h-28 items-center justify-center rounded-card bg-red p-4">
               <Logo name="up-white" sizes="120px" className="h-12 w-auto" />
             </div>

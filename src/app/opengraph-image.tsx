@@ -1,6 +1,5 @@
 import { ImageResponse } from "next/og";
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
+import { crossHeroSvg } from "@/lib/crossMarkPaths";
 import { site } from "@/content/site";
 
 export const alt = "CROSS · Adolescentes e Jovens da IBB";
@@ -22,7 +21,7 @@ async function loadAnton() {
 
 export default async function OpenGraphImage() {
   const anton = await loadAnton();
-  const logo = await readFile(join(process.cwd(), "public/img/logos/cross-home.png")).then((b) => `data:image/png;base64,${b.toString("base64")}`).catch(() => null);
+  const logo = `data:image/svg+xml;base64,${Buffer.from(crossHeroSvg()).toString("base64")}`;
   return new ImageResponse(
     (
       <div
@@ -46,7 +45,7 @@ export default async function OpenGraphImage() {
           </span>
         </div>
         {logo ? (
-          <img src={logo} alt="" width={820} height={300} style={{ width: 820, height: 300, objectFit: "contain" }} />
+          <img src={logo} alt="" width={760} height={409} style={{ width: 760, height: 409, objectFit: "contain" }} />
         ) : (
           <div style={{ fontSize: 300, lineHeight: 0.9, letterSpacing: 4, color: "#ffc91f" }}>CROSS</div>
         )}

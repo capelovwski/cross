@@ -85,7 +85,8 @@ vale para todo texto corrido, e as fontes mono e display ficam de fora dele.
 | `Accordion` | FAQ | o "+" gira e vira "×" |
 | `BottomSheet` | menu e FAQ no celular | sobe do rodapé, fecha arrastando |
 | `GooIndicator` | pílula da seção ativa | cabeça rápida, cauda atrasada e ponte fina, fundidas por filtro gooey |
-| `CrossMark` | logotipo CROSS (vetorial) | sombra e letras em camadas separadas: `letters` e `shadow` aceitam qualquer cor; `shadow={false}` em tamanhos pequenos |
+| `CrossMark` | logotipo CROSS (vetorial) | sombra e letras em camadas separadas: `letters` e `shadow` aceitam qualquer cor; `shadow={false}` em tamanhos pequenos. **No header é sempre monocromático** |
+| `CrossHero` | logotipo dentro da elipse de adesivo | usado no hero e na imagem de compartilhamento; anel, miolo e letras configuráveis |
 | `Logo` / `LogoBox` | logos de UP, GO e Cross Store | controle pela **altura**; `LogoBox` alinha logos de formatos diferentes |
 | `Marquee` | fita rolando | loop sem emenda |
 | `CountUp` | estatísticas | conta de zero ao entrar na tela |

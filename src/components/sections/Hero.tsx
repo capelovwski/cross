@@ -9,7 +9,7 @@ import { CountUp } from "@/components/ui/CountUp";
 import { Marquee } from "@/components/ui/Marquee";
 import { site } from "@/content/site";
 import { useSectionScroll, useSectionState } from "@/components/scroll/ScrollContext";
-import { Logo } from "@/components/ui/Logo";
+import { CrossHero } from "@/components/ui/CrossHero";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -75,7 +75,7 @@ export function Hero() {
             className={cn("m-0 w-[82vw] max-w-[860px] sm:w-[70vw] lg:w-[58vw]", !fine && !reduce && "animate-float")}
             style={fine ? { rotateX, rotateY, x: logoX, y: logoY, transformStyle: "preserve-3d" } : undefined}
           >
-            <Logo name="cross-home" priority sizes="(max-width: 640px) 82vw, (max-width: 1024px) 70vw, 860px" className="w-full drop-shadow-[0_18px_30px_rgba(11,11,12,0.25)]" alt="CROSS, adolescentes e jovens da IBB" />
+            <CrossHero title="CROSS, adolescentes e jovens da IBB" className="w-full drop-shadow-[0_18px_30px_rgba(11,11,12,0.25)]" />
           </motion.h1>
         </div>
 

@@ -64,8 +64,8 @@ export function Header({ variant = "home" }: Props) {
         className="block h-7 md:h-9"
         aria-label="CROSS, início"
       >
-        {/* letras contrastam com o fundo da seção; a sombra é sempre uma cor de marca */}
-        <CrossMark letters={dark ? "#f3f0e8" : "#0b0b0c"} shadow={dark ? "#ffc91f" : "#e8262a"} className="h-full" />
+        {/* no header a logo é sempre monocromática: só as letras, na cor que contrasta com a seção */}
+        <CrossMark letters={dark ? "#f3f0e8" : "#0b0b0c"} className="h-full" />
       </Link>
 
       <nav ref={navRef} aria-label="Principal" className="relative hidden items-center gap-1 lg:flex">
