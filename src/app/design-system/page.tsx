@@ -9,7 +9,6 @@ import { Marquee } from "@/components/ui/Marquee";
 import { CountUp } from "@/components/ui/CountUp";
 import { Logo, LogoBox } from "@/components/ui/Logo";
 import { CrossMark } from "@/components/ui/CrossMark";
-import { CrossHero } from "@/components/ui/CrossHero";
 import { Placeholder } from "@/components/ui/Placeholder";
 import { Tilt } from "@/components/fx/Tilt";
 import { IconAmar, IconServir, IconTransbordar } from "@/components/fx/PgmIcons";
@@ -337,7 +336,7 @@ export default function DesignSystemPage() {
         </Block>
 
         {/* ------------------------------ LOGOS ----------------------------- */}
-        <Block id="logos" title="Logos" lead="O logotipo CROSS é vetorial (CrossMark): sombra e letras são camadas separadas, então sai em qualquer combinação de cores. UP, GO e Cross Store são arquivos em public/img/logos. Controle sempre pela altura, nunca pela largura.">
+        <Block id="logos" title="Logos" lead="O logotipo CROSS é vetorial (CrossMark). A sombra atrás das letras faz parte do desenho e nunca sai; como são camadas separadas, a logo aceita qualquer combinação de cores. Monocromática quer dizer letras e sombra na mesma cor, mantendo o 3D. UP, GO e Cross Store são arquivos em public/img/logos. Controle sempre pela altura, nunca pela largura.">
           <h3 className="font-display text-2xl">CrossMark · combinações</h3>
           <p className="mb-3 mt-1 text-sm text-ink/70">
             O vão entre as letras e a sombra é vazado: quem aparece ali é o fundo da seção. Por isso a sombra
@@ -359,19 +358,6 @@ export default function DesignSystemPage() {
                 <span className={cn("font-mono text-[9px] uppercase tracking-widest", v.bg.includes("ink") || v.bg.includes("red") || v.bg.includes("blue") ? "text-paper/70" : "text-ink/60")}>{v.label}</span>
               </div>
             ))}
-          </div>
-          <h3 className="font-display text-2xl">CrossHero · versão do hero</h3>
-          <p className="mb-3 mt-1 text-sm text-ink/70">O mesmo desenho dentro da elipse de adesivo. Anel, miolo e letras também são configuráveis.</p>
-          <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <div className="flex items-center justify-center rounded-card border-2 border-ink/10 bg-paper p-4">
-              <CrossHero className="w-full max-w-[16rem]" />
-            </div>
-            <div className="flex items-center justify-center rounded-card bg-ink p-4">
-              <CrossHero ring="#ffc91f" inner="#f3f0e8" fill="#0b0b0c" letters="#f3f0e8" className="w-full max-w-[16rem]" />
-            </div>
-            <div className="flex items-center justify-center rounded-card bg-blue p-4">
-              <CrossHero ring="#f3f0e8" inner="#0b0b0c" fill="#ffc91f" letters="#0b0b0c" shadow="#e8262a" className="w-full max-w-[16rem]" />
-            </div>
           </div>
           <h3 className="font-display text-2xl">Tribos e loja</h3>
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4">

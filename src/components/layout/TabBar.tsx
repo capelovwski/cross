@@ -110,7 +110,7 @@ export function TabBar({ variant = "home" }: Props) {
                   >
                     <span className="relative z-10 flex items-center">
                       {t.mark ? (
-                        <CrossMark letters={active ? "#0b0b0c" : "#f3f0e8"} className="h-4" />
+                        <CrossMark letters={active ? "#0b0b0c" : "#f3f0e8"} shadow={active ? "#0b0b0c" : "#f3f0e8"} className="h-5" />
                       ) : t.logo ? (
                         <LogoBox name={active ? t.logo[1] : t.logo[0]} boxClassName={t.box} className="object-center" />
                       ) : (

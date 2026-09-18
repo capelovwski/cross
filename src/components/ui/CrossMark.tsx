@@ -16,12 +16,18 @@ type Props = {
   letters?: string;
   /** cor da sombra; `false` esconde a sombra (bom em tamanhos pequenos) */
   shadow?: string | false;
+  /**
+   * cor do contorno entre as letras e a sombra. Sem ele, quem preenche esse vão é o fundo
+   * (é assim no arquivo original). Use quando a logo cair sobre algo colorido, como a fita
+   * do hero, para o desenho não se misturar com o fundo.
+   */
+  contour?: string;
   className?: string;
   /** texto para leitores de tela; sem ele a logo é tratada como decoração */
   title?: string;
 };
 
-export function CrossMark({ letters = "currentColor", shadow = false, className, title }: Props) {
+export function CrossMark({ letters = "currentColor", shadow = false, contour, className, title }: Props) {
   return (
     <svg
       viewBox={`0 0 ${MARK_VIEWBOX.width} ${MARK_VIEWBOX.height}`}
@@ -32,6 +38,10 @@ export function CrossMark({ letters = "currentColor", shadow = false, className,
       focusable="false"
     >
       {shadow && <path d={MARK_SHADOW} fill={shadow} />}
+      {contour &&
+        MARK_LETTERS.map((d) => (
+          <path key={`c-${d.slice(0, 12)}`} d={d} fill="none" stroke={contour} strokeWidth={11} strokeLinejoin="round" />
+        ))}
       {MARK_LETTERS.map((d) => (
         <path key={d.slice(0, 12)} d={d} fill={letters} />
       ))}

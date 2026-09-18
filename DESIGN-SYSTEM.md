@@ -69,7 +69,7 @@ vale para todo texto corrido, e as fontes mono e display ficam de fora dele.
 - **Sombras**: `float` (flutuante, para cards) e `sticker` (dura, deslocada, para o efeito de adesivo colado).
 - **Grão**: utilitário `.grain` dá aspecto impresso. No celular ele sai, para o scroll ficar leve.
 - **Rotações**: adesivos entre 1 e 8 graus. UP usa rotação com frequência, GO quase nunca.
-- **Logotipo**: o vão entre letras e sombra é vazado, então a sombra precisa contrastar com o fundo. Em fundo claro, letras ink com sombra red; em fundo escuro, letras paper com sombra yellow.
+- **Logotipo**: o 3D (sombra atrás das letras) é fixo. O vão entre as duas é vazado e mostra o fundo, que é o que forma o contorno. No header e na ilha a logo é monocromática (letras e sombra na mesma cor); no hero, letras ink com sombra red.
 - **Easing**: troca de seção com `--ease-section` cubic-bezier(0.76, 0, 0.24, 1); entradas com (0.22, 1, 0.36, 1).
 - **Sem blur animado**: filtros animados travavam o scroll. Use opacidade, deslocamento e escala.
 
@@ -85,8 +85,7 @@ vale para todo texto corrido, e as fontes mono e display ficam de fora dele.
 | `Accordion` | FAQ | o "+" gira e vira "×" |
 | `BottomSheet` | menu e FAQ no celular | sobe do rodapé, fecha arrastando |
 | `GooIndicator` | pílula da seção ativa | cabeça rápida, cauda atrasada e ponte fina, fundidas por filtro gooey |
-| `CrossMark` | logotipo CROSS (vetorial) | sombra e letras em camadas separadas: `letters` e `shadow` aceitam qualquer cor; `shadow={false}` em tamanhos pequenos. **No header é sempre monocromático** |
-| `CrossHero` | logotipo dentro da elipse de adesivo | usado no hero e na imagem de compartilhamento; anel, miolo e letras configuráveis |
+| `CrossMark` | logotipo CROSS (vetorial) | a sombra atrás das letras faz parte do desenho e **nunca sai**; `letters` e `shadow` aceitam qualquer cor. Monocromático = as duas na mesma cor (header e ilha). Em cor: hero com letras ink e sombra red. `contour` desenha o vão entre letras e sombra quando a logo cai sobre algo colorido (é o caso da fita do hero) |
 | `Logo` / `LogoBox` | logos de UP, GO e Cross Store | controle pela **altura**; `LogoBox` alinha logos de formatos diferentes |
 | `Marquee` | fita rolando | loop sem emenda |
 | `CountUp` | estatísticas | conta de zero ao entrar na tela |

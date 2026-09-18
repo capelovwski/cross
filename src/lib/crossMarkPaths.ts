@@ -15,37 +15,19 @@ export const MARK_LETTERS = [
   "M193.25,141.71l-7.36.65-7.62.65-8.18.77c-.35.03-1.25.08-1.52-.08-.32-.2-.61-.81-.78-1.38l-11.32-38.27-8.96-30.71-5.71-19.27-4.14-14.44,24.03-2.33,2.92,10.21,1.57,5.22c.03.12.32.52.4.46l.51-.38c3.32-11.12,12.53-16.97,23.77-18.83l7.03-1.16c.54,1,.75,2.04,1.08,3.17l5.17,17.58c2.97-4.21,5.18-7.9,8.65-11.06,4.42-4.03,9.46-6.93,15-9.1,4.92-1.93,9.67-2.89,14.96-3.42,14.72-1.48,29.14,1.77,41.6,9.67,6.65,4.22,12.32,9.26,17.08,15.6,6.47,8.62,10.91,18.44,12.99,29.04l.74,5.81.02,7.89c0,3.44-.69,6.49-1.62,9.79-3.73,13.18-13.46,23.56-26.31,28.3-15.96,5.89-32.79,5.12-48.42-1.59-6.76-2.9-12.76-7.03-18.15-11.99-11.33-10.42-18.67-24.97-20.85-40.19-.96-9.24-.56-17.37,3.4-26.25-4.64,0-9.03.6-13.25,2.02-8.73,2.93-13.99,11.28-13.11,20.42l.91,5.99.84,3.52,11.95,40.73,3.48,11.54c.16.53-.13,1.34-.8,1.4ZM267.12,118.29c11.5-1.25,19.62-9.45,21.13-20.87,2.65-19.99-12.02-43.67-32.69-46.09-3.58-.42-6.99-.36-10.4.32-10.35,2.08-17.67,10.21-18.98,20.69-.34,2.75-.48,5.67-.03,8.47l.55,3.44.73,3.46c2.45,8.66,6.21,15.03,12.62,21.23,7.25,7.01,16.93,10.44,27.05,9.34Z"
 ];
 
-/** geometria da versão do hero (elipse de adesivo) */
-export const HERO_VIEWBOX = { width: 1040, height: 560 };
-export const HERO_RING = { rx: 518, ry: 278 };
-export const HERO_INNER = { rx: 502, ry: 262 };
-export const HERO_FILL = { rx: 478, ry: 238 };
-export const HERO_MARK_WIDTH = 760;
-
-/** Mesmo desenho do componente CrossHero, como texto, para imagens geradas no servidor. */
-export function crossHeroSvg({
-  ring = "#e8262a",
-  inner = "#0b0b0c",
-  fill = "#f3f0e8",
+/** Marca como texto (para imagens geradas no servidor, como o Open Graph). */
+export function crossMarkSvg({
   letters = "#0b0b0c",
   shadow,
-}: { ring?: string; inner?: string; fill?: string; letters?: string; shadow?: string } = {}) {
-  const scale = HERO_MARK_WIDTH / MARK_VIEWBOX.width;
-  const markH = MARK_VIEWBOX.height * scale;
-  const x = (HERO_VIEWBOX.width - HERO_MARK_WIDTH) / 2;
-  const y = HERO_VIEWBOX.height / 2 - markH / 2;
-  const cx = HERO_VIEWBOX.width / 2;
-  const cy = HERO_VIEWBOX.height / 2;
-  const ellipse = (r: { rx: number; ry: number }, color: string) =>
-    `<ellipse cx="${cx}" cy="${cy}" rx="${r.rx}" ry="${r.ry}" fill="${color}"/>`;
+  contour,
+}: { letters?: string; shadow?: string; contour?: string } = {}) {
   return [
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${HERO_VIEWBOX.width} ${HERO_VIEWBOX.height}">`,
-    ellipse(HERO_RING, ring),
-    ellipse(HERO_INNER, inner),
-    ellipse(HERO_FILL, fill),
-    `<g transform="translate(${x} ${y}) scale(${scale})">`,
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${MARK_VIEWBOX.width} ${MARK_VIEWBOX.height}">`,
     shadow ? `<path d="${MARK_SHADOW}" fill="${shadow}"/>` : "",
+    contour
+      ? MARK_LETTERS.map((d) => `<path d="${d}" fill="none" stroke="${contour}" stroke-width="11" stroke-linejoin="round"/>`).join("")
+      : "",
     MARK_LETTERS.map((d) => `<path d="${d}" fill="${letters}"/>`).join(""),
-    "</g></svg>",
+    "</svg>",
   ].join("");
 }
