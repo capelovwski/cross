@@ -2,8 +2,9 @@
 
 /**
  * Tela de carregamento.
- * Fundo cinza escuro. A logo entra dando um pulo e, no alto do pulo, as camadas coloridas
- * (vermelho, amarelo e azul) escorregam para trás dela, como um empilhado de adesivos.
+ * Fundo cinza escuro. A logo entra dando um pulo e, no alto do pulo, cópias inteiras dela em
+ * amarelo e azul escorregam para trás, como um empilhado de adesivos. A logo da frente mantém
+ * o 3D de sempre: letras claras com a sombra vermelha.
  * Depois de segurar um instante, tudo sobe e revela o site.
  * Com prefers-reduced-motion a tela só aparece e some, sem pulo.
  */
@@ -14,11 +15,10 @@ import { CrossMark } from "@/components/ui/CrossMark";
 const EASE = [0.22, 1, 0.36, 1] as const;
 const BG = "#1c1c20";
 
-/** camadas de trás para frente: quanto mais longe, mais deslocada */
+/** cópias coloridas atrás: quanto mais longe, mais deslocada (o vermelho é a própria sombra da logo) */
 const layers = [
-  { color: "#1b4fe0", x: -30, y: 22 },
-  { color: "#ffc91f", x: -20, y: 15 },
-  { color: "#e8262a", x: -10, y: 7.5 },
+  { color: "#1b4fe0", x: -34, y: 25 },
+  { color: "#ffc91f", x: -18, y: 13 },
 ];
 
 const MARK = "h-14 sm:h-20 md:h-24";
@@ -71,10 +71,10 @@ export function PageIntro() {
                     : { duration: 0.5, delay: 0.3 + (layers.length - 1 - i) * 0.06, ease: [0.34, 1.56, 0.64, 1] }
                 }
               >
-                <CrossMark letters={l.color} className={MARK} />
+                <CrossMark letters={l.color} shadow={l.color} className={MARK} />
               </motion.div>
             ))}
-            <CrossMark letters="#f3f0e8" className={`relative ${MARK}`} />
+            <CrossMark letters="#f3f0e8" shadow="#e8262a" contour="#1c1c20" className={`relative ${MARK}`} />
           </motion.div>
         </motion.div>
       )}
