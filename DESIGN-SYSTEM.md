@@ -85,7 +85,7 @@ vale para todo texto corrido, e as fontes mono e display ficam de fora dele.
 | `Accordion` | FAQ | o "+" gira e vira "×" |
 | `BottomSheet` | menu e FAQ no celular | sobe do rodapé, fecha arrastando |
 | `GooIndicator` | pílula da seção ativa | cabeça rápida, cauda atrasada e ponte fina, fundidas por filtro gooey |
-| `CrossMark` | logotipo CROSS (vetorial) | a sombra atrás das letras faz parte do desenho e **nunca sai**; `letters` e `shadow` aceitam qualquer cor. Monocromático = as duas na mesma cor (header e ilha). Em cor: hero com letras ink e sombra red. `contour` desenha o vão entre letras e sombra quando a logo cai sobre algo colorido (é o caso da fita do hero) |
+| `CrossMark` | logotipo CROSS (vetorial) | a sombra atrás das letras faz parte do desenho e **nunca sai**; `letters` e `shadow` aceitam qualquer cor. Monocromático = as duas na mesma cor (header e ilha). Em cor: hero com letras ink e sombra red. `plate` põe uma chapa da cor do fundo atrás da logo (acompanhando o contorno dela) para esconder o que passa por trás, como a fita do hero |
 | `Logo` / `LogoBox` | logos de UP, GO e Cross Store | controle pela **altura**; `LogoBox` alinha logos de formatos diferentes |
 | `Marquee` | fita rolando | loop sem emenda |
 | `CountUp` | estatísticas | conta de zero ao entrar na tela |

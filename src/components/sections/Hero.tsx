@@ -76,7 +76,7 @@ export function Hero() {
             style={fine ? { rotateX, rotateY, x: logoX, y: logoY, transformStyle: "preserve-3d" } : undefined}
           >
             {/* o 3D (sombra atrás das letras) faz parte da logo e nunca sai */}
-            <CrossMark letters="#0b0b0c" shadow="#e8262a" contour="#f3f0e8" title="CROSS, adolescentes e jovens da IBB" className="w-full" />
+            <CrossMark letters="#0b0b0c" shadow="#e8262a" plate="#f3f0e8" title="CROSS, adolescentes e jovens da IBB" className="w-full" />
           </motion.h1>
         </div>
 

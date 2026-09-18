@@ -22,12 +22,18 @@ type Props = {
    * do hero, para o desenho não se misturar com o fundo.
    */
   contour?: string;
+  /**
+   * chapa atrás da logo, na cor do fundo da seção: esconde o que passa por trás (a fita do hero,
+   * por exemplo) sem mudar o desenho. Ela acompanha o contorno da própria logo, em vez de ser um
+   * retângulo, para não aparecer uma caixa de bordas retas sobre o fundo.
+   */
+  plate?: string;
   className?: string;
   /** texto para leitores de tela; sem ele a logo é tratada como decoração */
   title?: string;
 };
 
-export function CrossMark({ letters = "currentColor", shadow = false, contour, className, title }: Props) {
+export function CrossMark({ letters = "currentColor", shadow = false, contour, plate, className, title }: Props) {
   return (
     <svg
       viewBox={`0 0 ${MARK_VIEWBOX.width} ${MARK_VIEWBOX.height}`}
@@ -37,6 +43,7 @@ export function CrossMark({ letters = "currentColor", shadow = false, contour, c
       aria-hidden={title ? undefined : true}
       focusable="false"
     >
+      {plate && <path d={MARK_SHADOW} fill={plate} stroke={plate} strokeWidth={26} strokeLinejoin="round" />}
       {shadow && <path d={MARK_SHADOW} fill={shadow} />}
       {contour &&
         MARK_LETTERS.map((d) => (
