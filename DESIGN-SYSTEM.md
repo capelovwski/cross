@@ -69,6 +69,7 @@ vale para todo texto corrido, e as fontes mono e display ficam de fora dele.
 - **Sombras**: `float` (flutuante, para cards) e `sticker` (dura, deslocada, para o efeito de adesivo colado).
 - **Grão**: utilitário `.grain` dá aspecto impresso. No celular ele sai, para o scroll ficar leve.
 - **Rotações**: adesivos entre 1 e 8 graus. UP usa rotação com frequência, GO quase nunca.
+- **Logotipo**: o vão entre letras e sombra é vazado, então a sombra precisa contrastar com o fundo. Em fundo claro, letras ink com sombra red; em fundo escuro, letras paper com sombra yellow.
 - **Easing**: troca de seção com `--ease-section` cubic-bezier(0.76, 0, 0.24, 1); entradas com (0.22, 1, 0.36, 1).
 - **Sem blur animado**: filtros animados travavam o scroll. Use opacidade, deslocamento e escala.
 
@@ -84,7 +85,8 @@ vale para todo texto corrido, e as fontes mono e display ficam de fora dele.
 | `Accordion` | FAQ | o "+" gira e vira "×" |
 | `BottomSheet` | menu e FAQ no celular | sobe do rodapé, fecha arrastando |
 | `GooIndicator` | pílula da seção ativa | cabeça rápida, cauda atrasada e ponte fina, fundidas por filtro gooey |
-| `Logo` / `LogoBox` | logos | controle pela **altura**; `LogoBox` alinha logos de formatos diferentes |
+| `CrossMark` | logotipo CROSS (vetorial) | sombra e letras em camadas separadas: `letters` e `shadow` aceitam qualquer cor; `shadow={false}` em tamanhos pequenos |
+| `Logo` / `LogoBox` | logos de UP, GO e Cross Store | controle pela **altura**; `LogoBox` alinha logos de formatos diferentes |
 | `Marquee` | fita rolando | loop sem emenda |
 | `CountUp` | estatísticas | conta de zero ao entrar na tela |
 | `Reveal` / `Stagger` | entrada dos elementos | no desktop a seção "se constrói" ao virar ativa |
@@ -92,6 +94,7 @@ vale para todo texto corrido, e as fontes mono e display ficam de fora dele.
 | `PgmIcons` | ícones do PGM | amar, servir, transbordar, animados |
 | `PhotoMural` | mural de fotos | linhas justificadas pelo formato real das fotos |
 | `SectionShell` | casca de seção | fundo, grão, padding, rótulo. `fit="screen"` trava a altura (calendário) |
+| `PageIntro` | tela de carregamento | fundo cinza escuro; a logo pula, as camadas vermelha, amarela e azul escorregam para trás dela e tudo sobe |
 | `Placeholder` | espaço de imagem | usado onde falta foto real |
 
 ---

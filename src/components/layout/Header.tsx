@@ -7,7 +7,7 @@ import { darkSections, navItems, sections, type SectionId } from "@/content/sect
 import { useSectionScroll } from "@/components/scroll/ScrollContext";
 import { PillButton } from "@/components/ui/PillButton";
 import { cn } from "@/lib/utils";
-import { Logo } from "@/components/ui/Logo";
+import { CrossMark } from "@/components/ui/CrossMark";
 import { GooIndicator } from "@/components/ui/GooIndicator";
 
 interface Props {
@@ -61,11 +61,11 @@ export function Header({ variant = "home" }: Props) {
             go("inicio");
           }
         }}
-        className="relative block h-7 w-[7.2rem] md:h-8 md:w-[8.2rem]"
+        className="block h-7 md:h-9"
         aria-label="CROSS, início"
       >
-        <Logo name="cross-black" priority sizes="140px" className={cn("absolute inset-0 h-full w-full object-contain transition-opacity duration-500", dark ? "opacity-0" : "opacity-100")} alt="" />
-        <Logo name="cross-white" priority sizes="140px" className={cn("absolute inset-0 h-full w-full object-contain transition-opacity duration-500", dark ? "opacity-100" : "opacity-0")} alt="" />
+        {/* letras contrastam com o fundo da seção; a sombra é sempre uma cor de marca */}
+        <CrossMark letters={dark ? "#f3f0e8" : "#0b0b0c"} shadow={dark ? "#ffc91f" : "#e8262a"} className="h-full" />
       </Link>
 
       <nav ref={navRef} aria-label="Principal" className="relative hidden items-center gap-1 lg:flex">

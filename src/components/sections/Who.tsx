@@ -10,6 +10,7 @@ import { SectionShell } from "./SectionShell";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { Sticker } from "@/components/ui/Sticker";
 import { LogoBox } from "@/components/ui/Logo";
+import { CrossMark } from "@/components/ui/CrossMark";
 import { useSectionScroll } from "@/components/scroll/ScrollContext";
 import { site } from "@/content/site";
 import { cn } from "@/lib/utils";
@@ -77,7 +78,7 @@ export function Who() {
         <Reveal delay={0.1} className="flex flex-col justify-between gap-3 rounded-card-lg border-2 border-ink/10 bg-white p-4 shadow-float md:col-span-3 md:gap-4 md:p-7">
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink/55">Como a gente se organiza</p>
           <div className="flex flex-col items-center">
-            <LogoBox name="cross-black" boxClassName="h-7 w-28 md:h-9 md:w-36" className="object-center" />
+            <CrossMark letters="#0b0b0c" shadow="#e8262a" className="h-7 md:h-9" />
             <span className="h-4 w-px bg-ink/25 md:h-5" aria-hidden />
             <div className="relative grid w-full max-w-sm grid-cols-2">
               <span className="absolute left-1/4 right-1/4 top-0 h-px bg-ink/25" aria-hidden />

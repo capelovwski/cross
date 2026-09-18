@@ -8,6 +8,7 @@ import { Accordion } from "@/components/ui/Accordion";
 import { Marquee } from "@/components/ui/Marquee";
 import { CountUp } from "@/components/ui/CountUp";
 import { Logo, LogoBox } from "@/components/ui/Logo";
+import { CrossMark } from "@/components/ui/CrossMark";
 import { Placeholder } from "@/components/ui/Placeholder";
 import { Tilt } from "@/components/fx/Tilt";
 import { IconAmar, IconServir, IconTransbordar } from "@/components/fx/PgmIcons";
@@ -335,7 +336,30 @@ export default function DesignSystemPage() {
         </Block>
 
         {/* ------------------------------ LOGOS ----------------------------- */}
-        <Block id="logos" title="Logos" lead="Arquivos em public/img/logos (WebP com transparência). Controle o tamanho pela altura, nunca pela largura, e use LogoBox quando precisar alinhar logos diferentes.">
+        <Block id="logos" title="Logos" lead="O logotipo CROSS é vetorial (CrossMark): sombra e letras são camadas separadas, então sai em qualquer combinação de cores. UP, GO e Cross Store são arquivos em public/img/logos. Controle sempre pela altura, nunca pela largura.">
+          <h3 className="font-display text-2xl">CrossMark · combinações</h3>
+          <p className="mb-3 mt-1 text-sm text-ink/70">
+            O vão entre as letras e a sombra é vazado: quem aparece ali é o fundo da seção. Por isso a sombra
+            precisa contrastar com o fundo, nunca ser igual a ele.
+          </p>
+          <div className="mb-8 grid grid-cols-2 gap-3 md:grid-cols-4">
+            {[
+              { bg: "bg-paper border-2 border-ink/10", letters: "#0b0b0c", shadow: "#e8262a", label: "ink + sombra red" },
+              { bg: "bg-ink", letters: "#f3f0e8", shadow: "#ffc91f", label: "paper + sombra yellow" },
+              { bg: "bg-red", letters: "#f3f0e8", shadow: "#0b0b0c", label: "paper + sombra ink" },
+              { bg: "bg-yellow", letters: "#0b0b0c", shadow: "#f3f0e8", label: "ink + sombra paper" },
+              { bg: "bg-blue", letters: "#ffc91f", shadow: "#0b0b0c", label: "yellow + sombra ink" },
+              { bg: "bg-white border-2 border-ink/10", letters: "#1b4fe0", shadow: "#0b0b0c", label: "blue + sombra ink" },
+              { bg: "bg-ink", letters: "#f3f0e8", shadow: false as const, label: "sem sombra (tamanho pequeno)" },
+              { bg: "bg-paper border-2 border-ink/10", letters: "#0b0b0c", shadow: false as const, label: "sem sombra" },
+            ].map((v) => (
+              <div key={v.label} className={cn("flex h-28 flex-col items-center justify-center gap-2 rounded-card p-4", v.bg)}>
+                <CrossMark letters={v.letters} shadow={v.shadow} className="h-9" />
+                <span className={cn("font-mono text-[9px] uppercase tracking-widest", v.bg.includes("ink") || v.bg.includes("red") || v.bg.includes("blue") ? "text-paper/70" : "text-ink/60")}>{v.label}</span>
+              </div>
+            ))}
+          </div>
+          <h3 className="font-display text-2xl">Tribos e loja</h3>
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
             <div className="flex h-28 items-center justify-center rounded-card border-2 border-ink/10 bg-paper p-4">
               <Logo name="cross-home" sizes="200px" className="h-12 w-auto" />

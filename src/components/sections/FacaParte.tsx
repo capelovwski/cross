@@ -3,7 +3,8 @@ import { SectionShell } from "./SectionShell";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { Sticker } from "@/components/ui/Sticker";
 import { PillButton } from "@/components/ui/PillButton";
-import { LogoBox, Logo } from "@/components/ui/Logo";
+import { LogoBox } from "@/components/ui/Logo";
+import { CrossMark } from "@/components/ui/CrossMark";
 import { site } from "@/content/site";
 import { cn, isPlaceholder } from "@/lib/utils";
 
@@ -143,7 +144,7 @@ export function FacaParte() {
           </footer>
           <p className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-paper/10 pt-3 font-mono text-[10px] uppercase tracking-widest text-paper/40">
             <span className="flex items-center gap-3">
-              <Logo name="cross-white" sizes="100px" className="h-4 w-auto opacity-80" /> © {year} · {site.churchShort}
+              <CrossMark letters="#f3f0e8" shadow="#e8262a" className="h-5 opacity-90" /> © {year} · {site.churchShort}
             </span>
             <span className="hidden sm:inline">{site.lema.join(" · ")}</span>
           </p>

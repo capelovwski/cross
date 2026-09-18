@@ -13,13 +13,14 @@ import { useSectionScroll } from "@/components/scroll/ScrollContext";
 import { sections, type SectionId } from "@/content/sections";
 import { BottomSheet } from "@/components/ui/BottomSheet";
 import { LogoBox, type LogoName } from "@/components/ui/Logo";
+import { CrossMark } from "@/components/ui/CrossMark";
 import { GooIndicator } from "@/components/ui/GooIndicator";
 import { cn } from "@/lib/utils";
 
-type Tab = { id: SectionId | "more"; label: string; logo?: [LogoName, LogoName]; icon?: React.ReactNode; box?: string };
+type Tab = { id: SectionId | "more"; label: string; logo?: [LogoName, LogoName]; icon?: React.ReactNode; box?: string; mark?: boolean };
 
 const tabs: Tab[] = [
-  { id: "inicio", label: "Início", logo: ["cross-white", "cross-black"], box: "h-4 w-12" },
+  { id: "inicio", label: "Início", mark: true },
   {
     id: "pgm",
     label: "PGM",
@@ -108,7 +109,13 @@ export function TabBar({ variant = "home" }: Props) {
                     )}
                   >
                     <span className="relative z-10 flex items-center">
-                      {t.logo ? <LogoBox name={active ? t.logo[1] : t.logo[0]} boxClassName={t.box} className="object-center" /> : t.icon}
+                      {t.mark ? (
+                        <CrossMark letters={active ? "#0b0b0c" : "#f3f0e8"} className="h-4" />
+                      ) : t.logo ? (
+                        <LogoBox name={active ? t.logo[1] : t.logo[0]} boxClassName={t.box} className="object-center" />
+                      ) : (
+                        t.icon
+                      )}
                     </span>
                   </button>
                 </li>

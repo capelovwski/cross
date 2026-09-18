@@ -1,74 +1,82 @@
 "use client";
 
 /**
- * Cortina de entrada (roda a cada carregamento completo da página).
- * Desktop: três painéis verticais (vermelho, azul, amarelo) sobem em sequência.
- * Mobile: um painel único desliza para cima com a logo "carimbando" no centro.
- * Respeita prefers-reduced-motion (não renderiza).
+ * Tela de carregamento.
+ * Fundo cinza escuro. A logo entra dando um pulo e, no alto do pulo, as camadas coloridas
+ * (vermelho, amarelo e azul) escorregam para trás dela, como um empilhado de adesivos.
+ * Depois de segurar um instante, tudo sobe e revela o site.
+ * Com prefers-reduced-motion a tela só aparece e some, sem pulo.
  */
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Logo } from "@/components/ui/Logo";
-import { MOBILE, useMediaQuery } from "@/lib/useMediaQuery";
+import { CrossMark } from "@/components/ui/CrossMark";
 
-const EASE = [0.76, 0, 0.24, 1] as const;
+const EASE = [0.22, 1, 0.36, 1] as const;
+const BG = "#1c1c20";
+
+/** camadas de trás para frente: quanto mais longe, mais deslocada */
+const layers = [
+  { color: "#1b4fe0", x: -30, y: 22 },
+  { color: "#ffc91f", x: -20, y: 15 },
+  { color: "#e8262a", x: -10, y: 7.5 },
+];
+
+const MARK = "h-14 sm:h-20 md:h-24";
 
 export function PageIntro() {
   const reduce = useReducedMotion();
   const [show, setShow] = useState(true);
-  const mobile = useMediaQuery(MOBILE);
 
   useEffect(() => {
-    const t = setTimeout(() => setShow(false), 1150);
+    const t = setTimeout(() => setShow(false), reduce ? 350 : 1450);
     return () => clearTimeout(t);
-  }, []);
-
-  if (reduce) return null;
+  }, [reduce]);
 
   return (
     <AnimatePresence>
       {show && (
-        <div className="pointer-events-none fixed inset-0 z-[100] overflow-hidden" aria-hidden>
-          {mobile ? (
-            <motion.div
-              className="grain-light absolute inset-0 flex items-center justify-center bg-ink"
-              initial={{ y: 0 }}
-              exit={{ y: "-100%" }}
-              transition={{ duration: 0.7, ease: EASE }}
-            >
+        <motion.div
+          className="pointer-events-none fixed inset-0 z-[100] grid place-items-center overflow-hidden"
+          style={{ backgroundColor: BG }}
+          exit={reduce ? { opacity: 0 } : { y: "-100%" }}
+          transition={{ duration: reduce ? 0.25 : 0.62, ease: EASE }}
+          aria-hidden
+        >
+          <motion.div
+            className="relative"
+            initial={reduce ? false : { y: 46, opacity: 0 }}
+            animate={
+              reduce
+                ? { y: 0, opacity: 1 }
+                : {
+                    y: [46, -34, 0],
+                    opacity: [0, 1, 1],
+                    // esmaga na saída e estica no pulo
+                    scaleY: [0.86, 1.08, 1],
+                    scaleX: [1.12, 0.97, 1],
+                  }
+            }
+            transition={reduce ? { duration: 0.2 } : { duration: 0.78, times: [0, 0.52, 1], ease: EASE }}
+            style={{ transformOrigin: "50% 100%" }}
+          >
+            {layers.map((l, i) => (
               <motion.div
-                initial={{ scale: 1.6, opacity: 0, rotate: -6 }}
-                animate={{ scale: 1, opacity: 1, rotate: 0 }}
-                transition={{ duration: 0.45, ease: EASE, delay: 0.05 }}
-                className="w-[52vw]"
+                key={l.color}
+                className="absolute inset-0"
+                initial={reduce ? false : { x: 0, y: 0, opacity: 0 }}
+                animate={reduce ? { x: l.x, y: l.y, opacity: 1 } : { x: l.x, y: l.y, opacity: 1 }}
+                transition={
+                  reduce
+                    ? { duration: 0.2 }
+                    : { duration: 0.5, delay: 0.3 + (layers.length - 1 - i) * 0.06, ease: [0.34, 1.56, 0.64, 1] }
+                }
               >
-                <Logo name="cross-home" priority sizes="60vw" className="w-full" alt="" />
+                <CrossMark letters={l.color} className={MARK} />
               </motion.div>
-            </motion.div>
-          ) : (
-            <>
-              {(["bg-red", "bg-blue", "bg-yellow"] as const).map((bg, i) => (
-                <motion.div
-                  key={bg}
-                  className={`absolute top-0 h-full w-1/3 ${bg}`}
-                  style={{ left: `${i * 33.34}%` }}
-                  initial={{ y: 0 }}
-                  exit={{ y: "-100%" }}
-                  transition={{ duration: 0.75, ease: EASE, delay: i * 0.08 }}
-                />
-              ))}
-              <motion.div
-                className="absolute inset-0 flex items-center justify-center"
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, y: -60 }}
-                transition={{ duration: 0.4, ease: EASE }}
-              >
-                <Logo name="cross-white" priority sizes="240px" className="w-56 drop-shadow-[4px_5px_0_rgba(11,11,12,1)]" alt="" />
-              </motion.div>
-            </>
-          )}
-        </div>
+            ))}
+            <CrossMark letters="#f3f0e8" className={`relative ${MARK}`} />
+          </motion.div>
+        </motion.div>
       )}
     </AnimatePresence>
   );
