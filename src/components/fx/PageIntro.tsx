@@ -15,11 +15,13 @@ import { CrossMark } from "@/components/ui/CrossMark";
 const EASE = [0.22, 1, 0.36, 1] as const;
 const BG = "#1c1c20";
 
-/** cópias coloridas atrás: quanto mais longe, mais deslocada (o vermelho é a própria sombra da logo) */
+/** cópias coloridas atrás: só os cantinhos aparecem (o vermelho é a própria sombra da logo) */
 const layers = [
-  { color: "#1b4fe0", x: -34, y: 25 },
-  { color: "#ffc91f", x: -18, y: 13 },
+  { color: "#1b4fe0", x: -22, y: 16 },
+  { color: "#ffc91f", x: -11, y: 8 },
 ];
+/** compensa o deslocamento das cópias, para o conjunto ficar centralizado na tela */
+const STACK_OFFSET = { x: 11, y: -8 };
 
 const MARK = "h-14 sm:h-20 md:h-24";
 
@@ -44,6 +46,7 @@ export function PageIntro() {
         >
           <motion.div
             className="relative"
+            style={{ translate: `${STACK_OFFSET.x}px ${STACK_OFFSET.y}px`, transformOrigin: "50% 100%" }}
             initial={reduce ? false : { y: 46, opacity: 0 }}
             animate={
               reduce
@@ -57,7 +60,6 @@ export function PageIntro() {
                   }
             }
             transition={reduce ? { duration: 0.2 } : { duration: 0.78, times: [0, 0.52, 1], ease: EASE }}
-            style={{ transformOrigin: "50% 100%" }}
           >
             {layers.map((l, i) => (
               <motion.div

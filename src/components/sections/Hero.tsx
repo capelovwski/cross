@@ -6,7 +6,6 @@ import { FINE_POINTER, useMediaQuery } from "@/lib/useMediaQuery";
 import { SectionShell } from "./SectionShell";
 import { PillButton } from "@/components/ui/PillButton";
 import { CountUp } from "@/components/ui/CountUp";
-import { Marquee } from "@/components/ui/Marquee";
 import { site } from "@/content/site";
 import { useSectionScroll, useSectionState } from "@/components/scroll/ScrollContext";
 import { CrossMark } from "@/components/ui/CrossMark";
@@ -32,8 +31,6 @@ export function Hero() {
   const rotateX = useTransform(sy, [-1, 1], [8, -8]);
   const logoX = useTransform(sx, [-1, 1], [-18, 18]);
   const logoY = useTransform(sy, [-1, 1], [-12, 12]);
-  const tapeX = useTransform(sx, [-1, 1], [26, -26]);
-  const tapeY = useTransform(sy, [-1, 1], [14, -14]);
 
   useEffect(() => {
     if (!fine) return;
@@ -48,21 +45,6 @@ export function Hero() {
   return (
     <SectionShell id="inicio" bg="paper">
       <div className="relative flex flex-1 flex-col justify-center">
-        {/* fita vermelha atrás do nome */}
-        <motion.div
-          initial={reduce ? false : "hidden"}
-          animate={state}
-          variants={{
-            hidden: { opacity: 0, rotate: -8, scaleX: 0.6, transition: { duration: 0.3 } },
-            show: { opacity: 1, rotate: -3, scaleX: 1, transition: { duration: 0.8, delay: build ? 0.16 : 0, ease: EASE } },
-          }}
-          className="absolute left-1/2 top-[24%] z-0 w-[130vw] bg-red py-1.5 text-yellow shadow-float sm:top-[34%] md:top-[38%] md:py-3"
-          style={{ x: fine ? tapeX : 0, y: fine ? tapeY : 0, marginLeft: "-65vw" }}
-          aria-hidden
-        >
-          <Marquee items={["AMAR", "SERVIR", "TRANSBORDAR", "UP 13–17", "GO 18–29", "SEXTA 20H", "SÁBADO 20H"]} />
-        </motion.div>
-
         {/* nome */}
         <div className="relative z-10 flex flex-col items-center text-center" style={{ perspective: 1200 }}>
           <motion.h1
@@ -76,7 +58,7 @@ export function Hero() {
             style={fine ? { rotateX, rotateY, x: logoX, y: logoY, transformStyle: "preserve-3d" } : undefined}
           >
             {/* o 3D (sombra atrás das letras) faz parte da logo e nunca sai */}
-            <CrossMark letters="#0b0b0c" shadow="#e8262a" plate="#f3f0e8" title="CROSS, adolescentes e jovens da IBB" className="w-full" />
+            <CrossMark letters="#0b0b0c" shadow="#e8262a" title="CROSS, adolescentes e jovens da IBB" className="w-full" />
           </motion.h1>
         </div>
 
