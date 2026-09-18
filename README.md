@@ -27,7 +27,8 @@ src/
   lib/              flickr.ts (integração), calendar.ts, utils.ts
 public/photos       fotos estáticas (fallback da galeria)
 public/store        imagens dos produtos
-DESIGN.md           sistema de design, wireframes e decisão do scroll
+DESIGN.md           direção de arte, wireframes e decisão do scroll
+DESIGN-SYSTEM.md    tokens, componentes e padrões (versão viva em /design-system)
 ```
 
 ## O que ainda é placeholder (procure por `[` … `]`)
